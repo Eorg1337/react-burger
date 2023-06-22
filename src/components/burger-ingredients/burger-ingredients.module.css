@@ -1,0 +1,62 @@
+.container{
+    display: grid;
+    grid-template-columns: max-content;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    margin-right: 40px;
+    margin-left: 220px;
+}
+
+.tabs{
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 80px;
+    align-items: center;
+}
+
+.ingredients{
+    display: grid;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 820px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 15px;
+  }
+  
+::-webkit-scrollbar-track {
+    background-color: rgba(47, 47, 55, 1); 
+}
+  
+::-webkit-scrollbar-thumb {
+    background-color: rgba(133, 133, 173, 1); 
+    transition: background-color 2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(103, 103, 132); 
+    transition-delay: 2s ease;
+}
+
+.puns{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+}
+
+.sauses{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+    object-fit: contain;
+}
+
+.filings{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+    object-fit: contain;
+}   

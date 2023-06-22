@@ -1,0 +1,29 @@
+.ingredient{
+    display: grid;
+    justify-content: center;
+    max-width: 272px;
+    margin-left: 16px;
+    margin-right: 8px;
+    margin-bottom: 32px;
+    position: relative;
+}
+
+
+.img{
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    height: auto;
+}
+
+.price{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ingredientName{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}

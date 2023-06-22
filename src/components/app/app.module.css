@@ -1,0 +1,7 @@
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr 1fr;
+  height: 100vh;
+  font-family: 'Jet Brains Mono', sans-serif;
+  
+}
