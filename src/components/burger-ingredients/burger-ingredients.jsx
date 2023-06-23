@@ -1,4 +1,5 @@
 import React from 'react';
+import {useMemo} from 'react';
 import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types';
 const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('one');
     const ingredients = data.ingredients
-    console.log(ingredients)
+    const filteredIngredients = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
         return(
             <div className={`${styles.container}`}>
                 <h1 className={`text text_type_main-large  mt-10 ${styles.title}`}>Соберите Бургер</h1>
@@ -26,7 +27,7 @@ const BurgerIngredients = (props) => {
                 <div className={styles.ingredients} id='tab_one'>
                 <h2 className='text text_type_main-medium mb-6'> Булки</h2>
                     <div className={styles.puns}>
-                        {ingredients.filter(item => item.type === 'bun').map(item => (
+                    {filteredIngredients.map(item => (
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
