@@ -1,8 +1,47 @@
 .container{
-    display: flex;
+    display: grid;
+    grid-template-rows: max-content max-content;
     justify-content: flex-end;
+    padding-top: 100px;
+    margin-right: 220px;
+    margin-left: 40px;
 }
 
-.constructor{
+.constructor__cont{
+    display:flex;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 40px;
+    max-height: 464px ;
+}
 
+.constructor_item{
+    display:flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+.choice{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+
+.total{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 16px;
+    margin-left: 16px;
+    margin-bottom: 52px;
+}
+
+
+.cost{
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 40px;
 }

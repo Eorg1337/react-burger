@@ -5,3 +5,8 @@
   font-family: 'Jet Brains Mono', sans-serif;
   
 }
+
+.main{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}

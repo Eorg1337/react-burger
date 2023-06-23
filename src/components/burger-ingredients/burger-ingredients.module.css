@@ -17,7 +17,7 @@
 
 .ingredients{
     display: grid;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     max-height: 820px;
 }
@@ -51,12 +51,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     flex-wrap: wrap;
-    object-fit: contain;
 }
 
 .filings{
     display: grid;
     grid-template-columns: 1fr 1fr;
     flex-wrap: wrap;
-    object-fit: contain;
 }   
