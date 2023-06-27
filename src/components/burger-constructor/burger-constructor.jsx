@@ -6,23 +6,23 @@ import PropTypes from 'prop-types';
 
 const BurgerConstructor = (props) => {
     const totalPrice = useMemo(() => {
-        return ingredients_test.reduce((acc,item) => acc + item.price, 400);
+        return ingredients_test.reduce((acc,item) => acc + item.price, 0);
     },[])
     return(
         <div className={styles.container}>
             <div className={styles.constructor__cont}>
                 <div className={styles.top_bun}>
                     <ConstructorElement 
-                        type={'bun'}
+                        type={'top'}
                         isLocked={true}
-                        text={'Краторная булка N-200i (верх)'}
-                        price={200}
-                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+                        text={ingredients_test.filter(item => item.type === 'bun')[0].name}
+                        price={ingredients_test.filter(item => item.type === 'bun')[0].price}
+                        thumbnail={`${ingredients_test.filter(item => item.type === 'bun')[0].image}`}
                     />
                 </div>
                 <div className={styles.choice}>
-                {ingredients_test.map(item=>(
-                <div className={styles.constructor_item}>
+                {ingredients_test.map(item=>(item.type!=='bun'&&
+                <div className={styles.constructor_item} key = {item._id}>
                     <DragIcon type="primary" />
                     <ConstructorElement
                         type={item.type}
@@ -36,11 +36,11 @@ const BurgerConstructor = (props) => {
                 </div>
                 <div className={styles.low_bun}>
                     <ConstructorElement 
-                        type={'bun'}
+                        type={'bottom'}
                         isLocked={true}
-                        text={'Краторная булка N-200i (низ)'}
-                        price={200}
-                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+                        text={ingredients_test.filter(item => item.type === 'bun')[1].name}
+                        price={ingredients_test.filter(item => item.type === 'bun')[1].price}
+                        thumbnail={`${ingredients_test.filter(item => item.type === 'bun')[1].image}`}
                     />
                 </div>
             </div>
@@ -71,6 +71,13 @@ BurgerConstructor.propTypes = {
 };
 
 const ingredients_test = [
+{
+        _id: '1',
+        type: 'bun',
+        name: 'Краторная булка N-200i (верх)',
+        price: 200,
+        image: 'https://code.s3.yandex.net/react/code/bun-02.png'
+},
   {
     _id: '2',
     type: 'filling',
@@ -112,7 +119,14 @@ const ingredients_test = [
     name: 'Сыр с астероидной плесенью',
     price: 50,
     image: 'https://code.s3.yandex.net/react/code/cheese.png'
-  }
+  },
+  {
+    _id: '8',
+    type: 'bun',
+    name: 'Краторная булка N-200i (низ)',
+    price: 200,
+    image: 'https://code.s3.yandex.net/react/code/bun-02.png'
+},
 ];
 
 export default BurgerConstructor;
