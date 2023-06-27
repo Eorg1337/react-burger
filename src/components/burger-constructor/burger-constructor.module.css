@@ -1,0 +1,63 @@
+.container{
+    display: grid;
+    grid-template-rows: max-content max-content;
+    justify-content: flex-end;
+    padding-top: 100px;
+    margin-right: 220px;
+    margin-left: 40px;
+}
+
+.constructor__cont{
+    display:flex;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 40px;
+    max-height: 664px ;
+    overflow-y: auto;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.constructor_item{
+    display:flex;
+    justify-content: center;
+    align-items: center;    
+    margin: 5px 0;
+}
+
+.choice{
+    display:grid;
+    justify-content: center;
+    align-items: center;
+    max-height: 450px;
+    overflow-y: auto;
+    
+}
+
+.top_bun{
+    display: flex;
+    margin-left: 20px;
+}
+
+.low_bun{
+    display: flex;
+    margin-left: 20px;
+}
+
+
+.total{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 16px;
+    margin-left: 16px;
+    margin-bottom: 52px;
+}
+
+
+.cost{
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 40px;
+}
