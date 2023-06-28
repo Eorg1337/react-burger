@@ -5,43 +5,45 @@ import {ConstructorElement, DragIcon, Button, CurrencyIcon} from '@ya.praktikum/
 import PropTypes from 'prop-types';
 
 const BurgerConstructor = (props) => {
+    const items = props.state.data; 
     const totalPrice = useMemo(() => {
-        return ingredients_test.reduce((acc,item) => acc + item.price, 0);
+        return items && items.reduce((acc,item) => acc + item.price, 0);
     },[])
     return(
         <div className={styles.container}>
             <div className={styles.constructor__cont}>
                 <div className={styles.top_bun}>
-                    <ConstructorElement 
-                        type={'top'}
-                        isLocked={true}
-                        text={ingredients_test.filter(item => item.type === 'bun')[0].name}
-                        price={ingredients_test.filter(item => item.type === 'bun')[0].price}
-                        thumbnail={`${ingredients_test.filter(item => item.type === 'bun')[0].image}`}
-                    />
+                    {items && items.filter(item => item.name === "Краторная булка N-200i").map(item => (
+                        <ConstructorElement 
+                            type="top"
+                            isLocked={true}
+                            text={`${item.name} (верх)`}
+                            price={item.price}
+                            thumbnail={item.image}
+                        />))}
                 </div>
                 <div className={styles.choice}>
-                {ingredients_test.map(item=>(item.type!=='bun'&&
-                <div className={styles.constructor_item} key = {item._id}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        type={item.type}
-                        isLocked={item.type === 'bun'}
-                        text={item.name}
-                        price={item.price}
-                        thumbnail={item.image}
-                    />
-                </div> 
-                ))}
+                    {items && items.filter(item => item.type !== 'bun').map(item => (
+                    <div className={styles.constructor_item} key = {item._id}>
+                        <DragIcon type="primary" />
+                        <ConstructorElement 
+                            type={item.type}
+                            isLocked={false}
+                            text={item.name}
+                            price={item.price}
+                            thumbnail={item.image}
+                        />
+                    </div>))}
                 </div>
                 <div className={styles.low_bun}>
-                    <ConstructorElement 
-                        type={'bottom'}
+                    {items && items.filter(item => item.name === "Краторная булка N-200i").map(item => (
+                     <ConstructorElement 
+                        type="bottom"
                         isLocked={true}
-                        text={ingredients_test.filter(item => item.type === 'bun')[1].name}
-                        price={ingredients_test.filter(item => item.type === 'bun')[1].price}
-                        thumbnail={`${ingredients_test.filter(item => item.type === 'bun')[1].image}`}
-                    />
+                        text={`${item.name} (низ)`}
+                        price={item.price}
+                        thumbnail={item.image}
+                    />))}
                 </div>
             </div>
             <div className = {styles.total}>

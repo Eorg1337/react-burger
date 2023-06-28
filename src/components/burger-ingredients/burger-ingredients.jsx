@@ -3,13 +3,12 @@ import {useMemo} from 'react';
 import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-import data from '../../utils/data';
 import PropTypes from 'prop-types';
 
 const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('one');
-    const ingredients = data.ingredients
-    const filteredIngredients = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
+    const items = props.state.data;
+
         return(
             <div className={`${styles.container}`}>
                 <h1 className={`text text_type_main-large  mt-10 ${styles.title}`}>Соберите Бургер</h1>
@@ -27,7 +26,7 @@ const BurgerIngredients = (props) => {
                 <div className={styles.ingredients} id='tab_one'>
                 <h2 className='text text_type_main-medium mb-6'> Булки</h2>
                     <div className={styles.puns}>
-                    {filteredIngredients.map(item => (
+                    {items && items.filter(item => item.type === 'bun').map(item => (
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -44,7 +43,7 @@ const BurgerIngredients = (props) => {
                     </div>
                     <h2 className='text text_type_main-medium mt-20 mb-6'>Соусы</h2>
                     <div className={styles.sauses} id='tab_two'>
-                    {ingredients.filter(item => item.type === 'sauce').map(item => (
+                    {items && items.filter(item => item.type === 'sauce').map(item => (
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -60,7 +59,7 @@ const BurgerIngredients = (props) => {
                     </div>
                     <h2 className='text text_type_main-medium mt-20 mb-6'>Начинки</h2>
                     <div className={styles.filings} id='tab_three'>
-                    {ingredients.filter(item => item.type === 'main').map(item => (
+                    {items && items.filter(item => item.type === 'main').map(item => (
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
