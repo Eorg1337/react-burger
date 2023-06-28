@@ -4,8 +4,9 @@ import styles from './burger-ingredient.module.css'
 
 
 const BurgerIngredient = (props) => {
+
     return(
-        <div type={props.type} className = {styles.ingredient}>
+        <div type={props.type} className = {styles.ingredient} onClick={props.onClick}>
             { props.__v>0&& <Counter count={props.__v} size="default" extraClass="m-1"/>}
             <img src={props.image} alt="" className={styles.img}></img>
             <div className ={styles.price}>

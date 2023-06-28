@@ -8,7 +8,7 @@ const BurgerConstructor = (props) => {
     const items = props.state.data; 
     const totalPrice = useMemo(() => {
         return items && items.reduce((acc,item) => acc + item.price, 0);
-    },[])
+    })
     return(
         <div className={styles.container}>
             <div className={styles.constructor__cont}>
