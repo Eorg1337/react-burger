@@ -32,7 +32,7 @@ function App() {
       <BurgerIngredients state = {state}/>
  
         <IngredientDetails/>
-
+      
       <BurgerConstructor state = {state}/>
         
       </main>

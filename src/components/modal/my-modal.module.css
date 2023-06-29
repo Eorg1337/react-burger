@@ -1,14 +1,19 @@
 .modal{
-    display: flex;
+    position: relative;
+    display: flex; 
     justify-content: space-between;
-    align-items: start;
-    position: absolute;
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
     width: 720px;
-    height: 720px;
-    border: 2px;
+    height: 539px;
     background-color: rgba(28, 28, 33, 1);
-    border-radius: 5%;
+    border-radius: 40px;
 }
+
+.icon{
+    margin-top: 65px;
+    margin-right: 40px;
+}
+
+.children{
+    margin-left: 80px;
+}
+

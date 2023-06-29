@@ -1,0 +1,46 @@
+.modal_container{
+    display: grid;
+    grid-template-rows: 1fr repeat(3, max-content);
+}
+
+.header{
+    justify-self: flex-start;
+    margin-top: 60px;
+    margin-right: 40px;
+    padding-right: 40px ;
+}
+
+.image{
+    justify-self: center;
+}
+
+.name{
+    justify-self: center;
+    align-self: center;
+    margin-bottom: 32px;
+}
+
+.ul_content{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: center;
+    padding-left: 0;
+    gap: 15px;
+    margin-bottom: 60px;
+}
+
+.item{
+    margin-left: 15px;
+}
+
+.p{
+    display: flex;
+    justify-content: center;
+}
+
+.li{
+    display: flex;
+    justify-content: center;
+}
+

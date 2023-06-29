@@ -5,18 +5,29 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import PropTypes from 'prop-types';
 import IngredientDetails from '../details/ingredient-details/ingredient-details';
+import MyModal from '../modal/my-modal'
 
 const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('one');
     const [activeIngredient, setActiveIngredient] = React.useState(null);
-    const [isActive, setIsActive] = React.useState(false)
+    const [isVisible, setIsVisible] = React.useState(false);
     const items = props.state.data;
 
     const handleItemClick = (item) => {
         setActiveIngredient(item);
-        setIsActive(true)
+        setIsVisible(true)
       };
-
+    
+    const handleCloseModal = () => {
+        setActiveIngredient(null)
+        setIsVisible(false)
+    }
+    
+    const modal = (
+        <MyModal onClose = {handleCloseModal}>
+            <IngredientDetails activeIngredient={activeIngredient}/>
+        </MyModal>
+    )
 
 
         return(
@@ -33,15 +44,11 @@ const BurgerIngredients = (props) => {
                         Начинки
                     </Tab>
                 </div>
-                <div className={styles.ingredients} id='tab_one'>
+                <div className={styles.ingredients}>
                 <h2 className='text text_type_main-medium mb-6'> Булки</h2>
-                    <div className={styles.puns}>
+                    <div className={styles.puns} id='tab_one'>
                     {items && items.filter(item => item.type === 'bun').map(item => (
                         <>
-                            {activeIngredient && (<IngredientDetails
-                            item={item}
-                            activeIngredient={activeIngredient}
-                            />)}
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -51,6 +58,7 @@ const BurgerIngredients = (props) => {
                                 __v={item.__V}
                                 onClick={() => handleItemClick(item)}
                             />
+                           
                         </>
                         ))}
                     </div>
@@ -58,10 +66,23 @@ const BurgerIngredients = (props) => {
                     <div className={styles.sauses} id='tab_two'>
                     {items && items.filter(item => item.type === 'sauce').map(item => (
                         <>
-                             {activeIngredient && (<IngredientDetails
-                            item={item}
-                            activeIngredient={activeIngredient}
-                            />)}
+                            <BurgerIngredient
+                                key={item._id}
+                                name={item.name}
+                                type={item.type}
+                                price={item.price}
+                                image={item.image}
+                                __v={item.__V}
+                                onClick={() => handleItemClick(item)}
+                            />
+                           {isVisible && modal}
+                        </>
+                        ))}
+                    </div>
+                    <h2 className='text text_type_main-medium mt-20 mb-6'>Начинки</h2>
+                    <div className={styles.filings} id='tab_three'>
+                    {items && items.filter(item => item.type === 'main').map(item => (
+                        <>
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -72,26 +93,6 @@ const BurgerIngredients = (props) => {
                                 onClick={() => handleItemClick(item)}
                             />
                             
-                        </>
-                        ))}
-                    </div>
-                    <h2 className='text text_type_main-medium mt-20 mb-6'>Начинки</h2>
-                    <div className={styles.filings} id='tab_three'>
-                    {items && items.filter(item => item.type === 'main').map(item => (
-                        <>
-                             {activeIngredient && (<IngredientDetails
-                            item={item}
-                            activeIngredient={activeIngredient}
-                            />)}
-                            <BurgerIngredient
-                                key={item._id}
-                                name={item.name}
-                                type={item.type}
-                                price={item.price}
-                                image={item.image}
-                                __v={item.__V}
-                                onClick={() => handleItemClick(item)}
-                            />
                         </>
                         ))}
                     </div>
