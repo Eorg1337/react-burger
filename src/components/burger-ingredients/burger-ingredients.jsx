@@ -22,13 +22,12 @@ const BurgerIngredients = (props) => {
         setActiveIngredient(null)
         setIsVisible(false)
     }
-    
+
     const modal = (
         <MyModal onClose = {handleCloseModal}>
             <IngredientDetails activeIngredient={activeIngredient}/>
         </MyModal>
     )
-
 
         return(
             <div className={`${styles.container}`}>
@@ -47,8 +46,7 @@ const BurgerIngredients = (props) => {
                 <div className={styles.ingredients}>
                 <h2 className='text text_type_main-medium mb-6'> Булки</h2>
                     <div className={styles.puns} id='tab_one'>
-                    {items && items.filter(item => item.type === 'bun').map(item => (
-                        <>
+                    {items && items.filter(item => item.type === 'bun').map(item => (            
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -58,14 +56,12 @@ const BurgerIngredients = (props) => {
                                 __v={item.__V}
                                 onClick={() => handleItemClick(item)}
                             />
-                           
-                        </>
                         ))}
                     </div>
                     <h2 className='text text_type_main-medium mt-20 mb-6'>Соусы</h2>
                     <div className={styles.sauses} id='tab_two'>
                     {items && items.filter(item => item.type === 'sauce').map(item => (
-                        <>
+                        <React.Fragment key={item._id}>
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -76,13 +72,12 @@ const BurgerIngredients = (props) => {
                                 onClick={() => handleItemClick(item)}
                             />
                            {isVisible && modal}
-                        </>
+                        </React.Fragment>
                         ))}
                     </div>
                     <h2 className='text text_type_main-medium mt-20 mb-6'>Начинки</h2>
                     <div className={styles.filings} id='tab_three'>
-                    {items && items.filter(item => item.type === 'main').map(item => (
-                        <>
+                    {items && items.filter(item => item.type === 'main').map(item => (                        
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -92,8 +87,6 @@ const BurgerIngredients = (props) => {
                                 __v={item.__V}
                                 onClick={() => handleItemClick(item)}
                             />
-                            
-                        </>
                         ))}
                     </div>
                 </div>

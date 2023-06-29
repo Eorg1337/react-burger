@@ -40,8 +40,8 @@ const MyModal = ({ onClose, children}) => {
               <div className={styles.children}>
                 {children}
               </div>
-              <div className={styles.icon} onClick={onClose}>
-                <CloseIcon type="primary" className={styles.svg}/>
+              <div className={styles.icon}>
+                <CloseIcon type="primary" className={styles.svg} onClick={onClose}/>
               </div>
             </div>
         </ModalOverlay> )

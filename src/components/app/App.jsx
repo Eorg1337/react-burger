@@ -30,9 +30,7 @@ function App() {
       <AppHeader/>
       <main className = {style.main}>
       <BurgerIngredients state = {state}/>
- 
-        <IngredientDetails/>
-      
+      <IngredientDetails/>
       <BurgerConstructor state = {state}/>
         
       </main>

@@ -6,8 +6,7 @@ const IngredientDetails = ({activeIngredient}) => {
 const dig_font = "text text_type_digits-default text_color_inactive";
 const text_font = "text text_type_main-default text_color_inactive"
     return(
-        <>
-            
+        <>            
             {activeIngredient &&(
             <div className = {styles.modal_container}>
                 <header className={`text text_type_main-large ${styles.header}`}>Детали ингредиента</header>

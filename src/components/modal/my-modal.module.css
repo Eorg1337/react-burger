@@ -3,7 +3,6 @@
     display: flex; 
     justify-content: space-between;
     width: 720px;
-    height: 539px;
     background-color: rgba(28, 28, 33, 1);
     border-radius: 40px;
 }
@@ -14,6 +13,8 @@
 }
 
 .children{
-    margin-left: 80px;
+    margin-left: 20px;
+    flex-basis: 540px;
+    flex-grow: 1;
 }
 
