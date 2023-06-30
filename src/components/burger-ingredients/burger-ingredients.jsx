@@ -12,6 +12,9 @@ const BurgerIngredients = (props) => {
     const [activeIngredient, setActiveIngredient] = React.useState(null);
     const [isVisible, setIsVisible] = React.useState(false);
     const items = props.state.data;
+    if (!items) {
+        return <div>Loading...</div>;
+      }
 
     const handleItemClick = (item) => {
         setActiveIngredient(item);
@@ -97,10 +100,10 @@ const BurgerIngredients = (props) => {
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
+        proteins: PropTypes.number,
+        fat: PropTypes.number,
+        carbohydrates: PropTypes.number,
+        calories: PropTypes.number,
         price: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
         __v: PropTypes.number.isRequired

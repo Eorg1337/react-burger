@@ -2,16 +2,15 @@ import React,{ useState } from 'react';
 import MyModal from '../../modal/my-modal';
 import styles from './order-details.module.css';
 import graphics from '../../../images/graphics.svg'
+import data from '../../../utils/data'
+
 const OrderDetails = () => {
 
-const [isActive, setIsActive] = React.useState(false)
-    
-const handleClickOrder = () => {
+    const orderId = data.orders[0].order_id
 
-}
     return(
             <div className={styles.container}>
-                <header className={`text text_type_digits-large ${styles.header}`}>034536</header>
+                <header className={`text text_type_digits-large ${styles.header}`}>{orderId}</header>
                 <p className={`text text_type_main-medium ${styles.id}`}>
                     идентификатор заказа
                 </p>

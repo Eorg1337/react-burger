@@ -1,6 +1,6 @@
 import React,{ useState } from 'react';
 import styles from './ingredient-details.module.css';
-
+import PropTypes from 'prop-types';
 const IngredientDetails = ({activeIngredient}) => {
 
 const dig_font = "text text_type_digits-default text_color_inactive";
@@ -36,5 +36,8 @@ const text_font = "text text_type_main-default text_color_inactive"
         </>
     )
 }
+IngredientDetails.propTypes = {
+    activeIngredient: PropTypes.object.isRequired
+  };
 
 export default IngredientDetails;
