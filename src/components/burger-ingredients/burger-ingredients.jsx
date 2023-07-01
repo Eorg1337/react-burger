@@ -1,11 +1,10 @@
 import React from 'react';
-import {useMemo} from 'react';
 import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import PropTypes from 'prop-types';
 import IngredientDetails from '../details/ingredient-details/ingredient-details';
-import MyModal from '../modal/my-modal'
+import Modal from '../modal/my-modal'
 
 const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('one');
@@ -26,11 +25,10 @@ const BurgerIngredients = (props) => {
         setIsVisible(false)
     }
 
-    const modal = (
-        <MyModal onClose = {handleCloseModal}>
-            <IngredientDetails activeIngredient={activeIngredient}/>
-        </MyModal>
-    )
+    const filteredBuns = items?.filter(item => item.type === 'bun');
+    const filteredSauces = items?.filter(item => item.type === 'sauce');
+    const filteredMain =  items?.filter(item => item.type === 'main');
+
 
         return(
             <div className={`${styles.container}`}>
@@ -49,7 +47,7 @@ const BurgerIngredients = (props) => {
                 <div className={styles.ingredients}>
                 <h2 className='text text_type_main-medium mb-6'> Булки</h2>
                     <div className={styles.puns} id='tab_one'>
-                    {items && items.filter(item => item.type === 'bun').map(item => (            
+                    {filteredBuns.map(item => (            
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -63,7 +61,7 @@ const BurgerIngredients = (props) => {
                     </div>
                     <h2 className='text text_type_main-medium mt-20 mb-6'>Соусы</h2>
                     <div className={styles.sauses} id='tab_two'>
-                    {items && items.filter(item => item.type === 'sauce').map(item => (
+                    {filteredSauces.map(item => (
                         <React.Fragment key={item._id}>
                             <BurgerIngredient
                                 key={item._id}
@@ -74,13 +72,12 @@ const BurgerIngredients = (props) => {
                                 __v={item.__V}
                                 onClick={() => handleItemClick(item)}
                             />
-                           {isVisible && modal}
                         </React.Fragment>
                         ))}
                     </div>
                     <h2 className='text text_type_main-medium mt-20 mb-6'>Начинки</h2>
                     <div className={styles.filings} id='tab_three'>
-                    {items && items.filter(item => item.type === 'main').map(item => (                        
+                    {filteredMain.map(item => (                        
                             <BurgerIngredient
                                 key={item._id}
                                 name={item.name}
@@ -91,6 +88,9 @@ const BurgerIngredients = (props) => {
                                 onClick={() => handleItemClick(item)}
                             />
                         ))}
+                        {isVisible && <Modal onClose = {handleCloseModal}>
+            <IngredientDetails activeIngredient={activeIngredient}/>
+        </Modal>}
                     </div>
                 </div>
             </div>   

@@ -1,6 +1,5 @@
 import React,{ useRef, useEffect } from 'react';
 import  ReactDOM  from 'react-dom';
-import { createPortal } from 'react-dom';
 import styles from './my-modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from './modal-overlay/modal-overlay';
@@ -8,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById("react-modals");
 
-const MyModal = ({ onClose, children}) => {
+const Modal = ({ onClose, children}) => {
 
 
   
@@ -19,18 +18,18 @@ const MyModal = ({ onClose, children}) => {
   };
 
 
-  const handleKeyDown = (event) => {
-        if (event.keyCode === 27 && onClose) {
-          closeModal();
-        }
-      };
 
-    useEffect(() => {
+    useEffect(() => {  
+      const handleKeyDown = (event) => {
+      if (event.keyCode === 27 && onClose) {
+        closeModal();
+      }
+    };
         document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     }; 
-    },[handleKeyDown]);
+    },[closeModal]);
 
 
 
@@ -42,7 +41,10 @@ const MyModal = ({ onClose, children}) => {
                 {children}
               </div>
               <div className={styles.icon}>
-                <CloseIcon type="primary" className={styles.svg} onClick={onClose}/>
+                <CloseIcon type="primary" 
+                className = {styles.svg} 
+                onClick={onClose}
+                />
               </div>
             </div>
         </ModalOverlay> )
@@ -50,9 +52,9 @@ const MyModal = ({ onClose, children}) => {
     )
 }
 
-MyModal.propTypes = {
+Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   children:  PropTypes.elementType.isRequired
 };
 
-export default MyModal;
+export default Modal;

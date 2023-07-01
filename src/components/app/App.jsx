@@ -4,24 +4,22 @@ import style from './app.module.css'
 import AppHeader from '../app-header/app-header'
 import {BurgerIngredients} from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import MyModal from '../modal/my-modal';
-import BurgerIngredient from '../burger-ingredient/burger-ingredient';
+import { fetchData } from '../../utils/api';
 import IngredientDetails from '../details/ingredient-details/ingredient-details';
 
-const url = 'https://norma.nomoreparties.space/api/ingredients';
+const DOMAIN_NAME = 'https://norma.nomoreparties.space/api';
+const url = `${DOMAIN_NAME}/ingredients`;
 
 function App() {
   const [state, setState] = React.useState({});
   useEffect(() => {
-    fetch(url)
-    .then(res => res.ok ? res.json(): res.json().then((err) => Promise.reject(err)))
-    .then(data => {
-      if(data.success){
-        setState(data)
-      } else{
-        console.error('Ошибка получения данных');
-      }})
-    .catch(err => {console.error('Error:',err)})
+    fetchData(url)
+    .then(data=>{
+      setState(data);
+    })
+    .catch(err=>{
+      console.log('Ошибка получения данных')
+    })
   },[]);
 
   

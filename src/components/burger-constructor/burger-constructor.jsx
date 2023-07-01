@@ -1,5 +1,5 @@
 import React from 'react';
-import {useMemo, useState} from 'react';
+import {useMemo} from 'react';
 import styles from './burger-constructor.module.css';
 import {ConstructorElement, DragIcon, Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
@@ -18,32 +18,31 @@ const BurgerConstructor = (props) => {
         setIsActive(false)
     }
 
-    const modal = ( <MyModal onClose={handleCloseModal}>
-        <OrderDetails />
-    </MyModal>
-    )
+    const filteredBuns = items?.find(item => item.type === "bun");
+    const filteredIngr = items?.filter(item => item.type !== "bun");
+
 
 
 
     const totalPrice = useMemo(() => {
-        return items && items.reduce((acc,item) => acc + item.price, 0);
+        return items?.reduce((acc,item) => acc + item.price, 0);
     })
     return(
         <div className={styles.container}>
             <div className={styles.constructor__cont}>
                 <div className={styles.top_bun} >
-                    {items && items.filter(item => item.name === "Краторная булка N-200i").map(item => (
+                    {filteredBuns && (
                         <ConstructorElement 
-                            key={item._id}
+                            key={filteredBuns._id}
                             type="top"
                             isLocked={true}
-                            text={`${item.name} (верх)`}
-                            price={item.price}
-                            thumbnail={item.image}
-                        />))}
+                            text={`${filteredBuns.name} (верх)`}
+                            price={filteredBuns.price}
+                            thumbnail={filteredBuns.image}
+                        />)}
                 </div>
                 <div className={styles.choice}>
-                    {items && items.filter(item => item.type !== 'bun').map(item => (
+                    {filteredIngr && filteredIngr.map(item=>(
                     <div className={styles.constructor_item} key = {item._id}>
                         <DragIcon type="primary" />
                         <ConstructorElement 
@@ -56,15 +55,15 @@ const BurgerConstructor = (props) => {
                     </div>))}
                 </div>
                 <div className={styles.low_bun}>
-                    {items && items.filter(item => item.name === "Краторная булка N-200i").map(item => (
+                    {filteredBuns && (
                      <ConstructorElement 
-                        key={item._id}
+                        key={filteredBuns._id}
                         type="bottom"
                         isLocked={true}
-                        text={`${item.name} (низ)`}
-                        price={item.price}
-                        thumbnail={item.image}
-                    />))}
+                        text={`${filteredBuns.name} (низ)`}
+                        price={filteredBuns.price}
+                        thumbnail={filteredBuns.image}
+                    />)}
                 </div>
             </div>
             <div className = {styles.total}>
@@ -72,7 +71,9 @@ const BurgerConstructor = (props) => {
                     <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
                     <CurrencyIcon type="primary"/>
                 </div>
-                {isActive&&modal}
+                {isActive && <MyModal onClose={handleCloseModal}>
+        <OrderDetails />
+    </MyModal>}
                 <Button htmlType="button" type="primary" size="large" onClick={handleBtnClick}>
                     Оформить заказ
                 </Button>
