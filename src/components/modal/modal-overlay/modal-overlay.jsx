@@ -1,16 +1,18 @@
-import React,{ useRef, useEffect } from 'react';
-import styles from './modal-overlay.module.css';
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect } from "react";
+import styles from "./modal-overlay.module.css";
+import PropTypes from "prop-types";
 
-const ModalOverlay = ({children, closeModal, modalRef}) => {
-
-    const overlayRef = useRef();
+const ModalOverlay = ({ children, onClose, modalRef }) => {
+  const overlayRef = useRef();
 
   useEffect(() => {
-    const handleOutsideClick = event => {
-      if (overlayRef.current && overlayRef.current.contains(event.target) && !modalRef.current.contains(event.target)) {
-        closeModal();
-
+    const handleOutsideClick = (event) => {
+      if (
+        overlayRef.current &&
+        overlayRef.current.contains(event.target) &&
+        !modalRef.current.contains(event.target)
+      ) {
+        onClose();
       }
     };
 
@@ -18,20 +20,18 @@ const ModalOverlay = ({children, closeModal, modalRef}) => {
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [closeModal]);
+  }, [onClose]);
 
-    return(
-        <div className = {styles.modalOverlay} ref={overlayRef}>
-            {children}
-        </div>
-    )
 
-}
+
+  return (
+    <div className={styles.modalOverlay} ref={overlayRef}/>
+  );
+};
 
 ModalOverlay.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-  children:  PropTypes.elementType.isRequired,
-  modalRef: PropTypes.object.isRequired
+  onClose: PropTypes.func.isRequired,
+  modalRef: PropTypes.object.isRequired,
 };
 
 export default ModalOverlay;
