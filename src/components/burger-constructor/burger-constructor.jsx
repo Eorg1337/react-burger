@@ -1,5 +1,5 @@
 import React from "react";
-import { useMemo } from "react";
+import { useContext} from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -10,11 +10,12 @@ import {
 import PropTypes from "prop-types";
 import MyModal from "../modal/modal";
 import OrderDetails from "../details/order-details/order-details";
+import { ConstructorContext } from "../../services/consctructor-context";
+import { TotalPrice } from "./total-price";
 
-const BurgerConstructor = (props) => {
-  const items = props.state.data;
+const BurgerConstructor = () => {
+  const { data } = useContext(ConstructorContext);
   const [isActive, setIsActive] = React.useState(false);
-
   const handleBtnClick = () => {
     setIsActive(true);
   };
@@ -23,19 +24,19 @@ const BurgerConstructor = (props) => {
     setIsActive(false);
   };
 
-  const filteredBuns = items?.find((item) => item.type === "bun");
-  const filteredIngr = items?.filter((item) => item.type !== "bun");
+  const filteredBuns = data?.find((item) => item.type === "bun");
+  const filteredIngr = data?.filter((item) => item.type !== "bun");
+  const ids = filteredIngr
+    ? Array.from(filteredIngr).map((item) => item._id)
+    : null;
 
-  const totalPrice = useMemo(() => {
-    return items?.reduce((acc, item) => acc + item.price, 0);
-  });
   return (
     <div className={styles.container}>
       <div className={styles.constructor__cont}>
         <div className={styles.top_bun}>
           {filteredBuns && (
             <ConstructorElement
-              key={filteredBuns._id}
+              _id={filteredBuns._id}
               type="top"
               isLocked={true}
               text={`${filteredBuns.name} (верх)`}
@@ -50,6 +51,7 @@ const BurgerConstructor = (props) => {
               <div className={styles.constructor_item} key={item._id}>
                 <DragIcon type="primary" />
                 <ConstructorElement
+                  _id={item._id}
                   type={item.type}
                   isLocked={false}
                   text={item.name}
@@ -62,7 +64,7 @@ const BurgerConstructor = (props) => {
         <div className={styles.low_bun}>
           {filteredBuns && (
             <ConstructorElement
-              key={filteredBuns._id}
+              _id={filteredBuns._id}
               type="bottom"
               isLocked={true}
               text={`${filteredBuns.name} (низ)`}
@@ -74,12 +76,18 @@ const BurgerConstructor = (props) => {
       </div>
       <div className={styles.total}>
         <div className={styles.cost}>
-          <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
+          <p className="text text_type_digits-medium mr-2">
+            {filteredBuns && filteredIngr && 
+            <TotalPrice
+              filteredBuns={filteredBuns}
+              filteredIngr={filteredIngr}
+            />}
+          </p>
           <CurrencyIcon type="primary" />
         </div>
-        {isActive && (
+        {isActive && ids && (
           <MyModal onClose={handleCloseModal}>
-            <OrderDetails />
+            <OrderDetails ids={ids} />
           </MyModal>
         )}
         <Button
@@ -96,17 +104,17 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-    state: PropTypes.shape({
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          _id: PropTypes.string.isRequired,
-          type: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          price: PropTypes.number.isRequired,
-          image: PropTypes.string.isRequired,
-        })
-      ),
-    }),
-  };
+  state: PropTypes.shape({
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+      })
+    ),
+  }),
+};
 
 export default BurgerConstructor;

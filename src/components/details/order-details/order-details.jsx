@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./order-details.module.css";
 import graphics from "../../../images/graphics.svg";
-import data from "../../../utils/data";
+import { orderUrl, fetchOrder } from "../../../utils/api";
+import PropTypes from "prop-types";
 
-const OrderDetails = () => {
-  const orderId = data.orders[0].order_id;
+const OrderDetails = ({ ids }) => {
+  const ingredients = ids;
+  const [state, setState] = React.useState({});
+  useEffect(() => {
+    ids &&
+      fetchOrder(orderUrl, ingredients)
+        .then((data) => {
+          setState(data);
+        })
+        .catch((err) => {
+          console.log("Ошибка получения данных");
+        });
+  }, [ingredients]);
 
   return (
     <div className={styles.container}>
       <header className={`text text_type_digits-large ${styles.header}`}>
-        {orderId}
+        {state && state.number}
       </header>
       <p className={`text text_type_main-medium ${styles.id}`}>
         идентификатор заказа
@@ -28,5 +40,9 @@ const OrderDetails = () => {
     </div>
   );
 };
+
+OrderDetails.propTypes = {
+  ids: PropTypes.arrayOf(PropTypes.string.isRequired)
+}
 
 export default OrderDetails;
