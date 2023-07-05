@@ -1,17 +1,18 @@
-import React from "react";
+import React,{useContext} from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
+import { IngredientsContext } from "../../services/consctructor-context";
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState("one");
   const [activeIngredient, setActiveIngredient] = React.useState(null);
   const [isVisible, setIsVisible] = React.useState(false);
-  const items = props.state.data;
-  if (!items) {
+  const { data } = useContext(IngredientsContext);
+  if (!data) {
     return <div>Loading...</div>;
   }
 
@@ -25,9 +26,9 @@ const BurgerIngredients = (props) => {
     setIsVisible(false);
   };
 
-  const filteredBuns = items?.filter((item) => item.type === "bun");
-  const filteredSauces = items?.filter((item) => item.type === "sauce");
-  const filteredMain = items?.filter((item) => item.type === "main");
+  const filteredBuns = data?.filter((item) => item.type === "bun");
+  const filteredSauces = data?.filter((item) => item.type === "sauce");
+  const filteredMain = data?.filter((item) => item.type === "main");
 
   return (
     <div className={`${styles.container}`}>

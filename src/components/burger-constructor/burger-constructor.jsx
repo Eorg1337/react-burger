@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext} from "react";
+import { useContext,useMemo} from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -24,12 +24,12 @@ const BurgerConstructor = () => {
     setIsActive(false);
   };
 
-  const filteredBuns = data?.find((item) => item.type === "bun");
-  const filteredIngr = data?.filter((item) => item.type !== "bun");
-  const ids = filteredIngr
+  const filteredBuns = useMemo(() => data?.find((item) => item.type === "bun"),[data]);
+  const filteredIngr = useMemo(() => data?.filter((item) => item.type !== "bun"),[data]);
+  const ids = useMemo(() => filteredIngr
     ? Array.from(filteredIngr).map((item) => item._id)
-    : null;
-
+    : null, [filteredIngr]);
+  console.log(filteredIngr)
   return (
     <div className={styles.container}>
       <div className={styles.constructor__cont}>

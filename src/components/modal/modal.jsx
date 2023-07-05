@@ -24,13 +24,13 @@ const Modal = ({ onClose, children }) => {
 
   return ReactDOM.createPortal(
     <>
-        <div className={styles.modal} ref={modalRef}>
-          <div className={styles.children}>{children}</div>
-          <div className={styles.icon}>
-            <CloseIcon type="primary" className={styles.svg} onClick={onClose} />
+      <ModalOverlay onClose={onClose} modalRef={modalRef} />
+          <div className={styles.modal} ref={modalRef} tabIndex={0}>
+            <div className={styles.children}>{children}</div>
+            <div className={styles.icon}>
+              <CloseIcon type="primary" className={styles.svg} onClick={onClose} />
+            </div>
           </div>
-        </div>
-        <ModalOverlay onClose={onClose} modalRef={modalRef} />
     </>,
     modalRoot
   );

@@ -7,7 +7,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { fetchData } from "../../utils/api";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 import { url } from "../../utils/api";
-import { ConstructorContext } from "../../services/consctructor-context";
+import { ConstructorContext, IngredientsContext } from "../../services/consctructor-context";
 
 function App() {
   const [state, setState] = React.useState({});
@@ -25,7 +25,9 @@ function App() {
     <div className={style.app}>
       <AppHeader />
       <main className={style.main}>
-        <BurgerIngredients state={state} />
+        <IngredientsContext.Provider value={state} >
+          <BurgerIngredients/>
+        </IngredientsContext.Provider>
         <IngredientDetails />
         <ConstructorContext.Provider value={state}>
           <BurgerConstructor />
