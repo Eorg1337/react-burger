@@ -8,11 +8,13 @@
     width: 720px;
     background-color: rgba(28, 28, 33, 1);
     border-radius: 40px;
+    z-index: 1000;
 }
 
 .icon{
     margin-top: 65px;
     margin-right: 40px;
+    cursor: pointer;
 }
 
 
@@ -21,4 +23,5 @@
     flex-basis: 540px;
     flex-grow: 1;
 }
+
 
