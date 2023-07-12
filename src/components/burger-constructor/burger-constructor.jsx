@@ -10,26 +10,33 @@ import {
 import PropTypes from "prop-types";
 import MyModal from "../modal/modal";
 import OrderDetails from "../details/order-details/order-details";
-import { ConstructorContext } from "../../services/consctructor-context";
 import { TotalPrice } from "./total-price";
-
+import { useDispatch,useSelector } from "react-redux";
+import { createOrder } from "../../services/actions";
 const BurgerConstructor = () => {
-  const { data } = useContext(ConstructorContext);
   const [isActive, setIsActive] = React.useState(false);
+
+  const dispatch = useDispatch();
+  const ingredients = useSelector(state => state.constructor?.constructorIngredients)
+
+  const createOrderHandler = (ingredients) => {
+    dispatch(createOrder(ingredients))
+  }
+
   const handleBtnClick = () => {
     setIsActive(true);
+    createOrderHandler(ingredients);
   };
 
   const handleCloseModal = () => {
     setIsActive(false);
   };
 
-  const filteredBuns = useMemo(() => data?.find((item) => item.type === "bun"),[data]);
-  const filteredIngr = useMemo(() => data?.filter((item) => item.type !== "bun"),[data]);
+  const filteredBuns = useMemo(() => ingredients?.find((item) => item.type === "bun"),[ingredients]);
+  const filteredIngr = useMemo(() => ingredients?.filter((item) => item.type !== "bun"),[ingredients]);
   const ids = useMemo(() => filteredIngr
     ? Array.from(filteredIngr).map((item) => item._id)
     : null, [filteredIngr]);
-  console.log(filteredIngr)
   return (
     <div className={styles.container}>
       <div className={styles.constructor__cont}>
@@ -47,8 +54,8 @@ const BurgerConstructor = () => {
         </div>
         <div className={styles.choice}>
           {filteredIngr &&
-            filteredIngr.map((item) => (
-              <div className={styles.constructor_item} key={item._id}>
+            filteredIngr.map((item,index) => (
+              <div className={styles.constructor_item} key={index}>
                 <DragIcon type="primary" />
                 <ConstructorElement
                   _id={item._id}

@@ -2,13 +2,13 @@ export const DOMAIN_NAME = "https://norma.nomoreparties.space/api";
 export const url = `${DOMAIN_NAME}/ingredients`;
 export const orderUrl = `${DOMAIN_NAME}/orders`;
 
-export const fetchData = (url) => {
-  return fetch(url)
+export const fetchData = () => {
+  return fetch(`${DOMAIN_NAME}/ingredients`)
     .then((res) =>
       res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
     )
     .then((data) => {
-      if (data.success) {
+      if (data?.success) {
         return data;
       } else {
         console.error("Ошибка получения данных");
@@ -19,8 +19,8 @@ export const fetchData = (url) => {
     });
 };
 
-export const fetchOrder = (orderUrl, ingredients) => {
-  return fetch(orderUrl, {
+export const fetchOrder = (ingredients) => {
+  return fetch(`${DOMAIN_NAME}/orders`, {
     headers: {
       "Content-Type": "application/json",
     },

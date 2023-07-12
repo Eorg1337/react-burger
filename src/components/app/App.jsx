@@ -7,32 +7,32 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { fetchData } from "../../utils/api";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 import { url } from "../../utils/api";
-import { ConstructorContext, IngredientsContext } from "../../services/consctructor-context";
+import { useDispatch,useSelector } from "react-redux";
+import { getIngredients } from "../../services/ingredients/reducer";
 
 function App() {
   const [state, setState] = React.useState({});
+  const [dataIsLoading, setDataIsLoading] = React.useState(true)
+
+  const dispatch = useDispatch();
+  const isLoading = useSelector(store=>store.isLoading)
+
   useEffect(() => {
-    fetchData(url)
-      .then((data) => {
-        setState(data);
-      })
-      .catch((err) => {
-        console.log("Ошибка получения данных");
-      });
+    dispatch(getIngredients());
   }, []);
 
   return (
     <div className={style.app}>
       <AppHeader />
+      {isLoading ? (
+         <div className={style.loader}>Loading...</div>
+      ) : (
       <main className={style.main}>
-        <IngredientsContext.Provider value={state} >
-          <BurgerIngredients/>
-        </IngredientsContext.Provider>
+          <BurgerIngredients />
         <IngredientDetails />
-        <ConstructorContext.Provider value={state}>
           <BurgerConstructor />
-        </ConstructorContext.Provider>
       </main>
+      )}
     </div>
   );
 }

@@ -1,34 +1,61 @@
-import React,{useContext} from "react";
+import React,{useContext,useRef} from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { IngredientsContext } from "../../services/consctructor-context";
+import { useDispatch,useSelector } from "react-redux";
+import { addSelectedIngr,deleteSelectedIngr } from "../../services/modal/reducer";
 
-const BurgerIngredients = (props) => {
-  const [current, setCurrent] = React.useState("one");
+const BurgerIngredients = () => {
+  const [currentTab, setCurrentTab] = React.useState("buns");
   const [activeIngredient, setActiveIngredient] = React.useState(null);
   const [isVisible, setIsVisible] = React.useState(false);
-  const { data } = useContext(IngredientsContext);
-  if (!data) {
-    return <div>Loading...</div>;
+  const containerRef = useRef(null);
+
+
+  const dispatch = useDispatch();
+  
+  const ingredients = useSelector(state=>state.rootReducer.ingredients?.ingredients)
+  console.log(ingredients)
+
+  const modalView = useSelector(state=> state.rootReducer.modal.selectedIngr)
+
+  const addModal = (item) => {
+    dispatch(addSelectedIngr({item}))
   }
+
+  const clearModal = () => {
+    dispatch(deleteSelectedIngr())
+  }
+
+  const handleTabClick = (tab) => {
+    setCurrentTab(tab);
+    const element = document.getElementById(tab)
+    if(element){
+      const containerElement = containerRef.current;
+      containerElement.scrollTo({
+        top: element.offsetTop - (containerElement.offsetHeight/1.8),
+        behavior: 'smooth',
+      });
+    }}
 
   const handleItemClick = (item) => {
     setActiveIngredient(item);
     setIsVisible(true);
+    addModal(item);
   };
 
   const handleCloseModal = () => {
     setActiveIngredient(null);
     setIsVisible(false);
+    clearModal()
   };
 
-  const filteredBuns = data?.filter((item) => item.type === "bun");
-  const filteredSauces = data?.filter((item) => item.type === "sauce");
-  const filteredMain = data?.filter((item) => item.type === "main");
+  const filteredBuns = ingredients?.filter((item) => item.type === "bun");
+  const filteredSauces = ingredients?.filter((item) => item.type === "sauce");
+  const filteredMain = ingredients?.filter((item) => item.type === "main");
 
   return (
     <div className={`${styles.container}`}>
@@ -36,20 +63,20 @@ const BurgerIngredients = (props) => {
         Соберите Бургер
       </h1>
       <div className={styles.tabs}>
-        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+        <Tab value="buns" active={currentTab === "buns"} onClick={handleTabClick}>
           Булки
         </Tab>
-        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+        <Tab value="sauces" active={currentTab === "sauces"} onClick={handleTabClick}>
           Соусы
         </Tab>
-        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+        <Tab value="mains" active={currentTab === "mains"} onClick={handleTabClick}>
           Начинки
         </Tab>
       </div>
-      <div className={styles.ingredients}>
+      <div className={styles.ingredients} ref={containerRef}>
         <h2 className="text text_type_main-medium mb-6"> Булки</h2>
-        <div className={styles.puns} id="tab_one">
-          {filteredBuns.map((item) => (
+        <div className={styles.puns} id="buns">
+          {filteredBuns?.map((item) => (
             <BurgerIngredient
               key={item._id}
               name={item.name}
@@ -62,8 +89,8 @@ const BurgerIngredients = (props) => {
           ))}
         </div>
         <h2 className="text text_type_main-medium mt-20 mb-6">Соусы</h2>
-        <div className={styles.sauses} id="tab_two">
-          {filteredSauces.map((item) => (
+        <div className={styles.sauses} id="sauces">
+          {filteredSauces?.map((item) => (
             <React.Fragment key={item._id}>
               <BurgerIngredient
                 key={item._id}
@@ -78,8 +105,8 @@ const BurgerIngredients = (props) => {
           ))}
         </div>
         <h2 className="text text_type_main-medium mt-20 mb-6">Начинки</h2>
-        <div className={styles.filings} id="tab_three">
-          {filteredMain.map((item) => (
+        <div className={styles.filings} id="mains">
+          {filteredMain?.map((item) => (
             <BurgerIngredient
               key={item._id}
               name={item.name}
