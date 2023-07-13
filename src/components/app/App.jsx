@@ -9,10 +9,11 @@ import IngredientDetails from "../details/ingredient-details/ingredient-details"
 import { url } from "../../utils/api";
 import { useDispatch,useSelector } from "react-redux";
 import { getIngredients } from "../../services/ingredients/reducer";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
   const [state, setState] = React.useState({});
-  const [dataIsLoading, setDataIsLoading] = React.useState(true)
 
   const dispatch = useDispatch();
   const isLoading = useSelector(store=>store.isLoading)
@@ -28,9 +29,11 @@ function App() {
          <div className={style.loader}>Loading...</div>
       ) : (
       <main className={style.main}>
+        <DndProvider backend={HTML5Backend}>
           <BurgerIngredients />
-        <IngredientDetails />
+          <IngredientDetails />
           <BurgerConstructor />
+        </DndProvider>
       </main>
       )}
     </div>

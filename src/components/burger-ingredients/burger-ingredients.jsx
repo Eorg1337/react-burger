@@ -1,4 +1,4 @@
-import React,{useContext,useRef} from "react";
+import React,{useRef, useEffect} from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
@@ -7,18 +7,23 @@ import IngredientDetails from "../details/ingredient-details/ingredient-details"
 import Modal from "../modal/modal";
 import { useDispatch,useSelector } from "react-redux";
 import { addSelectedIngr,deleteSelectedIngr } from "../../services/modal/reducer";
+import { current } from "@reduxjs/toolkit";
+
 
 const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = React.useState("buns");
   const [activeIngredient, setActiveIngredient] = React.useState(null);
   const [isVisible, setIsVisible] = React.useState(false);
+  const [elements, setElements] = React.useState([]);
+  const [draggedElements, setDraggedElements] = React.useState([]);
   const containerRef = useRef(null);
+
 
 
   const dispatch = useDispatch();
   
   const ingredients = useSelector(state=>state.rootReducer.ingredients?.ingredients)
-  console.log(ingredients)
+  const buns = useSelector(state=>state.rootReducer.ingredients?.buns)
 
   const modalView = useSelector(state=> state.rootReducer.modal.selectedIngr)
 
@@ -40,7 +45,48 @@ const BurgerIngredients = () => {
         behavior: 'smooth',
       });
     }}
+  
+    const handleScroll = () => {
+      const containerElement = containerRef.current;
+      const tabs = ["buns", "sauces", "mains"];
+      let closestTab = null;
+      let closestDistance = Infinity;
+      tabs.forEach(tab => {
+        const element = document.getElementById(tab);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const distance = Math.abs(rect.top - containerElement.scrollTop);
+          if (distance < closestDistance) {
+            closestTab = tab;
+            closestDistance = distance;
+          }
+        }
+      });
+      if (closestTab && closestTab !== currentTab) {
+        setCurrentTab(closestTab);
+      }
+    };
 
+    const handleDrop = (itemId) => {
+      setElements([
+          ...ingredients.filter(ingredient => ingredient.id !== itemId.id)
+      ]);
+      setDraggedElements([
+        ...draggedElements,
+        ...elements.filter(element => element.id === itemId.id)
+    ]);
+};
+
+    useEffect(() => {
+      const containerElement = containerRef.current;
+      containerElement.addEventListener("scroll", handleScroll);
+    
+      return () => {
+        containerElement.removeEventListener("scroll", handleScroll);
+      };
+    }, [currentTab]);
+
+  
   const handleItemClick = (item) => {
     setActiveIngredient(item);
     setIsVisible(true);
@@ -53,7 +99,7 @@ const BurgerIngredients = () => {
     clearModal()
   };
 
-  const filteredBuns = ingredients?.filter((item) => item.type === "bun");
+  const filteredBuns = buns?.filter((item) => item.type === "bun");
   const filteredSauces = ingredients?.filter((item) => item.type === "sauce");
   const filteredMain = ingredients?.filter((item) => item.type === "main");
 
@@ -73,18 +119,21 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </div>
-      <div className={styles.ingredients} ref={containerRef}>
+      <div className={styles.ingredients} ref={containerRef} id="ingredients">
         <h2 className="text text_type_main-medium mb-6"> Булки</h2>
         <div className={styles.puns} id="buns">
           {filteredBuns?.map((item) => (
             <BurgerIngredient
               key={item._id}
+              id={item._id}
               name={item.name}
               type={item.type}
               price={item.price}
               image={item.image}
+              count={item.count}
               __v={item.__V}
               onClick={() => handleItemClick(item)}
+              onDropHandler={handleDrop}
             />
           ))}
         </div>
@@ -94,12 +143,15 @@ const BurgerIngredients = () => {
             <React.Fragment key={item._id}>
               <BurgerIngredient
                 key={item._id}
+                id={item._id}
                 name={item.name}
                 type={item.type}
                 price={item.price}
                 image={item.image}
+                count={item.count}
                 __v={item.__V}
                 onClick={() => handleItemClick(item)}
+                onDropHandler={handleDrop}
               />
             </React.Fragment>
           ))}
@@ -109,12 +161,15 @@ const BurgerIngredients = () => {
           {filteredMain?.map((item) => (
             <BurgerIngredient
               key={item._id}
+              id={item._id}
               name={item.name}
               type={item.type}
               price={item.price}
               image={item.image}
+              count={item.count}
               __v={item.__V}
               onClick={() => handleItemClick(item)}
+              onDropHandler={handleDrop}
             />
           ))}
           {isVisible && (

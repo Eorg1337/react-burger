@@ -13,12 +13,14 @@ export const ADD_SELECTED_INGR = "ADD_SELECTED_INGR";
 export const DELETE_SELECTED_INGR = "DELETE_SELECTED_INGR";
 
 
-export const addIngredient = (ingredient) => ({
-    type: ADD_INGREDIENT, payload: ingredient,
-})
+export const addIngredient = (ingredient) => {
+    return{
+    type: ADD_INGREDIENT, payload: {ingredient}
+    }
+}
 
-export const deleteIngredient = (id) => ({
-    type: DELETE_INGREDIENT, payload: id,
+export const deleteIngredient = (unique_id) => ({
+    type: DELETE_INGREDIENT, payload: unique_id
 })
 
 export const addSelectedIngr = (item) => ({
@@ -40,9 +42,9 @@ export const addIngredients = () => (dispatch) => {
 })
 }
 
-export const createOrder = (ingredients) => (dispatch) => {
+export const createOrder = (ids) => (dispatch) => {
     dispatch({type: CREATE_ORDER_REQUEST})
-    return fetchOrder(ingredients)
+    return fetchOrder(ids)
         .then(res => {
            return dispatch({type: CREATE_ORDER_SUCCESS, payload: res.order})
         })

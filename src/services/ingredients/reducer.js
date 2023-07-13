@@ -4,6 +4,7 @@ import { fetchData } from "../../utils/api";
 
 const initialState = {
     ingredients: [],
+    buns: null,
     error: null,
     isLoading: false
 }
@@ -26,7 +27,14 @@ export const ingredientsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getIngredients.fulfilled, (state, action) => { 
-    state.ingredients = action.payload;
+    state.ingredients = action.payload.filter((ingredient)=>ingredient.type !== 'bun').map((ingredient) => ({
+      ...ingredient,
+      count: 0
+    }));
+    state.buns = action.payload.filter((ingredient)=>ingredient.type === 'bun').map((ingredient) => ({
+      ...ingredient,
+      count: 0
+    }));
     state.isLoading = false;
     });
     builder.addCase(getIngredients.rejected, (state, action) => {

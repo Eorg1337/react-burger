@@ -1,4 +1,5 @@
 import { createSlice} from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     error: null,
@@ -11,17 +12,24 @@ export const constructorSlice = createSlice({
     initialState,
     reducers: {
         addIngredient(state, action) {
+            const newIngredient = {
+            ...action.payload,
+            unique_id: uuidv4(),
+            count: action.payload.count
+        };
             let constructorIngredients = [];
-            if (state.constructorIngredients?.length) {
-                constructorIngredients = [...state.constructorIngredients, action.payload];
+            if (newIngredient.type === "bun") {
+                constructorIngredients = state.constructorIngredients.filter(ing => ing.type !== "bun");
             } else {
-                constructorIngredients = [action.payload];
+                constructorIngredients = state.constructorIngredients.slice();
             }
-
+            constructorIngredients.push(newIngredient);
             return { constructorIngredients };
         },
         deleteIngredient(state, action) {
-               return state.constructorIngredients.filter(ing => ing.id !== action.payload);
+            console.log(action.payload)
+            const constructorIngredients = state.constructorIngredients.filter(ing => ing.unique_id!== action.payload);
+            return { constructorIngredients };
         }
     },
 })

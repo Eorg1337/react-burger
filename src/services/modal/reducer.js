@@ -11,14 +11,10 @@ export const selectedIngrSlice = createSlice({
     initialState,
     reducers: {
         addSelectedIngr(state, action) {
-            let selectedIngr = [];
-            if (!state.selectedIngr) {
-                selectedIngr = [action.payload];
-            } 
-            return  {selectedIngr} ;
+            return {...state, selectedIngr: action.payload}
         },
         deleteSelectedIngr(state, action) {
-            return state.selectedIngr.splice(0, state.length);
+            return {...state, selectedIngr: null}
         }
     },
 })

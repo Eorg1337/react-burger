@@ -34,7 +34,7 @@ export const fetchOrder = (ingredients) => {
     )
     .then((data) => {
       if (data.success) {
-        return data.order;
+        return data;
       } else {
         console.error(data.message);
       }
