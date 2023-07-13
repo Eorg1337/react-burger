@@ -14,6 +14,7 @@ const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = React.useState("buns");
   const [activeIngredient, setActiveIngredient] = React.useState(null);
   const [isVisible, setIsVisible] = React.useState(false);
+  const [ingredientCounts, setIngredientCounts] = React.useState({});
   const [elements, setElements] = React.useState([]);
   const [draggedElements, setDraggedElements] = React.useState([]);
   const containerRef = useRef(null);
@@ -24,7 +25,16 @@ const BurgerIngredients = () => {
   
   const ingredients = useSelector(state=>state.rootReducer.ingredients?.ingredients)
   const buns = useSelector(state=>state.rootReducer.ingredients?.buns)
+  const pickedIngredients = useSelector(state=>state.rootReducer.constr?.constructorIngredients)
 
+  useEffect(() => {
+    const counts = pickedIngredients.reduce((counts, ingredient) => {
+      counts[ingredient.id] = (counts[ingredient.id] || 0) + 1;
+      return counts;
+    }, {});
+    setIngredientCounts(counts);
+  }, [pickedIngredients]);
+  
   const modalView = useSelector(state=> state.rootReducer.modal.selectedIngr)
 
   const addModal = (item) => {
@@ -130,8 +140,7 @@ const BurgerIngredients = () => {
               type={item.type}
               price={item.price}
               image={item.image}
-              count={item.count}
-              __v={item.__V}
+              count={ingredientCounts[item._id]}
               onClick={() => handleItemClick(item)}
               onDropHandler={handleDrop}
             />
@@ -148,8 +157,7 @@ const BurgerIngredients = () => {
                 type={item.type}
                 price={item.price}
                 image={item.image}
-                count={item.count}
-                __v={item.__V}
+                count={ingredientCounts[item._id]}
                 onClick={() => handleItemClick(item)}
                 onDropHandler={handleDrop}
               />
@@ -166,8 +174,7 @@ const BurgerIngredients = () => {
               type={item.type}
               price={item.price}
               image={item.image}
-              count={item.count}
-              __v={item.__V}
+              count={ingredientCounts[item._id]}
               onClick={() => handleItemClick(item)}
               onDropHandler={handleDrop}
             />

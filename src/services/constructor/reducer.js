@@ -14,8 +14,7 @@ export const constructorSlice = createSlice({
         addIngredient(state, action) {
             const newIngredient = {
             ...action.payload,
-            unique_id: uuidv4(),
-            count: action.payload.count
+            unique_id: uuidv4()
         };
             let constructorIngredients = [];
             if (newIngredient.type === "bun") {
@@ -24,12 +23,12 @@ export const constructorSlice = createSlice({
                 constructorIngredients = state.constructorIngredients.slice();
             }
             constructorIngredients.push(newIngredient);
-            return { constructorIngredients };
+            return { constructorIngredients,      };
         },
         deleteIngredient(state, action) {
             console.log(action.payload)
             const constructorIngredients = state.constructorIngredients.filter(ing => ing.unique_id!== action.payload);
-            return { constructorIngredients };
+            return { constructorIngredients};
         }
     },
 })
