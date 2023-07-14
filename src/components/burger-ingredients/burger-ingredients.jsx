@@ -7,7 +7,6 @@ import IngredientDetails from "../details/ingredient-details/ingredient-details"
 import Modal from "../modal/modal";
 import { useDispatch,useSelector } from "react-redux";
 import { addSelectedIngr,deleteSelectedIngr } from "../../services/modal/reducer";
-import { current } from "@reduxjs/toolkit";
 
 
 const BurgerIngredients = () => {

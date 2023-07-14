@@ -23,15 +23,26 @@ export const constructorSlice = createSlice({
                 constructorIngredients = state.constructorIngredients.slice();
             }
             constructorIngredients.push(newIngredient);
-            return { constructorIngredients,      };
+            return { constructorIngredients};
         },
         deleteIngredient(state, action) {
             console.log(action.payload)
             const constructorIngredients = state.constructorIngredients.filter(ing => ing.unique_id!== action.payload);
             return { constructorIngredients};
+        },
+
+        moveIngredient(state,action) {
+            const { dragIndex, hoverIndex } = action;
+            const ingredientList = [...state.constructorIngredients];
+            const dragIngredient = ingredientList[dragIndex];
+            ingredientList.splice(dragIndex, 1);
+            ingredientList.splice(hoverIndex, 0, dragIngredient);
+            return {
+              constructorIngredients: ingredientList,
+            };
         }
     },
 })
 
-export const { addIngredient, deleteIngredient } = constructorSlice.actions;
+export const { addIngredient, deleteIngredient, moveIngredient } = constructorSlice.actions;
 export default constructorSlice.reducer;

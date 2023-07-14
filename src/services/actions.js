@@ -11,7 +11,15 @@ export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const DELETE_INGREDIENT = "DELETE_INGREDIENT";
 export const ADD_SELECTED_INGR = "ADD_SELECTED_INGR";
 export const DELETE_SELECTED_INGR = "DELETE_SELECTED_INGR";
+export const MOVE_INGREDIENT = "MOVE_INGREDIENT"
 
+export const moveIngredient = (dragIndex, hoverIndex) => {
+    return{
+    type: MOVE_INGREDIENT,
+    payload: {dragIndex,
+        hoverIndex  } 
+    }
+}
 
 export const addIngredient = (ingredient) => {
     return{

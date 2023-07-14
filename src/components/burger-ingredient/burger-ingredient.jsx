@@ -1,20 +1,21 @@
-import React from "react";
+import React,{useRef} from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
 import PropTypes from "prop-types";
-import { useDrag } from "react-dnd/dist/hooks";
+import { useDrag, useDrop } from "react-dnd/dist/hooks";
 import { useDispatch } from "react-redux";
 import { addIngredient } from "../../services/constructor/reducer";
+import { moveIngredient } from "../../services/constructor/reducer";
 
-const BurgerIngredient = (props) => {
+const BurgerIngredient = (props,{index}) => {
   const id = props._id;
   const dispatch = useDispatch();
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
-    item: id,
+    item: {id,index},
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult()
       if (item && dropResult) {
@@ -22,7 +23,6 @@ const BurgerIngredient = (props) => {
       }
     }
   });
-
 
   return (
     <div
