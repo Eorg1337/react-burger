@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./order-details.module.css";
 import graphics from "../../../images/graphics.svg";
-import { orderUrl, fetchOrder } from "../../../utils/api";
 import PropTypes from "prop-types";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const OrderDetails = (ids) => {
-  const ingredients = ids;
-  const orderNumber = useSelector(state=>state.rootReducer.order.order?.number)
-  
+  const orderNumber = useSelector(
+    (state) => state.rootReducer.order.order?.number,
+  );
 
   return (
     <div className={styles.container}>
@@ -34,7 +33,7 @@ const OrderDetails = (ids) => {
 };
 
 OrderDetails.propTypes = {
-  ids: PropTypes.arrayOf(PropTypes.string.isRequired)
-}
+  ids: PropTypes.arrayOf(PropTypes.string.isRequired),
+};
 
 export default OrderDetails;

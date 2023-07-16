@@ -1,13 +1,15 @@
-import React,{useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { useDispatch,useSelector } from "react-redux";
-import { addSelectedIngr,deleteSelectedIngr } from "../../services/modal/reducer";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addSelectedIngr,
+  deleteSelectedIngr,
+} from "../../services/modal/reducer";
 
 const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = React.useState("buns");
@@ -18,13 +20,15 @@ const BurgerIngredients = () => {
   const [draggedElements, setDraggedElements] = React.useState([]);
   const containerRef = useRef(null);
 
-
-
   const dispatch = useDispatch();
-  
-  const ingredients = useSelector(state=>state.rootReducer.ingredients?.ingredients)
-  const buns = useSelector(state=>state.rootReducer.ingredients?.buns)
-  const pickedIngredients = useSelector(state=>state.rootReducer.constr?.constructorIngredients)
+
+  const ingredients = useSelector(
+    (state) => state.rootReducer.ingredients?.ingredients,
+  );
+  const buns = useSelector((state) => state.rootReducer.ingredients?.buns);
+  const pickedIngredients = useSelector(
+    (state) => state.rootReducer.constr?.constructorIngredients,
+  );
 
   useEffect(() => {
     const counts = pickedIngredients.reduce((counts, ingredient) => {
@@ -33,69 +37,71 @@ const BurgerIngredients = () => {
     }, {});
     setIngredientCounts(counts);
   }, [pickedIngredients]);
-  
-  const modalView = useSelector(state=> state.rootReducer.modal.selectedIngr)
+
+  const modalView = useSelector(
+    (state) => state.rootReducer.modal.selectedIngr,
+  );
 
   const addModal = (item) => {
-    dispatch(addSelectedIngr({item}))
-  }
+    dispatch(addSelectedIngr({ item }));
+  };
 
   const clearModal = () => {
-    dispatch(deleteSelectedIngr())
-  }
+    dispatch(deleteSelectedIngr());
+  };
 
   const handleTabClick = (tab) => {
     setCurrentTab(tab);
-    const element = document.getElementById(tab)
-    if(element){
+    const element = document.getElementById(tab);
+    if (element) {
       const containerElement = containerRef.current;
       containerElement.scrollTo({
-        top: element.offsetTop - (containerElement.offsetHeight/1.8),
-        behavior: 'smooth',
+        top: element.offsetTop - containerElement.offsetHeight / 1.8,
+        behavior: "smooth",
       });
-    }}
-  
-    const handleScroll = () => {
-      const containerElement = containerRef.current;
-      const tabs = ["buns", "sauces", "mains"];
-      let closestTab = null;
-      let closestDistance = Infinity;
-      tabs.forEach(tab => {
-        const element = document.getElementById(tab);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const distance = Math.abs(rect.top - containerElement.scrollTop);
-          if (distance < closestDistance) {
-            closestTab = tab;
-            closestDistance = distance;
-          }
+    }
+  };
+
+  const handleScroll = () => {
+    const containerElement = containerRef.current;
+    const tabs = ["buns", "sauces", "mains"];
+    let closestTab = null;
+    let closestDistance = Infinity;
+    tabs.forEach((tab) => {
+      const element = document.getElementById(tab);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const distance = Math.abs(rect.top - containerElement.scrollTop);
+        if (distance < closestDistance) {
+          closestTab = tab;
+          closestDistance = distance;
         }
-      });
-      if (closestTab && closestTab !== currentTab) {
-        setCurrentTab(closestTab);
       }
-    };
+    });
+    if (closestTab && closestTab !== currentTab) {
+      setCurrentTab(closestTab);
+    }
+  };
 
-    const handleDrop = (itemId) => {
-      setElements([
-          ...ingredients.filter(ingredient => ingredient.id !== itemId.id)
-      ]);
-      setDraggedElements([
-        ...draggedElements,
-        ...elements.filter(element => element.id === itemId.id)
+  const handleDrop = (itemId) => {
+    setElements([
+      ...ingredients.filter((ingredient) => ingredient.id !== itemId.id),
     ]);
-};
+    setDraggedElements([
+      ...draggedElements,
+      ...elements.filter((element) => element.id === itemId.id),
+    ]);
+  };
 
-    useEffect(() => {
-      const containerElement = containerRef.current;
-      containerElement.addEventListener("scroll", handleScroll);
-    
-      return () => {
-        containerElement.removeEventListener("scroll", handleScroll);
-      };
-    }, [currentTab]);
+  useEffect(() => {
+    const containerElement = containerRef.current;
+    containerElement.addEventListener("scroll", handleScroll);
 
-  
+    return () => {
+      containerElement.removeEventListener("scroll", handleScroll);
+    };
+  }, [currentTab]);
+
   const handleItemClick = (item) => {
     setActiveIngredient(item);
     setIsVisible(true);
@@ -105,7 +111,7 @@ const BurgerIngredients = () => {
   const handleCloseModal = () => {
     setActiveIngredient(null);
     setIsVisible(false);
-    clearModal()
+    clearModal();
   };
 
   const filteredBuns = buns?.filter((item) => item.type === "bun");
@@ -118,13 +124,25 @@ const BurgerIngredients = () => {
         Соберите Бургер
       </h1>
       <div className={styles.tabs}>
-        <Tab value="buns" active={currentTab === "buns"} onClick={handleTabClick}>
+        <Tab
+          value="buns"
+          active={currentTab === "buns"}
+          onClick={handleTabClick}
+        >
           Булки
         </Tab>
-        <Tab value="sauces" active={currentTab === "sauces"} onClick={handleTabClick}>
+        <Tab
+          value="sauces"
+          active={currentTab === "sauces"}
+          onClick={handleTabClick}
+        >
           Соусы
         </Tab>
-        <Tab value="mains" active={currentTab === "mains"} onClick={handleTabClick}>
+        <Tab
+          value="mains"
+          active={currentTab === "mains"}
+          onClick={handleTabClick}
+        >
           Начинки
         </Tab>
       </div>
@@ -190,17 +208,17 @@ const BurgerIngredients = () => {
 };
 
 BurgerIngredients.propTypes = {
-    state: PropTypes.shape({
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          _id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          type: PropTypes.string.isRequired,
-          price: PropTypes.number.isRequired,
-          image: PropTypes.string.isRequired,
-        })
-      )
-    })
-  };
+  state: PropTypes.shape({
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+      }),
+    ),
+  }),
+};
 
 export { BurgerIngredients };

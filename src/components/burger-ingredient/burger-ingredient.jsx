@@ -1,4 +1,4 @@
-import React,{useRef} from "react";
+import React from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -6,15 +6,11 @@ import {
 import styles from "./burger-ingredient.module.css";
 import PropTypes from "prop-types";
 import { useDrag } from "react-dnd/dist/hooks";
-import { useDispatch } from "react-redux";
-import { addIngredient } from "../../services/constructor/reducer";
 
 const BurgerIngredient = (props) => {
-  const id = props._id;
-  const dispatch = useDispatch();
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: "ingredient",
-    item: props
+    item: props,
   }));
 
   return (
@@ -39,12 +35,12 @@ const BurgerIngredient = (props) => {
   );
 };
 BurgerIngredient.propTypes = {
-    type: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    __v: PropTypes.number,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  };
+  type: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  __v: PropTypes.number,
+  image: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
 export default BurgerIngredient;

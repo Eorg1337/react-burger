@@ -14,11 +14,8 @@ function reducer(state, action) {
   }
 }
 
-export const TotalPrice = ({ filteredBuns, filteredIngr }) => {
-  const AllIngr =
-    filteredBuns && filteredIngr
-      ? filteredIngr.concat(filteredBuns, filteredBuns)
-      : [];
+export const TotalPrice = ({ buns, ingredients }) => {
+  const AllIngr = buns && ingredients ? ingredients.concat(buns, buns) : [];
   const [total, dispatch] = useReducer(reducer, 0);
 
   useEffect(() => {
@@ -36,6 +33,6 @@ export const TotalPrice = ({ filteredBuns, filteredIngr }) => {
 };
 
 TotalPrice.propTypes = {
-  filteredBuns: PropTypes.object.isRequired, 
-  filteredIngr: PropTypes.array.isRequired
+  buns: PropTypes.array.isRequired,
+  ingredients: PropTypes.array.isRequired,
 };
