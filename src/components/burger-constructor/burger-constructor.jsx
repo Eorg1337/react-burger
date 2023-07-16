@@ -45,7 +45,7 @@ const BurgerConstructor = ({index}) => {
     setIsActive(false);
   };
 
-  const filteredBuns = useMemo(() =>ingredients?.find((item) => item.type === "bun"),[ingredients]);
+  const filteredBuns = useMemo(() => ingredients?.find((item) => item.type === "bun"),[ingredients]);
 
 
   const filteredIngr = useMemo(() => ingredients?.filter((item) => item.type !== "bun"),[ingredients]);
@@ -82,17 +82,12 @@ const BurgerConstructor = ({index}) => {
           </div>
           <div className={styles.choice}>
             {filteredIngr && filteredIngr.map((item,index) => (
-      <BurgerConstructorElement
-        key={index}
-        index={index}
-        id={item.id}
-        type={item.type}
-        isLocked={false}
-        text={item.name}
-        price={item.price}
-        thumbnail={item.image}
-        handleClose={()=>handleDeleteIngredient(item.unique_id)}
-      />
+            <BurgerConstructorElement
+              ingredient={item}
+              index={index}
+              key={item.unique_id}
+              unique_id={item.unique_id}
+            />
   ))}
           </div>
           <div className={styles.low_bun}>
