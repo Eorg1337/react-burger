@@ -18,10 +18,8 @@ export const constructorSlice = createSlice({
                 unique_id: uuidv4()
             };
             let constructorIngredients = [];
-            let constructorBuns = []; // creating a new array
-
+            let constructorBuns = []; 
             if (newIngredient.type === "bun") {
-                // add bun to constructorBuns
                 constructorBuns.push(newIngredient);
                 constructorIngredients = state.constructorIngredients.filter(ing => ing.type !== "bun");
             } else {
@@ -40,15 +38,14 @@ export const constructorSlice = createSlice({
             return { constructorIngredients, constructorBuns };
         },
 
-        moveIngredient(state, action) {
-            const { dragIndex, hoverIndex } = action.payload;
-            const ingredients = [...state.constructorIngredients];
-            ingredients.splice(hoverIndex, 0, ingredients.splice(dragIndex, 1)[0]);
+        moveIngredient(state,action) {
+            const {dragIndex, hoverIndex} = action.payload;
+            const dragCard = state.constructorIngredients[dragIndex];
+            const newCards = [...state.constructorIngredients];
+            newCards.splice(dragIndex, 1);
+            newCards.splice(hoverIndex, 0, dragCard);
 
-            return {
-                constructorIngredients: ingredients,
-                constructorBuns: state.constructorBuns // no changes to constructorBuns during move
-            };
+            state.constructorIngredients = newCards;
         }
     },
 })

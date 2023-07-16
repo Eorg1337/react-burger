@@ -54,7 +54,7 @@ const BurgerConstructorElement = ({ingredient,index, unique_id}) => {
   drag(drop(ref));
 
       return (
-        <div className={styles.constructor_item} key={index} data-handler-id={handlerId} ref={ref}>
+        <div className={styles.constructor_item} data-handler-id={handlerId} ref={ref}>
           <DragIcon type="primary" />
           <ConstructorElement
             text={ingredient.name}
