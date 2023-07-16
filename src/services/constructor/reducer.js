@@ -5,6 +5,7 @@ const initialState = {
     error: null,
     isLoading: false,
     constructorIngredients: [],
+    indexes: []
 }
 
 export const constructorSlice = createSlice({
@@ -12,6 +13,7 @@ export const constructorSlice = createSlice({
     initialState,
     reducers: {
         addIngredient(state, action) {
+            const newIndex = state.indexes.length;
             const newIngredient = {
             ...action.payload,
             unique_id: uuidv4()
@@ -23,12 +25,12 @@ export const constructorSlice = createSlice({
                 constructorIngredients = state.constructorIngredients.slice();
             }
             constructorIngredients.push(newIngredient);
-            return { constructorIngredients};
+            return { constructorIngredients, indexes:[...state.indexes,newIndex]};
         },
         deleteIngredient(state, action) {
-            console.log(action.payload)
-            const constructorIngredients = state.constructorIngredients.filter(ing => ing.unique_id!== action.payload);
-            return { constructorIngredients};
+            const newIndexes = state.indexes.filter(index => index !== action.payload);
+            const constructorIngredients = state.constructorIngredients.filter((item, index) => newIndexes.includes(index));
+            return { constructorIngredients, indexes: newIndexes};
         },
 
         moveIngredient(state,action) {
@@ -38,7 +40,7 @@ export const constructorSlice = createSlice({
             ingredientList.splice(dragIndex, 1);
             ingredientList.splice(hoverIndex, 0, dragIngredient);
             return {
-              constructorIngredients: ingredientList,
+              constructorIngredients: ingredientList
             };
         }
     },

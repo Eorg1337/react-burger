@@ -5,24 +5,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
 import PropTypes from "prop-types";
-import { useDrag, useDrop } from "react-dnd/dist/hooks";
+import { useDrag } from "react-dnd/dist/hooks";
 import { useDispatch } from "react-redux";
 import { addIngredient } from "../../services/constructor/reducer";
-import { moveIngredient } from "../../services/constructor/reducer";
 
-const BurgerIngredient = (props,{index}) => {
+const BurgerIngredient = (props) => {
   const id = props._id;
   const dispatch = useDispatch();
-  const [{ isDragging }, dragRef] = useDrag({
+  const [{ isDragging }, dragRef] = useDrag(() => ({
     type: "ingredient",
-    item: {id,index},
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult()
-      if (item && dropResult) {
-        dispatch(addIngredient(props))
-      }
-    }
-  });
+    item: props
+  }));
 
   return (
     <div
