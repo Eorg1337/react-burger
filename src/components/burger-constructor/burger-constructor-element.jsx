@@ -11,7 +11,6 @@ import {
 const BurgerConstructorElement = ({ingredient,index, unique_id}) => {
     const dispatch = useDispatch();
     const ref = useRef(null);
-    console.log("item:",ingredient)
   const [{ handlerId }, drop] = useDrop({
     accept: ["SORT_INGREDIENT"],
     collect(monitor) {
@@ -37,7 +36,8 @@ const BurgerConstructorElement = ({ingredient,index, unique_id}) => {
         return;
       }
 
-      dispatch(moveIngredient(dragIndex,hoverIndex));
+
+      dispatch(moveIngredient({dragIndex,hoverIndex}));
       item.index = hoverIndex;
     },
   });

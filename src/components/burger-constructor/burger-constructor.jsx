@@ -21,9 +21,9 @@ const BurgerConstructor = ({index}) => {
   const [isActive, setIsActive] = React.useState(false);  
   const dispatch = useDispatch();
   const ref = React.useRef(null);
+  
   const ingredients = useSelector(state => state.rootReducer.constr?.constructorIngredients)
   const id = useSelector(state=>state.rootReducer.constr?.id)
-  console.log(ingredients)
   const [{ canDrop, dragItem }, dropRef] = useDrop(() => ({
     accept: "ingredient",
     drop: (item) => dispatch(addIngredient(item)),
@@ -46,7 +46,6 @@ const BurgerConstructor = ({index}) => {
   };
 
   const filteredBuns = useMemo(() => ingredients?.find((item) => item.type === "bun"),[ingredients]);
-
 
   const filteredIngr = useMemo(() => ingredients?.filter((item) => item.type !== "bun"),[ingredients]);
 
