@@ -1,27 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./order-details.module.css";
 import graphics from "../../../images/graphics.svg";
-import { orderUrl, fetchOrder } from "../../../utils/api";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-const OrderDetails = ({ ids }) => {
-  const ingredients = ids;
-  const [state, setState] = React.useState({});
-  useEffect(() => {
-    ids &&
-      fetchOrder(orderUrl, ingredients)
-        .then((data) => {
-          setState(data);
-        })
-        .catch((err) => {
-          console.log("Ошибка получения данных");
-        });
-  }, [ingredients]);
+const OrderDetails = (ids) => {
+  const orderNumber = useSelector(
+    (state) => state.rootReducer.order.order?.number,
+  );
 
   return (
     <div className={styles.container}>
       <header className={`text text_type_digits-large ${styles.header}`}>
-        {state && state.number}
+        {orderNumber}
       </header>
       <p className={`text text_type_main-medium ${styles.id}`}>
         идентификатор заказа
@@ -42,7 +33,7 @@ const OrderDetails = ({ ids }) => {
 };
 
 OrderDetails.propTypes = {
-  ids: PropTypes.arrayOf(PropTypes.string.isRequired)
-}
+  ids: PropTypes.arrayOf(PropTypes.string.isRequired),
+};
 
 export default OrderDetails;

@@ -51,14 +51,14 @@ const IngredientDetails = ({ activeIngredient }) => {
 };
 
 IngredientDetails.propTypes = {
-    activeIngredient: PropTypes.shape({
-      image_large: PropTypes.string,
-      name: PropTypes.string,
-      calories: PropTypes.number,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-    }),
-  };
+  activeIngredient: PropTypes.shape({
+    image_large: PropTypes.string,
+    name: PropTypes.string,
+    calories: PropTypes.number,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+  }),
+};
 
 export default IngredientDetails;

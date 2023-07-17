@@ -6,7 +6,7 @@
     padding-top: 100px;
     margin-right: 220px;
     margin-left: 50px;
-    min-width: 560px ;
+    min-width: 120px ;
 }
 
 .constructor__cont{
@@ -15,7 +15,7 @@
     margin-left: 16px;
     margin-right: 16px;
     margin-bottom: 40px;
-    min-width: 560px ;
+    min-width: 120px ;
     flex-direction: column;
     gap: 10px;
     
@@ -32,7 +32,7 @@
     display: grid;
     align-items: center;
     justify-content: center;
-    min-height: 450px;
+    min-height: 80px;
     max-height: 450px;
     overflow-y: auto;
 }

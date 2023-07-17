@@ -4,35 +4,32 @@ import style from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { fetchData } from "../../utils/api";
-import IngredientDetails from "../details/ingredient-details/ingredient-details";
-import { url } from "../../utils/api";
-import { ConstructorContext, IngredientsContext } from "../../services/consctructor-context";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/ingredients/reducer";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const [state, setState] = React.useState({});
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.ingredients?.isLoading);
+
   useEffect(() => {
-    fetchData(url)
-      .then((data) => {
-        setState(data);
-      })
-      .catch((err) => {
-        console.log("Ошибка получения данных");
-      });
+    dispatch(getIngredients());
   }, []);
 
   return (
     <div className={style.app}>
       <AppHeader />
-      <main className={style.main}>
-        <IngredientsContext.Provider value={state} >
-          <BurgerIngredients/>
-        </IngredientsContext.Provider>
-        <IngredientDetails />
-        <ConstructorContext.Provider value={state}>
-          <BurgerConstructor />
-        </ConstructorContext.Provider>
-      </main>
+      {isLoading ? (
+        <div className={style.loader}>Loading...</div>
+      ) : (
+        <main className={style.main}>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
+        </main>
+      )}
     </div>
   );
 }

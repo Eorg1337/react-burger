@@ -5,16 +5,23 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
 import PropTypes from "prop-types";
+import { useDrag } from "react-dnd/dist/hooks";
 
 const BurgerIngredient = (props) => {
+  const [{ isDragging }, dragRef] = useDrag(() => ({
+    type: "ingredient",
+    item: props,
+  }));
+
   return (
     <div
       type={props.type}
       className={styles.ingredient}
       onClick={props.onClick}
+      ref={dragRef}
     >
-      {props.__v > 0 && (
-        <Counter count={props.__v} size="default" extraClass="m-1" />
+      {props.count > 0 && (
+        <Counter count={props.count} size="default" extraClass="m-1" />
       )}
       <img src={props.image} alt="" className={styles.img}></img>
       <div className={styles.price}>
@@ -28,12 +35,12 @@ const BurgerIngredient = (props) => {
   );
 };
 BurgerIngredient.propTypes = {
-    type: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    __v: PropTypes.number,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  };
+  type: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  __v: PropTypes.number,
+  image: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
 export default BurgerIngredient;

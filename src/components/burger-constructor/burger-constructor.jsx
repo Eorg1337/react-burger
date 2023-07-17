@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext,useMemo} from "react";
+import { useMemo } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -10,66 +10,90 @@ import {
 import PropTypes from "prop-types";
 import MyModal from "../modal/modal";
 import OrderDetails from "../details/order-details/order-details";
-import { ConstructorContext } from "../../services/consctructor-context";
 import { TotalPrice } from "./total-price";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder } from "../../services/order/actions";
+import { useDrop } from "react-dnd";
+import {
+  addIngredient,
+  deleteIngredient,
+} from "../../services/constructor/reducer";
+import BurgerConstructorElement from "./burger-constructor-element";
 
 const BurgerConstructor = () => {
-  const { data } = useContext(ConstructorContext);
   const [isActive, setIsActive] = React.useState(false);
-  const handleBtnClick = () => {
+  const dispatch = useDispatch();
+  const ref = React.useRef(null);
+
+  const ingredients = useSelector(
+    (state) => state.rootReducer.constr?.constructorIngredients,
+  );
+  const buns = useSelector(
+    (state) => state.rootReducer.constr?.constructorBuns,
+  );
+  const id = useSelector((state) => state.rootReducer.constr?.id);
+  const [{ canDrop, dragItem }, dropRef] = useDrop(() => ({
+    accept: "ingredient",
+    drop: (item) => dispatch(addIngredient(item)),
+  }));
+  const handleDeleteIngredient = (unique_id) => {
+    dispatch(deleteIngredient(unique_id));
+  };
+
+  const createOrderHandler = (ids) => {
+    dispatch(createOrder(ids));
+  };
+
+  const handleBtnClick = (ids) => {
     setIsActive(true);
+    createOrderHandler(ids);
   };
 
   const handleCloseModal = () => {
     setIsActive(false);
   };
 
-  const filteredBuns = useMemo(() => data?.find((item) => item.type === "bun"),[data]);
-  const filteredIngr = useMemo(() => data?.filter((item) => item.type !== "bun"),[data]);
-  const ids = useMemo(() => filteredIngr
-    ? Array.from(filteredIngr).map((item) => item._id)
-    : null, [filteredIngr]);
-  console.log(filteredIngr)
+  const AllIngr = buns && ingredients ? ingredients.concat(buns, buns) : [];
+  const ids = useMemo(
+    () => (AllIngr ? Array.from(AllIngr).map((item) => item.id) : null),
+    [AllIngr],
+  );
+
   return (
     <div className={styles.container}>
-      <div className={styles.constructor__cont}>
+      <div className={styles.constructor__cont} ref={dropRef}>
         <div className={styles.top_bun}>
-          {filteredBuns && (
+          {buns && buns[0] && (
             <ConstructorElement
-              _id={filteredBuns._id}
+              id={buns[0].id}
               type="top"
               isLocked={true}
-              text={`${filteredBuns.name} (верх)`}
-              price={filteredBuns.price}
-              thumbnail={filteredBuns.image}
+              text={`${buns[0].name} (верх)`}
+              price={buns[0].price}
+              thumbnail={buns[0].image}
             />
           )}
         </div>
         <div className={styles.choice}>
-          {filteredIngr &&
-            filteredIngr.map((item) => (
-              <div className={styles.constructor_item} key={item._id}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  _id={item._id}
-                  type={item.type}
-                  isLocked={false}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
-              </div>
+          {ingredients &&
+            ingredients.map((item, index) => (
+              <BurgerConstructorElement
+                ingredient={item}
+                index={index}
+                key={item.unique_id}
+                unique_id={item.unique_id}
+              />
             ))}
         </div>
         <div className={styles.low_bun}>
-          {filteredBuns && (
+          {buns && buns[0] && (
             <ConstructorElement
-              _id={filteredBuns._id}
+              id={buns[0].id}
               type="bottom"
               isLocked={true}
-              text={`${filteredBuns.name} (низ)`}
-              price={filteredBuns.price}
-              thumbnail={filteredBuns.image}
+              text={`${buns[0].name} (низ)`}
+              price={buns[0].price}
+              thumbnail={buns[0].image}
             />
           )}
         </div>
@@ -77,11 +101,9 @@ const BurgerConstructor = () => {
       <div className={styles.total}>
         <div className={styles.cost}>
           <p className="text text_type_digits-medium mr-2">
-            {filteredBuns && filteredIngr && 
-            <TotalPrice
-              filteredBuns={filteredBuns}
-              filteredIngr={filteredIngr}
-            />}
+            {buns && ingredients && (
+              <TotalPrice buns={buns} ingredients={ingredients} />
+            )}
           </p>
           <CurrencyIcon type="primary" />
         </div>
@@ -94,7 +116,7 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={handleBtnClick}
+          onClick={() => handleBtnClick(ids)}
         >
           Оформить заказ
         </Button>
@@ -112,7 +134,7 @@ BurgerConstructor.propTypes = {
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
-      })
+      }),
     ),
   }),
 };
