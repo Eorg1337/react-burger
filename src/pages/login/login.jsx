@@ -2,15 +2,22 @@ import React from "react";
 import styles from './login.module.css'
 import { EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { userLogin } from "../../services/user-login/actions";
 
 const Login = () => {
     const [emailValue, setEmailValue] = React.useState('')
     const [passwordValue, setPasswordValue] = React.useState('')
+    const dispatch = useDispatch();
   const onChangeEmail = e => {
     setEmailValue(e.target.value)
   }
   const onChangePassword = e => {
     setPasswordValue(e.target.value)
+  }
+
+  const onUserLogin = () => {
+    dispatch(userLogin(emailValue,passwordValue))
   }
     const inputRef = React.useRef(null)
     return(
@@ -31,7 +38,7 @@ const Login = () => {
                 />
             </div>
             <div className={styles.footer}>
-            <Button htmlType="reset" type="primary" size="medium">
+            <Button htmlType="reset" type="primary" size="medium" onClick={()=>onUserLogin(emailValue,passwordValue)}>
                 Войти
             </Button>
             <div className={styles.footerInfo}>

@@ -1,14 +1,20 @@
 import React from "react";
 import styles from './reset-password.module.css'
 import { PasswordInput, Input,  Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import {useDispatch} from 'react-redux';
+import { resetPass } from "../../services/reset-password/actions";
 
 const ResetPassword = () => {
     const [value, setValue] = React.useState('')
     const [passwordValue, setPasswordValue] = React.useState('')
+    const dispatch = useDispatch();
     const onChangePassword = e => {
         setPasswordValue(e.target.value)
       }
     const inputRef = React.useRef(null)
+    const sendNewPass = () => {
+        dispatch(resetPass(passwordValue, value))
+    }
     return(
         <div className={styles.password}>
             <h2 className={styles.title}>Восстановление пароля</h2>
@@ -33,7 +39,7 @@ const ResetPassword = () => {
                 />
             </div>
             <div className={styles.footer}>
-            <Button htmlType="reset" type="primary" size="medium">
+            <Button htmlType="reset" type="primary" size="medium" onClick = {()=>sendNewPass(value, passwordValue)}>
                 Сохранить
             </Button>
             <div className={styles.footerInfo}>

@@ -2,16 +2,23 @@ import React from "react";
 import styles from './register.module.css'
 import { Input,EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
+import {useDispatch} from 'react-redux'
+import { userRegister } from "../../services/user-register/actions";
 
 const Register = () => {
     const [value, setValue] = React.useState('')
     const [emailValue, setEmailValue] = React.useState('')
     const [passwordValue, setPasswordValue] = React.useState('')
+    const dispatch = useDispatch();
   const onChangeEmail = e => {
     setEmailValue(e.target.value)
   }
   const onChangePassword = e => {
     setPasswordValue(e.target.value)
+  }
+
+  const sendUserInfo = () => {
+    dispatch(userRegister(emailValue,passwordValue,value))
   }
     const inputRef = React.useRef(null)
     return(
@@ -43,7 +50,7 @@ const Register = () => {
                 />
             </div>
             <div className={styles.footer}>
-            <Button htmlType="reset" type="primary" size="medium">
+            <Button htmlType="reset" type="primary" size="medium" onClick={()=>sendUserInfo(emailValue,passwordValue,value)}>
                 Зарегистрироваться
             </Button>
             <p className="text text_type_main-default text_color_inactive">
