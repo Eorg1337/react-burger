@@ -3,7 +3,7 @@ import styles from './register.module.css'
 import { Input,EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import {useDispatch} from 'react-redux'
-import { userRegister } from "../../services/user-register/actions";
+import { userRegister } from "../../services/user/reducer";
 
 const Register = () => {
     const [value, setValue] = React.useState('')

@@ -2,7 +2,7 @@ import React from "react";
 import styles from './reset-password.module.css'
 import { PasswordInput, Input,  Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch} from 'react-redux';
-import { resetPass } from "../../services/reset-password/actions";
+import { resetPass } from "../../services/user/reducer";
 
 const ResetPassword = () => {
     const [value, setValue] = React.useState('')

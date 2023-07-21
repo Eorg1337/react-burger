@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './forgot-password.module.css'
 import { EmailInput,  Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { forgotPass } from "../../services/forgot-password/actions";
+import { forgotPass } from "../../services/user/reducer";
 import {useDispatch} from 'react-redux'
 
 const ForgotPassword = () => {

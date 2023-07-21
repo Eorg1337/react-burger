@@ -3,7 +3,7 @@ import styles from './login.module.css'
 import { EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { userLogin } from "../../services/user-login/actions";
+import { login } from "../../services/user/reducer";
 
 const Login = () => {
     const [emailValue, setEmailValue] = React.useState('')
@@ -17,7 +17,7 @@ const Login = () => {
   }
 
   const onUserLogin = () => {
-    dispatch(userLogin(emailValue,passwordValue))
+    dispatch(login({emailValue,passwordValue}))
   }
     const inputRef = React.useRef(null)
     return(

@@ -127,6 +127,7 @@ export const fetchUserRegister = (email,password,name) => {
 
 
 export const fetchUserLogin = (email,password) => {
+  console.log(email,password)
   return fetch(`${DOMAIN_NAME}/auth/login`, {
     headers: {
       "Content-Type": "application/json",
@@ -142,6 +143,7 @@ export const fetchUserLogin = (email,password) => {
     )
     .then((data) => {
       if (data.success) {
+        console.log("data success", data)
         return data;
       } else {
         console.error("error");

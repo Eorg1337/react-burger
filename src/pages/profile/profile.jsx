@@ -3,6 +3,7 @@ import styles from './profile.module.css'
 import { Input,EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import {useDispatch} from 'react-redux'
+import { logout } from "../../services/user/reducer";
 
 
 const Profile = () => {
@@ -21,20 +22,24 @@ const Profile = () => {
     setPasswordValue(e.target.value)
   }
 
+  const onLogoutUser = () => {
+    dispatch(logout)
+  }
+
   
     const inputRef = React.useRef(null)
     return(
         <div className={styles.profile}>
             <div className={styles.sideMenu}>
-                <p className={`text text_type_main-medium ${styles.buttons}`}>
+                <a className={`text text_type_main-medium ${styles.buttons}`}>
                 Профиль
-                </p>
-                <p className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}>
+                </a>
+                <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}>
                 История заказов
-                </p>
-                <p className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}>
+                </a>
+                <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}>
                 Выход
-                </p>
+                </a>
             </div>
             <div className={styles.inputs}>
                 <EmailInput
