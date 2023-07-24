@@ -1,3 +1,15 @@
+const handleSaveAccessToken = (dataToStore) => {
+  localStorage.setItem("accessToken",dataToStore);
+  setTimeout(() => {
+    localStorage.removeItem("accessToken");
+  }, 20 * 60 * 1000); 
+};
+const handleSaveRefreshToken = (dataToStore) => {
+  localStorage.setItem("refreshToken",dataToStore);
+};
+const storedAccessToken = localStorage.getItem("accessToken");
+const storedRefreshToken = localStorage.getItem("refreshToken");
+
 export const DOMAIN_NAME = "https://norma.nomoreparties.space/api";
 export const url = `${DOMAIN_NAME}/ingredients`;
 export const orderUrl = `${DOMAIN_NAME}/orders`;
@@ -125,9 +137,7 @@ export const fetchUserRegister = (email,password,name) => {
     });
 }
 
-
 export const fetchUserLogin = (email,password) => {
-  console.log(email,password)
   return fetch(`${DOMAIN_NAME}/auth/login`, {
     headers: {
       "Content-Type": "application/json",
@@ -143,7 +153,8 @@ export const fetchUserLogin = (email,password) => {
     )
     .then((data) => {
       if (data.success) {
-        console.log("data success", data)
+        handleSaveAccessToken(data.accessToken)
+        handleSaveRefreshToken(data.refreshToken)
         return data;
       } else {
         console.error("error");
@@ -154,14 +165,14 @@ export const fetchUserLogin = (email,password) => {
     });
 }
 
-export const fetchRefreshToken = (refreshToken) => {
+export const fetchRefreshToken = () => {
   return fetch(`${DOMAIN_NAME}/auth/token`, {
     headers: {
       "Content-Type": "application/json",
     },
     method: "POST",
     body: JSON.stringify({
-      token: refreshToken
+    token: storedRefreshToken
     }),
   })
   .then((res) =>
@@ -169,6 +180,8 @@ export const fetchRefreshToken = (refreshToken) => {
     )
     .then((data) => {
       if (data.success) {
+        handleSaveAccessToken(data.accessToken) 
+        handleSaveRefreshToken(data.refreshToken)
         return data;
       } else {
         console.error("error");
@@ -179,14 +192,14 @@ export const fetchRefreshToken = (refreshToken) => {
     });
 }
 
-export const fetchGetUserInfo = (accessToken) => {
+export const fetchGetUserInfo = () => {
   return fetch(`${DOMAIN_NAME}/auth/user`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: accessToken
+      authorization: storedAccessToken
     },
-    method: "POST"
-  })
+    method: "GET"
+  })  
   .then((res) =>
       res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
     )
@@ -202,18 +215,19 @@ export const fetchGetUserInfo = (accessToken) => {
     });
 }
 
-export const fetchRefreshUserInfo = (accessToken,email,name,password) => {
+export const fetchRefreshUserInfo = (email,name,password) => {
+  console.log(email,name,password)
   return fetch(`${DOMAIN_NAME}/auth/user`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: accessToken
+      authorization: storedAccessToken
     },
     body: JSON.stringify({
       email,
       name,
       password
     }),
-    method: "POST"
+    method: "PATCH"
   })
   .then((res) =>
       res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
@@ -237,7 +251,7 @@ export const fetchUserLogout = (refreshToken) => {
     },
     method: "POST",
     body: JSON.stringify({
-      token: refreshToken
+      token: storedRefreshToken
     }),
   })
   .then((res) =>

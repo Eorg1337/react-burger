@@ -1,14 +1,23 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styles from './login.module.css'
 import { EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { login } from "../../services/user/reducer";
+import { useSelector } from "react-redux";
 
 const Login = () => {
     const [emailValue, setEmailValue] = React.useState('')
     const [passwordValue, setPasswordValue] = React.useState('')
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const successAuth = useSelector((state) => state.rootReducer.user?.success);
+
+    useEffect(() => {
+        if (successAuth) {
+            navigate("/")
+        }
+    }, [successAuth]);
   const onChangeEmail = e => {
     setEmailValue(e.target.value)
   }
@@ -38,9 +47,9 @@ const Login = () => {
                 />
             </div>
             <div className={styles.footer}>
-            <Button htmlType="reset" type="primary" size="medium" onClick={()=>onUserLogin(emailValue,passwordValue)}>
-                Войти
-            </Button>
+                <Button htmlType="reset" type="primary" size="medium" onClick={() => onUserLogin(emailValue, passwordValue)}>
+                    Войти
+                </Button>
             <div className={styles.footerInfo}>
                 <p className="text text_type_main-default text_color_inactive">
                 Вы - новый пользователь? 

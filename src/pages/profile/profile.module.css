@@ -12,6 +12,7 @@
 
 .sideMenu{
   display: flex;
+  margin-bottom: 100px;
   margin-right: 60px;
   flex-direction: column;
   justify-content: space-around;
@@ -30,4 +31,9 @@
 
 .buttons{
     cursor: pointer;
+}
+
+.acceptButns{
+    display: flex;
+        
 }

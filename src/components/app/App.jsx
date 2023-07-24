@@ -13,11 +13,13 @@ import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
 import Profile from "../../pages/profile/profile";
 import MainPage from "../../pages/main/main";
+import { getUserInfo } from "../../services/user/reducer";
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(getUserInfo())
   }, []);
 
   return (
