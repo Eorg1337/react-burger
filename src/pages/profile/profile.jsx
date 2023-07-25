@@ -1,7 +1,7 @@
 import React,{useEffect} from "react";
 import styles from './profile.module.css'
 import { Input,EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {useDispatch} from 'react-redux'
 import { logout } from "../../services/user/reducer";
 import { useSelector } from "react-redux";
@@ -15,7 +15,7 @@ const Profile = () => {
     const [loginValue, setLoginValue] = React.useState(currentLogin)
     const [passwordValue, setPasswordValue] = React.useState('YandexPracticum')
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
   useEffect(()=>{
     setNameValue(currentName);
     setLoginValue(currentLogin);
@@ -34,8 +34,9 @@ const Profile = () => {
     dispatch(refreshUserInfo({nameValue,loginValue,passwordValue}))
   }
 
-  const onLogoutUser = () => {
-    dispatch(logout)
+  const onLogoutUser =  () => {
+    dispatch(logout());
+    navigate("/login");
   }
 
   
@@ -49,7 +50,7 @@ const Profile = () => {
                 <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}>
                 История заказов
                 </a>
-                <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}>
+                <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`} onClick={()=>onLogoutUser()}>
                 Выход
                 </a>
             </div>

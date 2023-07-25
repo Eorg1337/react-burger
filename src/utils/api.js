@@ -14,6 +14,15 @@ export const DOMAIN_NAME = "https://norma.nomoreparties.space/api";
 export const url = `${DOMAIN_NAME}/ingredients`;
 export const orderUrl = `${DOMAIN_NAME}/orders`;
 
+const checkResponse = async (res) => {
+  if (res.ok) {
+    return res.json();
+  } else {
+    const err = await res.json();
+    return Promise.reject(err);
+  }
+};
+
 export const fetchData = () => {
   return fetch(`${DOMAIN_NAME}/ingredients`)
     .then((res) =>
@@ -192,59 +201,72 @@ export const fetchRefreshToken = () => {
     });
 }
 
-export const fetchGetUserInfo = () => {
-  return fetch(`${DOMAIN_NAME}/auth/user`, {
+export const fetchGetUserInfo = async () => {
+  const options = {
     headers: {
       "Content-Type": "application/json",
       authorization: storedAccessToken
     },
     method: "GET"
-  })  
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
-    )
-    .then((data) => {
-      if (data.success) {
-        return data;
-      } else {
-        console.error("error");
-      }
-    })
-    .catch((err) => {
-      console.error("Error", err);
-    });
-}
+  };
 
-export const fetchRefreshUserInfo = (email,name,password) => {
-  console.log(email,name,password)
-  return fetch(`${DOMAIN_NAME}/auth/user`, {
+  try {
+    const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
+    return await checkResponse(res);
+  } catch (err) {
+    if (err.message === "jwt expired") {
+      const refreshData = await fetchRefreshToken();
+      handleSaveAccessToken(refreshData.accessToken);
+      handleSaveRefreshToken(refreshData.refreshToken);
+      options.headers.authorization = refreshData.accessToken;
+      const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
+      console.log("Error:", err);
+      return await checkResponse(res);
+    } else {
+      console.log("Error:", err);
+      return Promise.reject(err);
+    }
+  }
+};
+
+export const fetchRefreshUserInfo = async (email, name, password) => {
+  const options = {
     headers: {
       "Content-Type": "application/json",
-      authorization: storedAccessToken
+      authorization: storedAccessToken,
     },
     body: JSON.stringify({
       email,
       name,
-      password
+      password,
     }),
-    method: "PATCH"
-  })
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
-    )
-    .then((data) => {
-      if (data.success) {
-        return data;
-      } else {
-        console.error("error");
-      }
-    })
-    .catch((err) => {
-      console.error("Error", err);
-    });
-}
+    method: "PATCH",
+  };
+  try {
+    const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
+    if (res.ok) {
+      return await res.json();
+    } else {
+      const err = await res.json();
+      return Promise.reject(err);
+    }
+  } catch (err) {
+    if (err.message === "jwt expired") {
+      const refreshData = await fetchRefreshToken();
+      handleSaveAccessToken(refreshData.accessToken);
+      handleSaveRefreshToken(refreshData.refreshToken);
+      options.headers.authorization = refreshData.accessToken;
+      const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
+      console.log("Error:", err);
+      return await checkResponse(res);
+    } else {
+      console.log("Error:", err);
+      return Promise.reject(err);
+    }
+  }
+};
 
-export const fetchUserLogout = (refreshToken) => {
+export const fetchUserLogout = () => {
   return fetch(`${DOMAIN_NAME}/auth/logout`, {
     headers: {
       "Content-Type": "application/json",
@@ -259,6 +281,8 @@ export const fetchUserLogout = (refreshToken) => {
     )
     .then((data) => {
       if (data.success) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         return data;
       } else {
         console.error("error");

@@ -18,8 +18,6 @@ const initialState = {
     },
     success: "",
     message: "",
-    accessToken: "",
-    refreshToken: "",
     error: null,
     isLoading: false,
 }
@@ -111,7 +109,7 @@ const userSlice = createSlice({
         builder.addCase(logout.pending, ()=>{})
         builder.addCase(logout.fulfilled, (state,action)=>{
             state.success = true;
-            state.message = action.error.message
+            state.user = initialState.user
         })
         builder.addCase(logout.rejected, ()=>{})
         builder.addCase(userRegister.pending, (state)=>{
@@ -158,6 +156,7 @@ const userSlice = createSlice({
             state.user = action.payload.user
         })
         builder.addCase(getUserInfo.rejected, (state,action)=>{
+            state.user = initialState.user
             state.message = action.error.message;
         })
         builder.addCase(refreshUserInfo.pending, (state)=>{
@@ -177,8 +176,6 @@ const userSlice = createSlice({
         builder.addCase(refreshToken.fulfilled, (state,action)=>{
             state.success = true;
             state.isLoading = false;
-            state.accessToken = action.payload.accessToken;
-            state.refreshToken = action.payload.refreshToken;
         })
         builder.addCase(refreshToken.rejected, (state,action)=>{
             state.message = action.error.message;

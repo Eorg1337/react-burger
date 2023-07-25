@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 const AppHeader = () => {
     const location = useLocation();
     const userAuth = useSelector((state)=>state.rootReducer.user?.user.name)
-    console.log(userAuth)
         return(
             <header className={`${styles.header}`}>
                 <ul className = {styles.nav}>
