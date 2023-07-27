@@ -1,9 +1,14 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
-const IngredientDetails = ({ activeIngredient }) => {
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+const IngredientDetails = ({}) => {
   const dig_font = "text text_type_digits-default text_color_inactive";
   const text_font = "text text_type_main-default text_color_inactive";
+  const activeIngredient = useSelector((state)=>state.rootReducer.ingredients?.activeIngredient);
+  console.log(activeIngredient)
+  const {id} = useParams();
   return (
     <>
       {activeIngredient && (

@@ -3,17 +3,21 @@ import styles from './forgot-password.module.css'
 import { EmailInput,  Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { forgotPass } from "../../services/user/reducer";
 import {useDispatch} from 'react-redux'
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-    const [emailValue, setEmailValue] = React.useState('')
+  const [emailValue, setEmailValue] = React.useState('')
   const onChangeEmail = e => {
     setEmailValue(e.target.value)
   }
-
+  const navigate = useNavigate()
   const dispatch = useDispatch();
 
   const sendEmail = () => {
     dispatch(forgotPass(emailValue))
+    if(emailValue){
+        navigate("/reset-password");
+    }
   }
     return(
         <div className={styles.password}>

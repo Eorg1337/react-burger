@@ -39,6 +39,10 @@ const Profile = () => {
     navigate("/login");
   }
 
+  const onChangePage = () => {
+    navigate("/profile/orders")
+  }
+
   
     const inputRef = React.useRef(null)
     return(
@@ -47,7 +51,7 @@ const Profile = () => {
                 <a className={`text text_type_main-medium ${styles.buttons}`}>
                 Профиль
                 </a>
-                <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}>
+                <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`} onClick={()=>onChangePage()}>
                 История заказов
                 </a>
                 <a className={`text text_type_main-medium text_color_inactive ${styles.buttons}`} onClick={()=>onLogoutUser()}>

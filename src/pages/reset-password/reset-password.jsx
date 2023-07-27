@@ -3,6 +3,7 @@ import styles from './reset-password.module.css'
 import { PasswordInput, Input,  Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch} from 'react-redux';
 import { resetPass } from "../../services/user/reducer";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
     const [value, setValue] = React.useState('')
@@ -11,10 +12,14 @@ const ResetPassword = () => {
     const onChangePassword = e => {
         setPasswordValue(e.target.value)
       }
+    const location = useLocation();
+    console.log(location)
+    const navigate = useNavigate();
     const inputRef = React.useRef(null)
     const sendNewPass = () => {
         dispatch(resetPass(passwordValue, value))
     }
+    
     return(
         <div className={styles.password}>
             <h2 className={styles.title}>Восстановление пароля</h2>
@@ -53,6 +58,7 @@ const ResetPassword = () => {
             </div>
         </div>
     )
+
 }
 
 export default ResetPassword
