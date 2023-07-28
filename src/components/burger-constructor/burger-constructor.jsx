@@ -1,5 +1,5 @@
 import React from "react";
-import { useMemo,useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -32,9 +32,9 @@ const BurgerConstructor = () => {
   const buns = useSelector(
     (state) => state.rootReducer.constr?.constructorBuns,
   );
-  
-  const userAuth = useSelector((state)=> state.rootReducer.user?.user.name)
-  
+
+  const userAuth = useSelector((state) => state.rootReducer.user?.user.name);
+
   const id = useSelector((state) => state.rootReducer.constr?.id);
   const [{ canDrop, dragItem }, dropRef] = useDrop(() => ({
     accept: "ingredient",
@@ -43,13 +43,13 @@ const BurgerConstructor = () => {
   const handleDeleteIngredient = (unique_id) => {
     dispatch(deleteIngredient(unique_id));
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const createOrderHandler = (ids) => {
-    if(!userAuth){
-      navigate("/login")
-    } else{
-    dispatch(createOrder(ids));
+    if (!userAuth) {
+      navigate("/login");
+    } else {
+      dispatch(createOrder(ids));
     }
   };
 

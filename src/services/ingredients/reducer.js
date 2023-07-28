@@ -17,22 +17,24 @@ export const getIngredients = createAsyncThunk(
   },
 );
 
-
 export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
     setActiveIngredient(state, action) {
       let activeIngredient = null;
-      console.log(action.payload)
-      const newActiveIngredient = state.ingredients?.find((ingredient) => ingredient._id === action.payload) 
-      || state.buns?.find((ingredient) => ingredient._id === action.payload);
+      console.log(action.payload);
+      const newActiveIngredient =
+        state.ingredients?.find(
+          (ingredient) => ingredient._id === action.payload,
+        ) ||
+        state.buns?.find((ingredient) => ingredient._id === action.payload);
       activeIngredient = newActiveIngredient;
-      return { ...state,activeIngredient };
+      return { ...state, activeIngredient };
     },
     deleteActiveIngredient(state, action) {
-      let activeIngredient = null
-      return { ...state,activeIngredient };
+      let activeIngredient = null;
+      return { ...state, activeIngredient };
     },
   },
   extraReducers: (builder) => {
@@ -61,6 +63,6 @@ export const ingredientsSlice = createSlice({
     });
   },
 });
-export const { setActiveIngredient, deleteActiveIngredient} =
-ingredientsSlice.actions;
+export const { setActiveIngredient, deleteActiveIngredient } =
+  ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

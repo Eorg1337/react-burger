@@ -11,7 +11,10 @@ import {
   deleteSelectedIngr,
 } from "../../services/modal/reducer";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { setActiveIngredient,deleteActiveIngredient } from "../../services/ingredients/reducer";
+import {
+  setActiveIngredient,
+  deleteActiveIngredient,
+} from "../../services/ingredients/reducer";
 
 const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = React.useState("buns");
@@ -104,23 +107,15 @@ const BurgerIngredients = () => {
   }, [currentTab]);
 
   const handleItemClick = (item) => {
-    console.log(item._id)
-    dispatch(setActiveIngredient(item._id))
     setIsVisible(true);
     addModal(item);
   };
 
   const handleCloseModal = () => {
-    dispatch(deleteActiveIngredient())
     setIsVisible(false);
     clearModal();
-    navigate(`${location.pathname}`)
+    navigate(`${location.pathname}`);
   };
-
-
-
-
-  
 
   const filteredBuns = buns?.filter((item) => item.type === "bun");
   const filteredSauces = ingredients?.filter((item) => item.type === "sauce");
@@ -158,34 +153,12 @@ const BurgerIngredients = () => {
         <h2 className="text text_type_main-medium mb-6"> Булки</h2>
         <div className={styles.puns} id="buns">
           {filteredBuns?.map((item) => (
-          <Link 
-            key = {item._id}
-            to = {`/ingredients/${item._id}`}
-            state ={{background: location}}
-            className={styles.link}>
-            <BurgerIngredient
+            <Link
               key={item._id}
-              id={item._id}
-              name={item.name}
-              type={item.type}
-              price={item.price}
-              image={item.image}
-              count={ingredientCounts[item._id]}
-              onClick={() => handleItemClick(item)}
-              onDropHandler={handleDrop}
-            />
-          </Link>
-          ))}
-        </div>
-        <h2 className="text text_type_main-medium mt-20 mb-6">Соусы</h2>
-        <div className={styles.sauses} id="sauces">
-          {filteredSauces?.map((item) => (
-            <Link 
-            key = {item._id}
-            to = {`/ingredients/${item._id}`}
-            state ={{background: location}}
-            className={styles.link}>
-            <React.Fragment key={item._id}>
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+            >
               <BurgerIngredient
                 key={item._id}
                 id={item._id}
@@ -197,18 +170,43 @@ const BurgerIngredients = () => {
                 onClick={() => handleItemClick(item)}
                 onDropHandler={handleDrop}
               />
-            </React.Fragment>
+            </Link>
+          ))}
+        </div>
+        <h2 className="text text_type_main-medium mt-20 mb-6">Соусы</h2>
+        <div className={styles.sauses} id="sauces">
+          {filteredSauces?.map((item) => (
+            <Link
+              key={item._id}
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+            >
+              <React.Fragment key={item._id}>
+                <BurgerIngredient
+                  key={item._id}
+                  id={item._id}
+                  name={item.name}
+                  type={item.type}
+                  price={item.price}
+                  image={item.image}
+                  count={ingredientCounts[item._id]}
+                  onClick={() => handleItemClick(item)}
+                  onDropHandler={handleDrop}
+                />
+              </React.Fragment>
             </Link>
           ))}
         </div>
         <h2 className="text text_type_main-medium mt-20 mb-6">Начинки</h2>
         <div className={styles.filings} id="mains">
           {filteredMain?.map((item) => (
-            <Link 
-            key = {item._id}
-            to = {`/ingredients/${item._id}`}
-            state ={{background: location}}
-            className={styles.link}>
+            <Link
+              key={item._id}
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+            >
               <BurgerIngredient
                 key={item._id}
                 id={item._id}

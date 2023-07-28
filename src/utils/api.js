@@ -1,11 +1,14 @@
 const handleSaveAccessToken = (dataToStore) => {
-  localStorage.setItem("accessToken",dataToStore);
-  setTimeout(() => {
-    localStorage.removeItem("accessToken");
-  }, 20 * 60 * 1000); 
+  localStorage.setItem("accessToken", dataToStore);
+  setTimeout(
+    () => {
+      localStorage.removeItem("accessToken");
+    },
+    20 * 60 * 1000,
+  );
 };
 const handleSaveRefreshToken = (dataToStore) => {
-  localStorage.setItem("refreshToken",dataToStore);
+  localStorage.setItem("refreshToken", dataToStore);
 };
 const storedAccessToken = localStorage.getItem("accessToken");
 const storedRefreshToken = localStorage.getItem("refreshToken");
@@ -26,7 +29,7 @@ const checkResponse = async (res) => {
 export const fetchData = () => {
   return fetch(`${DOMAIN_NAME}/ingredients`)
     .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data?.success) {
@@ -51,7 +54,7 @@ export const fetchOrder = (ingredients) => {
     }),
   })
     .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data.success) {
@@ -75,8 +78,8 @@ export const fetchForgotPass = (email) => {
       email,
     }),
   })
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
+    .then((res) =>
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data.success) {
@@ -88,11 +91,9 @@ export const fetchForgotPass = (email) => {
     .catch((err) => {
       console.error("Error", err);
     });
+};
 
-}
-
-
-export const fetchResetPass = (password,token) => {
+export const fetchResetPass = (password, token) => {
   return fetch(`${DOMAIN_NAME}/password-reset/reset`, {
     headers: {
       "Content-Type": "application/json",
@@ -100,11 +101,11 @@ export const fetchResetPass = (password,token) => {
     method: "POST",
     body: JSON.stringify({
       password,
-      token
+      token,
     }),
   })
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
+    .then((res) =>
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data.success) {
@@ -116,10 +117,9 @@ export const fetchResetPass = (password,token) => {
     .catch((err) => {
       console.error("Error", err);
     });
-}
+};
 
-
-export const fetchUserRegister = (email,password,name) => {
+export const fetchUserRegister = (email, password, name) => {
   return fetch(`${DOMAIN_NAME}/auth/register`, {
     headers: {
       "Content-Type": "application/json",
@@ -128,11 +128,11 @@ export const fetchUserRegister = (email,password,name) => {
     body: JSON.stringify({
       email,
       password,
-      name
+      name,
     }),
   })
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
+    .then((res) =>
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data.success) {
@@ -144,9 +144,9 @@ export const fetchUserRegister = (email,password,name) => {
     .catch((err) => {
       console.error("Error", err);
     });
-}
+};
 
-export const fetchUserLogin = (email,password) => {
+export const fetchUserLogin = (email, password) => {
   return fetch(`${DOMAIN_NAME}/auth/login`, {
     headers: {
       "Content-Type": "application/json",
@@ -154,16 +154,16 @@ export const fetchUserLogin = (email,password) => {
     method: "POST",
     body: JSON.stringify({
       email,
-      password
+      password,
     }),
   })
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
+    .then((res) =>
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data.success) {
-        handleSaveAccessToken(data.accessToken)
-        handleSaveRefreshToken(data.refreshToken)
+        handleSaveAccessToken(data.accessToken);
+        handleSaveRefreshToken(data.refreshToken);
         return data;
       } else {
         console.error("error");
@@ -172,7 +172,7 @@ export const fetchUserLogin = (email,password) => {
     .catch((err) => {
       console.error("Error", err);
     });
-}
+};
 
 export const fetchRefreshToken = () => {
   return fetch(`${DOMAIN_NAME}/auth/token`, {
@@ -181,16 +181,16 @@ export const fetchRefreshToken = () => {
     },
     method: "POST",
     body: JSON.stringify({
-    token: storedRefreshToken
+      token: storedRefreshToken,
     }),
   })
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
+    .then((res) =>
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data.success) {
-        handleSaveAccessToken(data.accessToken) 
-        handleSaveRefreshToken(data.refreshToken)
+        handleSaveAccessToken(data.accessToken);
+        handleSaveRefreshToken(data.refreshToken);
         return data;
       } else {
         console.error("error");
@@ -199,15 +199,15 @@ export const fetchRefreshToken = () => {
     .catch((err) => {
       console.error("Error", err);
     });
-}
+};
 
 export const fetchGetUserInfo = async () => {
   const options = {
     headers: {
       "Content-Type": "application/json",
-      authorization: storedAccessToken
+      authorization: storedAccessToken,
     },
-    method: "GET"
+    method: "GET",
   };
 
   try {
@@ -273,11 +273,11 @@ export const fetchUserLogout = () => {
     },
     method: "POST",
     body: JSON.stringify({
-      token: storedRefreshToken
+      token: storedRefreshToken,
     }),
   })
-  .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)) 
+    .then((res) =>
+      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
     )
     .then((data) => {
       if (data.success) {
@@ -289,8 +289,6 @@ export const fetchUserLogout = () => {
       }
     })
     .catch((err) => {
-      console.error("Error", err);
+      console.log("Error", err);
     });
-}
-
-
+};
