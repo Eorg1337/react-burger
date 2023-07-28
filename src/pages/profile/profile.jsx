@@ -6,11 +6,12 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getUserInfo, logout } from "../../services/user/reducer";
 import { useSelector } from "react-redux";
 import { refreshUserInfo } from "../../services/user/reducer";
+import OrdersHistory from "./orders-history/orders-history";
 
 const Profile = () => {
   const currentName = useSelector((state) => state.rootReducer.user?.user.name);
@@ -22,6 +23,7 @@ const Profile = () => {
   const [passwordValue, setPasswordValue] = React.useState("YandexPracticum");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     setNameValue(currentName);
@@ -54,23 +56,27 @@ const Profile = () => {
     setLoginValue(currentLogin);
   };
 
-  const onChangePage = () => {
-    navigate("/profile/orders");
-  };
 
   const inputRef = React.useRef(null);
   return (
     <div className={styles.profile}>
       <div className={styles.sideMenu}>
-        <a className={`text text_type_main-medium ${styles.buttons}`}>
+        <NavLink 
+        to="/profile"
+        className={`${
+          location.pathname === "/profile" ? styles.activeButtons : styles.buttons
+        } text text_type_main-medium text_color_inactive`}
+        >
           Профиль
-        </a>
-        <a
-          className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}
-          onClick={() => onChangePage()}
+        </NavLink>
+        <NavLink
+          to="/profile/orders"
+          className={`${
+            location.pathname === "/profile/orders" ? styles.activeButtons : styles.buttons
+          } text text_type_main-medium text_color_inactive`}
         >
           История заказов
-        </a>
+        </NavLink>
         <a
           className={`text text_type_main-medium text_color_inactive ${styles.buttons}`}
           onClick={() => onLogoutUser()}
@@ -78,6 +84,8 @@ const Profile = () => {
           Выход
         </a>
       </div>
+      {location.pathname==="/profile" && (
+      <>
       <div className={styles.inputs}>
         <EmailInput
           placeholder={"Имя"}
@@ -129,6 +137,10 @@ const Profile = () => {
       <div className={styles.info}>
         <p>В этом разделе вы можете изменить свои персональные данные</p>
       </div>
+      </>)}
+      {location.pathname==="/profile/orders" && (
+        <OrdersHistory/>
+      )}
     </div>
   );
 };

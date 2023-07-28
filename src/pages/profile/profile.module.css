@@ -31,6 +31,13 @@
 
 .buttons{
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.activeButtons{
+    color: rgb(99, 20, 151);
+    text-decoration: underline;
 }
 
 .acceptButns{

@@ -93,6 +93,14 @@ function App() {
               </ProtectedRouteElement>
             }
           />
+          <Route
+            path="/profile/orders"
+            element={
+              <ProtectedRouteElement>
+                <Profile />
+              </ProtectedRouteElement>
+            }
+          />
           {background && (
             <Route path="/ingredients/:id" element={<IngredientDetails />}/>
       )}
