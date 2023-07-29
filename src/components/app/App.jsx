@@ -29,8 +29,12 @@ function App() {
   let location = useLocation();
   let background = location.state && location.state.background;
   const user = useSelector((state) => state.rootReducer.user?.user.name);
+  const accessToken = localStorage.getItem("accessToken")
   useEffect(() => {
     dispatch(getIngredients());
+    if(accessToken){
+      dispatch(getUserInfo());
+      }
   }, []);
   return (
       <div className={style.app}>

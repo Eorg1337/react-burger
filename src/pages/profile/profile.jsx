@@ -18,7 +18,7 @@ const Profile = () => {
   );
   const [nameValue, setNameValue] = React.useState(currentName);
   const [loginValue, setLoginValue] = React.useState(currentLogin);
-  const [passwordValue, setPasswordValue] = React.useState("YandexPracticum");
+  const [passwordValue, setPasswordValue] = React.useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -113,6 +113,10 @@ const Profile = () => {
           placeholder="Пароль"
           isIcon={true}
         />
+        {(nameValue!==currentName
+        ||loginValue!==currentLogin
+        ||passwordValue)
+        && (
         <div className={styles.acceptButns}>
           <Button
             htmlType="reset"
@@ -130,7 +134,7 @@ const Profile = () => {
           >
             Отменить
           </Button>
-        </div>
+        </div>)}
       </div>
       <div className={styles.info}>
         <p>В этом разделе вы можете изменить свои персональные данные</p>
