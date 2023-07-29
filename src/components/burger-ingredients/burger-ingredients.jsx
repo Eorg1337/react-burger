@@ -107,11 +107,13 @@ const BurgerIngredients = () => {
   }, [currentTab]);
 
   const handleItemClick = (item) => {
+    dispatch(setActiveIngredient(item._id));
     setIsVisible(true);
     addModal(item);
   };
 
   const handleCloseModal = () => {
+    dispatch(deleteActiveIngredient());
     setIsVisible(false);
     clearModal();
     navigate(`${location.pathname}`);

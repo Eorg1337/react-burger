@@ -1,18 +1,20 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 const IngredientDetails = () => {
   const dig_font = "text text_type_digits-default text_color_inactive";
   const text_font = "text text_type_main-default text_color_inactive";
-  let location = useLocation();
-  const currentUrl = location.pathname;
   const { id } = useParams();
+
   const activeIngredient = useSelector((state) => {
-    return state.rootReducer.ingredients.ingredients?.find((item) => item._id === id)||state.rootReducer.ingredients.buns?.find((item) => item._id === id);
+    return id
+      ? state.rootReducer.ingredients.ingredients?.find(
+          (item) => item._id === id,
+        ) || state.rootReducer.ingredients.buns?.find((item) => item._id === id)
+      : state.rootReducer.ingredients.activeIngredient;
   });
-  
 
   return (
     <>

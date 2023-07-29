@@ -1,4 +1,3 @@
-import React from "react";
 import IngredientDetails from "../../components/details/ingredient-details/ingredient-details";
 
 const IngredientsPage = () => {
