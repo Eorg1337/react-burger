@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { resetPass } from "../../services/user/reducer";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 
 const ResetPassword = () => {
   const [value, setValue] = React.useState("");
@@ -16,13 +16,17 @@ const ResetPassword = () => {
   const onChangePassword = (e) => {
     setPasswordValue(e.target.value);
   };
+  const onChangeToken = (e) => {
+    setValue(e.target.value);
+  };
   const location = useLocation();
   
   console.log(location, "reset-password");
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
-  const sendNewPass = () => {
-    dispatch(resetPass(passwordValue, value));
+  const sendNewPass = (e) => {
+    e.preventDefault()
+    dispatch(resetPass({passwordValue, value}));
   };
  
 
@@ -31,6 +35,7 @@ const ResetPassword = () => {
   return (
     <div className={styles.password}>
       <h2 className={styles.title}>Восстановление пароля</h2>
+      <form onSubmit={sendNewPass}>
       <div className={styles.inputs}>
         <PasswordInput
           onChange={onChangePassword}
@@ -41,7 +46,7 @@ const ResetPassword = () => {
         />
         <Input
           placeholder={"Введите код из письма"}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={onChangeToken}
           value={value}
           name={"code"}
           error={false}
@@ -53,22 +58,24 @@ const ResetPassword = () => {
       </div>
       <div className={styles.footer}>
         <Button
-          htmlType="reset"
+          htmlType="submit"
           type="primary"
           size="medium"
-          onClick={() => sendNewPass(value, passwordValue)}
         >
           Сохранить
         </Button>
         <div className={styles.footerInfo}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?
-            <Button htmlType="button" type="secondary" size="medium">
-              Войти
-            </Button>
+            <Link to="/login">
+              <Button htmlType="button" type="secondary" size="medium">
+                Войти
+              </Button>
+            </Link>
           </p>
         </div>
       </div>
+      </form>
     </div>
   );
 };

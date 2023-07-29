@@ -32,7 +32,6 @@ const BurgerConstructor = () => {
   const buns = useSelector(
     (state) => state.rootReducer.constr?.constructorBuns,
   );
-
   const userAuth = useSelector((state) => state.rootReducer.user?.user.name);
 
   const id = useSelector((state) => state.rootReducer.constr?.id);
@@ -48,7 +47,7 @@ const BurgerConstructor = () => {
   const createOrderHandler = (ids) => {
     if (!userAuth) {
       navigate("/login");
-    } else {
+    } else  {
       dispatch(createOrder(ids));
     }
   };
@@ -124,6 +123,7 @@ const BurgerConstructor = () => {
         <Button
           htmlType="button"
           type="primary"
+          disabled={!buns || buns.length === 0} 
           size="large"
           onClick={() => handleBtnClick(ids)}
         >

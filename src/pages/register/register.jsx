@@ -17,13 +17,15 @@ const Register = () => {
     setPasswordValue(e.target.value)
   }
 
-  const sendUserInfo = () => {
-    dispatch(userRegister(emailValue,passwordValue,value))
+  const sendUserInfo = (e) => {
+    e.preventDefault()
+    dispatch(userRegister({emailValue,passwordValue,value}))
   }
     const inputRef = React.useRef(null)
     return(
         <div className={styles.register}>
             <h2 className={styles.title}>Регистрация</h2>
+            <form onSubmit={sendUserInfo}>
             <div className={styles.inputs}>
                 <Input
                     placeholder={'Имя'}
@@ -50,7 +52,7 @@ const Register = () => {
                 />
             </div>
             <div className={styles.footer}>
-            <Button htmlType="reset" type="primary" size="medium" onClick={()=>sendUserInfo(emailValue,passwordValue,value)}>
+            <Button htmlType="submit" type="primary" size="medium">
                 Зарегистрироваться
             </Button>
             <p className="text text_type_main-default text_color_inactive">
@@ -62,6 +64,7 @@ const Register = () => {
             </Link>
             </p>
             </div>
+            </form>
         </div>
     )
 }

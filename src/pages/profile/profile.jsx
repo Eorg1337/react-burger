@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect} from "react";
 import styles from "./profile.module.css";
 import {
   EmailInput,
@@ -54,26 +54,23 @@ const Profile = () => {
     setLoginValue(currentLogin);
   };
 
+
   const inputRef = React.useRef(null);
   return (
     <div className={styles.profile}>
       <div className={styles.sideMenu}>
-        <NavLink
-          to="/profile"
-          className={`${
-            location.pathname === "/profile"
-              ? styles.activeButtons
-              : styles.buttons
-          } text text_type_main-medium text_color_inactive`}
+        <NavLink 
+        to="/profile"
+        className={`${
+          location.pathname === "/profile" ? styles.activeButtons : styles.buttons
+        } text text_type_main-medium text_color_inactive`}
         >
           Профиль
         </NavLink>
         <NavLink
           to="/profile/orders"
           className={`${
-            location.pathname === "/profile/orders"
-              ? styles.activeButtons
-              : styles.buttons
+            location.pathname === "/profile/orders" ? styles.activeButtons : styles.buttons
           } text text_type_main-medium text_color_inactive`}
         >
           История заказов
@@ -85,64 +82,63 @@ const Profile = () => {
           Выход
         </a>
       </div>
-      {location.pathname === "/profile" && (
-        <>
-          <div className={styles.inputs}>
-            <EmailInput
-              placeholder={"Имя"}
-              value={nameValue}
-              onChange={onChangeName}
-              name={"name"}
-              error={false}
-              isIcon={true}
-              errorText={"Ошибка"}
-              size={"default"}
-              extraClass="ml-1"
-            />
-            <EmailInput
-              onChange={onChangeLogin}
-              name={"email"}
-              value={loginValue}
-              placeholder="Логин"
-              isIcon={true}
-              extraClass="mb-2"
-            />
-            <EmailInput
-              onChange={onChangePassword}
-              type="password"
-              value={passwordValue}
-              name={"password"}
-              extraClass="mb-2"
-              placeholder="Пароль"
-              isIcon={true}
-            />
-            <div className={styles.acceptButns}>
-              <Button
-                htmlType="reset"
-                type="primary"
-                size="medium"
-                onClick={() =>
-                  sendNewInfo(nameValue, loginValue, passwordValue)
-                }
-              >
-                Сохранить
-              </Button>
-              <Button
-                htmlType="reset"
-                type="primary"
-                size="medium"
-                onClick={() => deleteChanges()}
-              >
-                Отменить
-              </Button>
-            </div>
-          </div>
-          <div className={styles.info}>
-            <p>В этом разделе вы можете изменить свои персональные данные</p>
-          </div>
-        </>
+      {location.pathname==="/profile" && (
+      <>
+      <div className={styles.inputs}>
+        <EmailInput
+          placeholder={"Имя"}
+          value={nameValue}
+          onChange={onChangeName}
+          name={"name"}
+          error={false}
+          isIcon={true}
+          errorText={"Ошибка"}
+          size={"default"}
+          extraClass="ml-1"
+        />
+        <EmailInput
+          onChange={onChangeLogin}
+          name={"email"}
+          value={loginValue}
+          placeholder="Логин"
+          isIcon={true}
+          extraClass="mb-2"
+        />
+        <EmailInput
+          onChange={onChangePassword}
+          type="password"
+          value={passwordValue}
+          name={"password"}
+          extraClass="mb-2"
+          placeholder="Пароль"
+          isIcon={true}
+        />
+        <div className={styles.acceptButns}>
+          <Button
+            htmlType="reset"
+            type="primary"
+            size="medium"
+            onClick={() => sendNewInfo(nameValue, loginValue, passwordValue)}
+          >
+            Сохранить
+          </Button>
+          <Button
+            htmlType="reset"
+            type="primary"
+            size="medium"
+            onClick={() => deleteChanges()}
+          >
+            Отменить
+          </Button>
+        </div>
+      </div>
+      <div className={styles.info}>
+        <p>В этом разделе вы можете изменить свои персональные данные</p>
+      </div>
+      </>)}
+      {location.pathname==="/profile/orders" && (
+        <OrdersHistory/>
       )}
-      {location.pathname === "/profile/orders" && <OrdersHistory />}
     </div>
   );
 };

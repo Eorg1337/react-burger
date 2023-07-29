@@ -18,9 +18,10 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { from } = location.state || { from: { pathname: "/" } };
-  const sendEmail = () => {
+  const sendEmail = (e) => {
+    e.preventDefault()
     if (regex.test(emailValue)) {
-      dispatch(forgotPass(emailValue));
+      dispatch(forgotPass({emailValue}));
       navigate("/reset-password", { state: { from: "/forgot-password" } })
     }
   };
@@ -28,6 +29,7 @@ const ForgotPassword = () => {
   return (
     <div className={styles.password}>
       <h2 className={styles.title}>Восстановление пароля</h2>
+      <form onSubmit={sendEmail}>
       <div className={styles.inputs}>
         <EmailInput
           onChange={onChangeEmail}
@@ -39,10 +41,9 @@ const ForgotPassword = () => {
       </div>
       <div className={styles.footer}>
         <Button
-          htmlType="reset"
+          htmlType="submit"
           type="primary"
           size="medium"
-          onClick={() => sendEmail(emailValue)}
         >
           Восстановить
         </Button>
@@ -55,6 +56,7 @@ const ForgotPassword = () => {
           </p>
         </div>
       </div>
+      </form>
     </div>
   );
 };

@@ -34,18 +34,23 @@ export const logout = createAsyncThunk("user/logout", async () => {
   return response;
 });
 
-export const userRegister = createAsyncThunk("user/userRegister", async () => {
-  const response = await fetchUserRegister();
+export const userRegister = createAsyncThunk("user/userRegister",
+async ({emailValue,passwordValue,value}) => {
+  const response = await fetchUserRegister(emailValue,passwordValue,value);
   return response;
 });
 
-export const forgotPass = createAsyncThunk("user/forgotPass", async () => {
-  const response = await fetchForgotPass();
+export const forgotPass = createAsyncThunk("user/forgotPass", 
+async ({emailValue}) => {
+  const response = await fetchForgotPass(emailValue);
+  console.log(emailValue)
   return response;
 });
 
-export const resetPass = createAsyncThunk("user/resetPass", async () => {
-  const response = await fetchResetPass();
+export const resetPass = createAsyncThunk("user/resetPass", 
+async ({passwordValue,value}) => {
+  const response = await fetchResetPass(passwordValue,value);
+  console.log(passwordValue,value)
   return response;
 });
 

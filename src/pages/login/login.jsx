@@ -5,7 +5,7 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Form, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../services/user/reducer";
 import { useSelector } from "react-redux";
@@ -30,13 +30,15 @@ const Login = () => {
     setPasswordValue(e.target.value);
   };
 
-  const onUserLogin = () => {
+  const onUserLogin = (e) => {
+    e.preventDefault()
     dispatch(login({ emailValue, passwordValue }));
   };
   const inputRef = React.useRef(null);
   return (
     <div className={styles.login}>
       <h2 className={styles.title}>Вход</h2>
+      <form onSubmit={onUserLogin}>
       <div className={styles.inputs}>
         <EmailInput
           onChange={onChangeEmail}
@@ -50,13 +52,12 @@ const Login = () => {
           name={"password"}
           extraClass="mb-2"
         />
-      </div>
-      <div className={styles.footer}>
+        </div>
+        <div className={styles.footer}>
         <Button
-          htmlType="reset"
-          type="primary"
+          htmlType="submit"
           size="medium"
-          onClick={() => onUserLogin(emailValue, passwordValue)}
+          type= "primary"
         >
           Войти
         </Button>
@@ -76,9 +77,11 @@ const Login = () => {
                 Восстановить пароль
               </Button>
             </Link>
+            
           </p>
         </div>
       </div>
+      </form>
     </div>
   );
 };

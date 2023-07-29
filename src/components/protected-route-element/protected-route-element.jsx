@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { AuthContext } from "../app/App";
 
 const ProtectedRouteElement = ({ children, onlyUnAuth = false }) => {
-  const { user } = useContext(AuthContext);
+  const  user  = useSelector((state)=>state.rootReducer.user?.user.name)
   const [isLoading, setIsLoading] = React.useState(true);
   const isAuthChecked = true;
   const location = useLocation();

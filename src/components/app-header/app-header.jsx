@@ -42,7 +42,9 @@ const AppHeader = () => {
           </div>
         </li>
         <li className={styles.logo}>
+        <NavLink to="/">
           <Logo />
+        </NavLink>
         </li>
         <li className={`${styles.nav__item} mt-4 mb-4 pl-5 pr-5 ml-5`}>
           <div className={styles.div}>

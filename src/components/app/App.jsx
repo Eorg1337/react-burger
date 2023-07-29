@@ -29,16 +29,10 @@ function App() {
   let location = useLocation();
   let background = location.state && location.state.background;
   const user = useSelector((state) => state.rootReducer.user?.user.name);
-  const navigate = useNavigate();
-  const accessToken = localStorage.getItem("accessToken"); 
   useEffect(() => {
     dispatch(getIngredients());
-    if(accessToken){
-    dispatch(getUserInfo());
-    }
-  }, [accessToken]);
+  }, []);
   return (
-    <AuthContext.Provider value={{ user }}>
       <div className={style.app}>
         <AppHeader />
         <Routes location={background || location}>
@@ -103,7 +97,6 @@ function App() {
           )}
         </Routes>
       </div>
-    </AuthContext.Provider>
   );
 }
 
