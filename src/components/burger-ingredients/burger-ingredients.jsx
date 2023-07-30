@@ -10,18 +10,22 @@ import {
   addSelectedIngr,
   deleteSelectedIngr,
 } from "../../services/modal/reducer";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import {
+  setActiveIngredient,
+  deleteActiveIngredient,
+} from "../../services/ingredients/reducer";
 
 const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = React.useState("buns");
-  const [activeIngredient, setActiveIngredient] = React.useState(null);
   const [isVisible, setIsVisible] = React.useState(false);
   const [ingredientCounts, setIngredientCounts] = React.useState({});
   const [elements, setElements] = React.useState([]);
   const [draggedElements, setDraggedElements] = React.useState([]);
   const containerRef = useRef(null);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  let location = useLocation();
   const ingredients = useSelector(
     (state) => state.rootReducer.ingredients?.ingredients,
   );
@@ -103,15 +107,16 @@ const BurgerIngredients = () => {
   }, [currentTab]);
 
   const handleItemClick = (item) => {
-    setActiveIngredient(item);
+    dispatch(setActiveIngredient(item._id));
     setIsVisible(true);
     addModal(item);
   };
 
   const handleCloseModal = () => {
-    setActiveIngredient(null);
+    dispatch(deleteActiveIngredient());
     setIsVisible(false);
     clearModal();
+    navigate(`${location.pathname}`);
   };
 
   const filteredBuns = buns?.filter((item) => item.type === "bun");
@@ -150,23 +155,12 @@ const BurgerIngredients = () => {
         <h2 className="text text_type_main-medium mb-6"> Булки</h2>
         <div className={styles.puns} id="buns">
           {filteredBuns?.map((item) => (
-            <BurgerIngredient
+            <Link
               key={item._id}
-              id={item._id}
-              name={item.name}
-              type={item.type}
-              price={item.price}
-              image={item.image}
-              count={ingredientCounts[item._id]}
-              onClick={() => handleItemClick(item)}
-              onDropHandler={handleDrop}
-            />
-          ))}
-        </div>
-        <h2 className="text text_type_main-medium mt-20 mb-6">Соусы</h2>
-        <div className={styles.sauses} id="sauces">
-          {filteredSauces?.map((item) => (
-            <React.Fragment key={item._id}>
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+            >
               <BurgerIngredient
                 key={item._id}
                 id={item._id}
@@ -178,27 +172,59 @@ const BurgerIngredients = () => {
                 onClick={() => handleItemClick(item)}
                 onDropHandler={handleDrop}
               />
-            </React.Fragment>
+            </Link>
+          ))}
+        </div>
+        <h2 className="text text_type_main-medium mt-20 mb-6">Соусы</h2>
+        <div className={styles.sauses} id="sauces">
+          {filteredSauces?.map((item) => (
+            <Link
+              key={item._id}
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+            >
+              <React.Fragment key={item._id}>
+                <BurgerIngredient
+                  key={item._id}
+                  id={item._id}
+                  name={item.name}
+                  type={item.type}
+                  price={item.price}
+                  image={item.image}
+                  count={ingredientCounts[item._id]}
+                  onClick={() => handleItemClick(item)}
+                  onDropHandler={handleDrop}
+                />
+              </React.Fragment>
+            </Link>
           ))}
         </div>
         <h2 className="text text_type_main-medium mt-20 mb-6">Начинки</h2>
         <div className={styles.filings} id="mains">
           {filteredMain?.map((item) => (
-            <BurgerIngredient
+            <Link
               key={item._id}
-              id={item._id}
-              name={item.name}
-              type={item.type}
-              price={item.price}
-              image={item.image}
-              count={ingredientCounts[item._id]}
-              onClick={() => handleItemClick(item)}
-              onDropHandler={handleDrop}
-            />
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+            >
+              <BurgerIngredient
+                key={item._id}
+                id={item._id}
+                name={item.name}
+                type={item.type}
+                price={item.price}
+                image={item.image}
+                count={ingredientCounts[item._id]}
+                onClick={() => handleItemClick(item)}
+                onDropHandler={handleDrop}
+              />
+            </Link>
           ))}
           {isVisible && (
             <Modal onClose={handleCloseModal}>
-              <IngredientDetails activeIngredient={activeIngredient} />
+              <IngredientDetails />
             </Modal>
           )}
         </div>

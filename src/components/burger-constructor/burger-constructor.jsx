@@ -1,5 +1,5 @@
 import React from "react";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -19,6 +19,7 @@ import {
   deleteIngredient,
 } from "../../services/constructor/reducer";
 import BurgerConstructorElement from "./burger-constructor-element";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
   const [isActive, setIsActive] = React.useState(false);
@@ -31,6 +32,8 @@ const BurgerConstructor = () => {
   const buns = useSelector(
     (state) => state.rootReducer.constr?.constructorBuns,
   );
+  const userAuth = useSelector((state) => state.rootReducer.user?.user.name);
+
   const id = useSelector((state) => state.rootReducer.constr?.id);
   const [{ canDrop, dragItem }, dropRef] = useDrop(() => ({
     accept: "ingredient",
@@ -39,9 +42,14 @@ const BurgerConstructor = () => {
   const handleDeleteIngredient = (unique_id) => {
     dispatch(deleteIngredient(unique_id));
   };
+  const navigate = useNavigate();
 
   const createOrderHandler = (ids) => {
-    dispatch(createOrder(ids));
+    if (!userAuth) {
+      navigate("/login");
+    } else  {
+      dispatch(createOrder(ids));
+    }
   };
 
   const handleBtnClick = (ids) => {
@@ -115,6 +123,7 @@ const BurgerConstructor = () => {
         <Button
           htmlType="button"
           type="primary"
+          disabled={!buns || buns.length === 0} 
           size="large"
           onClick={() => handleBtnClick(ids)}
         >

@@ -21,9 +21,20 @@
     .div{
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: inherit;
     }
     
     .logo{
     display: flex;
     margin-right: 200px;
+    }
+
+    .link {
+        text-decoration: none;
+    }
+
+    .activeLink{
+        color: rgb(99, 20, 151);
+        text-decoration: underline;
     }

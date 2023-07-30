@@ -1,9 +1,21 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
-const IngredientDetails = ({ activeIngredient }) => {
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+const IngredientDetails = () => {
   const dig_font = "text text_type_digits-default text_color_inactive";
   const text_font = "text text_type_main-default text_color_inactive";
+  const { id } = useParams();
+
+  const activeIngredient = useSelector((state) => {
+    return id
+      ? state.rootReducer.ingredients.ingredients?.find(
+          (item) => item._id === id,
+        ) || state.rootReducer.ingredients.buns?.find((item) => item._id === id)
+      : state.rootReducer.ingredients.activeIngredient;
+  });
+
   return (
     <>
       {activeIngredient && (

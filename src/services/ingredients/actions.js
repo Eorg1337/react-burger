@@ -1,16 +1,14 @@
-import { fetchData } from "../utils/api";
+export const SET_ACTIVE_INGREDIENT = "ADD_INGREDIENT";
+export const DELETE_ACTIVE_INGREDIENT = "DELETE_INGREDIENT";
 
-export const GET_INGREDIENT_REQUEST = "GET_INGREDIENT_REQUEST";
-export const GET_INGREDIENT_SUCCESS = "GET_INGREDIENT_SUCCESS";
-export const GET_INGREDIENT_FALSE = "GET_INGREDIENT_FALSE";
 
-export const addIngredients = () => (dispatch) => {
-  dispatch({ type: GET_INGREDIENT_REQUEST });
-  return fetchData()
-    .then((res) => {
-      return dispatch({ type: GET_INGREDIENT_SUCCESS, payload: res });
-    })
-    .catch((error) => {
-      return dispatch({ type: GET_INGREDIENT_FALSE });
-    });
+export const setActiveIngredient = (id) => {
+  return {
+    type: SET_ACTIVE_INGREDIENT,
+    payload: { id },
+  };
 };
+
+export const deleteActiveIngredient = () => ({
+  type: DELETE_ACTIVE_INGREDIENT
+});

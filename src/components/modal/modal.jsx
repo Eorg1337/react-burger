@@ -4,12 +4,12 @@ import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "./modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
-
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = ({ onClose, children }) => {
   const modalRef = useRef(null);
-
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.keyCode === 27 && onClose) {
