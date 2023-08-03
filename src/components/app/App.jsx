@@ -18,11 +18,11 @@ import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
 import Profile from "../../pages/profile/profile";
 import MainPage from "../../pages/main/main";
+import NotFoundPage from "../../pages/not-found/not-found";
 import { getUserInfo } from "../../services/user/reducer";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import IngredientsPage from "../../pages/ingredients/ingredients";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
-export const AuthContext = createContext({ user: null });
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +68,7 @@ function App() {
               </ProtectedRouteElement>
             }
           />
+          <Route path="*" element={<NotFoundPage/>}/>
           <Route
             path="/reset-password"
             element={
