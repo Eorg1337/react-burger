@@ -67,10 +67,13 @@ const BurgerConstructor = () => {
     [AllIngr],
   );
 
+  console.log(buns,ingredients)
   return (
     <div className={styles.container}>
       <div className={styles.constructor__cont} ref={dropRef}>
         <div className={styles.top_bun}>
+        {buns.length===0 &&
+        (<div className={styles.top_noitem}>Добавьте булку!</div>)}
           {buns && buns[0] && (
             <ConstructorElement
               id={buns[0].id}
@@ -92,8 +95,12 @@ const BurgerConstructor = () => {
                 unique_id={item.unique_id}
               />
             ))}
+            {ingredients.length===0 &&
+        (<div className={styles.center_noitem}>Добавьте ингредиенты!</div>)}
         </div>
         <div className={styles.low_bun}>
+        {buns.length===0 &&
+        (<div className={styles.bot_noitem}>Добавьте булку!</div>)}
           {buns && buns[0] && (
             <ConstructorElement
               id={buns[0].id}
