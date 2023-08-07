@@ -67,7 +67,6 @@ const BurgerConstructor = () => {
     [AllIngr],
   );
 
-  console.log(buns,ingredients)
   return (
     <div className={styles.container}>
       <div className={styles.constructor__cont} ref={dropRef}>

@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { forgotPass } from "../../services/user/reducer";
 import { useDispatch } from "react-redux";
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { useNavigate, Navigate, useLocation, Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [emailValue, setEmailValue] = React.useState("");
@@ -50,9 +50,11 @@ const ForgotPassword = () => {
         <div className={styles.footerInfo}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?
+          <Link to="/login">
             <Button htmlType="button" type="secondary" size="medium">
               Войти
             </Button>
+          </Link>
           </p>
         </div>
       </div>
