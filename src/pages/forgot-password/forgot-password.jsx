@@ -11,7 +11,7 @@ import { useNavigate, Navigate, useLocation, Link } from "react-router-dom";
 const ForgotPassword = () => {
   const [emailValue, setEmailValue] = React.useState("");
   const onChangeEmail = (e) => {
-    setEmailValue(e.target.value);
+    setEmailValue(e.target.value); 
   };
   const location = useLocation();
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
