@@ -1,16 +1,20 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, FC } from "react";
 import styles from "./modal-overlay.module.css";
-import PropTypes from "prop-types";
 
-const ModalOverlay = ({ children, onClose, modalRef }) => {
-  const overlayRef = useRef();
+type ModalOverlayProps = {
+  onClose: () => void;
+  modalRef: React.RefObject<any>;
+}
+
+const ModalOverlay: FC<ModalOverlayProps> = ({ onClose, modalRef }) => {
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
+    const handleOutsideClick = (event: MouseEvent) => {
       if (
         overlayRef.current &&
-        overlayRef.current.contains(event.target) &&
-        !modalRef.current.contains(event.target)
+        overlayRef.current.contains(event.target as Node) &&
+        !modalRef.current.contains(event.target as Node)
       ) {
         onClose();
       }
@@ -27,11 +31,6 @@ const ModalOverlay = ({ children, onClose, modalRef }) => {
   return (
     <div className={styles.modalOverlay} ref={overlayRef}/>
   );
-};
-
-ModalOverlay.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  modalRef: PropTypes.object.isRequired,
 };
 
 export default ModalOverlay;

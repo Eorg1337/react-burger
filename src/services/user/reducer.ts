@@ -10,12 +10,49 @@ import {
   fetchUserRegister,
 } from "../../utils/api";
 
-const initialState = {
+interface UserState {
+  user: {
+    email: string;
+    name: string;
+  };
+  success: boolean;
+  message: string | undefined;
+  error: null | string;
+  isLoading: boolean;
+};
+
+interface LoginPayload {
+  emailValue: string;
+  passwordValue: string;
+}
+
+interface UserRegisterPayload {
+  emailValue: string;
+  passwordValue: string;
+  value: string;
+}
+
+interface ForgotPassPayload {
+  emailValue: string;
+}
+
+interface ResetPassPayload {
+  passwordValue: string;
+  value: string;
+}
+
+interface RefreshUserInfoPayload {
+  loginValue: string;
+  nameValue: string;
+  passwordValue: string;
+}
+
+const initialState: UserState = {
   user: {
     email: "",
     name: "",
   },
-  success: "",
+  success: false,
   message: "",
   error: null,
   isLoading: false,
@@ -23,7 +60,7 @@ const initialState = {
 
 export const login = createAsyncThunk(
   "user/login",
-  async ({ emailValue, passwordValue }) => {
+  async ({ emailValue, passwordValue }: LoginPayload) => {
     const response = await fetchUserLogin(emailValue, passwordValue);
     return response;
   },
@@ -35,20 +72,19 @@ export const logout = createAsyncThunk("user/logout", async () => {
 });
 
 export const userRegister = createAsyncThunk("user/userRegister",
-async ({emailValue,passwordValue,value}) => {
+async ({emailValue,passwordValue,value}: UserRegisterPayload) => {
   const response = await fetchUserRegister(emailValue,passwordValue,value);
   return response;
 });
 
 export const forgotPass = createAsyncThunk("user/forgotPass", 
-async ({emailValue}) => {
+async ({emailValue}: ForgotPassPayload) => {
   const response = await fetchForgotPass(emailValue);
-  console.log(emailValue)
   return response;
 });
 
 export const resetPass = createAsyncThunk("user/resetPass", 
-async ({passwordValue,value}) => {
+async ({passwordValue,value}: ResetPassPayload) => {
   const response = await fetchResetPass(passwordValue,value);
   console.log(passwordValue,value)
   return response;
@@ -61,7 +97,7 @@ export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
 
 export const refreshUserInfo = createAsyncThunk(
   "user/refreshUserInfo",
-  async ({ loginValue, nameValue, passwordValue }) => {
+  async ({ loginValue, nameValue, passwordValue }: RefreshUserInfoPayload) => {
     const response = await fetchRefreshUserInfo(
       loginValue,
       nameValue,

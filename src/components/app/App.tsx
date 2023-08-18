@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, createContext } from "react";
+import { useEffect, FC } from "react";
 import style from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import {
@@ -7,7 +7,6 @@ import {
   Routes,
   BrowserRouter as Router,
   useLocation,
-  useNavigate,
   Navigate,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,15 +23,18 @@ import ProtectedRouteElement from "../protected-route-element/protected-route-el
 import IngredientsPage from "../../pages/ingredients/ingredients";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 
-function App() {
+const App: FC = () => {
   const dispatch = useDispatch();
   let location = useLocation();
-  let background = location.state && location.state.background;
-  const user = useSelector((state) => state.rootReducer.user?.user.name);
+  const locationState = location.state as {background?: Location};
+  let background = locationState && locationState.background;
+  const user = useSelector((state: any) => state.rootReducer.user?.user.name);
   const accessToken = localStorage.getItem("accessToken")
   useEffect(() => {
+    // @ts-ignore
     dispatch(getIngredients());
     if(accessToken){
+      // @ts-ignore
       dispatch(getUserInfo());
       }
   }, []);
@@ -40,7 +42,7 @@ function App() {
       <div className={style.app}>
         <AppHeader />
         <Routes location={background || location}>
-          <Route exact path="/" element={<MainPage />} />
+          <Route path="/" element={<MainPage />} />
           <Route path="/ingredients/:id" element={<IngredientsPage />} />
           <Route
             path="/login"
@@ -51,7 +53,6 @@ function App() {
             }
           />
           <Route
-            exact
             path="/register"
             element={
               <ProtectedRouteElement onlyUnAuth>
@@ -60,7 +61,6 @@ function App() {
             }
           />
           <Route
-            exact
             path="/forgot-password"
             element={
               <ProtectedRouteElement onlyUnAuth>

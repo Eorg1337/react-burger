@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC, ChangeEvent, FormEvent } from "react";
 import styles from "./login.module.css";
 import {
   EmailInput,
@@ -10,12 +10,12 @@ import { useDispatch } from "react-redux";
 import { login } from "../../services/user/reducer";
 import { useSelector } from "react-redux";
 
-const Login = () => {
+const Login: FC = () => {
   const [emailValue, setEmailValue] = React.useState("");
   const [passwordValue, setPasswordValue] = React.useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
-  const successAuth = useSelector((state) => state.rootReducer.user.user.name);
+  const successAuth = useSelector((state: any) => state.rootReducer.user.user.name);
 
   useEffect(() => {
     if (successAuth) {
@@ -23,16 +23,16 @@ const Login = () => {
     }
   }, [successAuth]);
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e:ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value);
   };
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordValue(e.target.value);
   };
 
-  const onUserLogin = (e) => {
+  const onUserLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(login({ emailValue, passwordValue }));
+    dispatch(login({emailValue,passwordValue}));
   };
   const inputRef = React.useRef(null);
   return (

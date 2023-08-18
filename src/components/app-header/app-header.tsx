@@ -1,4 +1,4 @@
-import React from "react";
+import React,{FC} from "react";
 import {
   BurgerIcon,
   ListIcon,
@@ -9,9 +9,9 @@ import styles from "./app-header.module.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
   const location = useLocation();
-  const userAuth = useSelector((state) => state.rootReducer.user?.user.name);
+  const userAuth = useSelector((state: any) => state.rootReducer?.user?.user.name);
   return (
     <header className={styles.header}>
       <ul className={styles.nav}>

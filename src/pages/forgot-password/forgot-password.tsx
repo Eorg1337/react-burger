@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ChangeEvent,FormEvent,FC} from "react";
 import styles from "./forgot-password.module.css";
 import {
   EmailInput,
@@ -8,17 +8,18 @@ import { forgotPass } from "../../services/user/reducer";
 import { useDispatch } from "react-redux";
 import { useNavigate, Navigate, useLocation, Link } from "react-router-dom";
 
-const ForgotPassword = () => {
-  const [emailValue, setEmailValue] = React.useState("");
-  const onChangeEmail = (e) => {
-    setEmailValue(e.target.value); 
+
+const ForgotPassword: FC = () => {
+  const [emailValue, setEmailValue] = React.useState<string>("");
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmailValue(e.target?.value); 
   };
   const location = useLocation();
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const { from } = location.state || { from: { pathname: "/" } };
-  const sendEmail = (e) => {
+  const sendEmail = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (regex.test(emailValue)) {
       dispatch(forgotPass({emailValue}));
