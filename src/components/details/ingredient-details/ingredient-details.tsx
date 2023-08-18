@@ -1,6 +1,5 @@
 import React,{FC} from "react";
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TIngredient } from "../../../utils/types";

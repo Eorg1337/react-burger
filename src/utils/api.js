@@ -28,9 +28,7 @@ const checkResponse = async (res) => {
 
 export const fetchData = () => {
   return fetch(`${DOMAIN_NAME}/ingredients`)
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data?.success) {
         return data;
@@ -53,9 +51,7 @@ export const fetchOrder = (ingredients) => {
       ingredients,
     }),
   })
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data.success) {
         return data;
@@ -78,9 +74,7 @@ export const fetchForgotPass = (email) => {
       email,
     }),
   })
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data.success) {
         return data.message;
@@ -105,9 +99,7 @@ export const fetchResetPass = (password, token) => {
       token,
     }),
   })
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data.success) {
         return data.message;
@@ -132,9 +124,7 @@ export const fetchUserRegister = (email, password, name) => {
       name,
     }),
   })
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data.success) {
         return data;
@@ -158,9 +148,7 @@ export const fetchUserLogin = (email, password) => {
       password,
     }),
   })
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data.success) {
         handleSaveAccessToken(data.accessToken);
@@ -185,9 +173,7 @@ export const fetchRefreshToken = () => {
       token: storedRefreshToken,
     }),
   })
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data.success) {
         handleSaveAccessToken(data.accessToken);
@@ -277,9 +263,7 @@ export const fetchUserLogout = () => {
       token: storedRefreshToken,
     }),
   })
-    .then((res) =>
-      res.ok ? res.json() : res.json().then((err) => Promise.reject(err)),
-    )
+    .then(checkResponse)
     .then((data) => {
       if (data.success) {
         localStorage.removeItem("accessToken");

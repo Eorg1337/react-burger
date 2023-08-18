@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, FC } from "react";
 import style from "./app.module.css";
 import AppHeader from "../app-header/app-header";
@@ -24,17 +23,15 @@ import IngredientsPage from "../../pages/ingredients/ingredients";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 
 const App: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   let location = useLocation();
   const locationState = location.state as {background?: Location};
   let background = locationState && locationState.background;
   const user = useSelector((state: any) => state.rootReducer.user?.user.name);
   const accessToken = localStorage.getItem("accessToken")
   useEffect(() => {
-    // @ts-ignore
     dispatch(getIngredients());
     if(accessToken){
-      // @ts-ignore
       dispatch(getUserInfo());
       }
   }, []);

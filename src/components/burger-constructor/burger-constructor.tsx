@@ -1,9 +1,8 @@
 import React from "react";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
-  DragIcon,
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -22,16 +21,18 @@ import { useNavigate } from "react-router-dom";
 import { TIngredient } from "../../utils/types";
 
 const BurgerConstructor = () => {
-  const [isActive, setIsActive] = React.useState(false);
+  const [isActive, setIsActive] = React.useState<boolean>(false);
   const dispatch: any = useDispatch();
 
   const ingredients = useSelector(
-    (state: any) => state.rootReducer.constr?.constructorIngredients,
+    (state: any) => state.rootReducer.constr?.constructorIngredients
   );
   const buns = useSelector(
-    (state: any) => state.rootReducer.constr?.constructorBuns,
+    (state: any) => state.rootReducer.constr?.constructorBuns
   );
-  const userAuth = useSelector((state: any) => state.rootReducer.user?.user.name);
+  const userAuth = useSelector(
+    (state: any) => state.rootReducer.user?.user.name
+  );
 
   const id = useSelector((state: any) => state.rootReducer.constr?.id);
   const [, dropRef] = useDrop(() => ({
@@ -43,15 +44,15 @@ const BurgerConstructor = () => {
   };
   const navigate = useNavigate();
 
-  const createOrderHandler = (ids: Array<string>|null ) => {
+  const createOrderHandler = (ids: Array<string> | null) => {
     if (!userAuth) {
       navigate("/login");
-    } else  {
+    } else {
       dispatch(createOrder(ids));
     }
   };
 
-  const handleBtnClick = (ids: Array<string>| null) => {
+  const handleBtnClick = (ids: Array<string> | null) => {
     setIsActive(true);
     createOrderHandler(ids);
   };
@@ -60,16 +61,21 @@ const BurgerConstructor = () => {
     setIsActive(false);
   };
 
-  const AllIngr: Array<TIngredient> = buns && ingredients ? ingredients.concat(buns, buns) : [];
+  const AllIngr: Array<TIngredient> =
+    buns && ingredients ? ingredients.concat(buns, buns) : [];
   const ids: Array<string> | null = useMemo(
-    () => (AllIngr ? Array.from(AllIngr).map((item:TIngredient) => item._id) : null),
-    [AllIngr],
+    () =>
+      AllIngr ? Array.from(AllIngr).map((item: TIngredient) => item._id) : null,
+    [AllIngr]
   );
 
   return (
     <div className={styles.container}>
       <div className={styles.constructor__cont} ref={dropRef}>
         <div className={styles.top_bun}>
+          {!buns.length && (
+            <div className={styles.top_noitem}>Перетащите булку!</div>
+          )}
           {buns && buns[0] && (
             <ConstructorElement
               type="top"
@@ -81,18 +87,26 @@ const BurgerConstructor = () => {
           )}
         </div>
         <div className={styles.choice}>
+          {!ingredients.length && (
+            <div className={styles.center_noitem}>Перетащите начинку!</div>
+          )}
           {ingredients &&
-            ingredients.map((item: TIngredient, index: number) => item.unique_id ? ( 
-              <BurgerConstructorElement
-                ingredient={item}
-                index={index}
-                key={item.unique_id}
-                unique_id={item.unique_id}
-                deleteIngredient={handleDeleteIngredient}
-              />
-            ): null )}
+            ingredients.map((item: TIngredient, index: number) =>
+              item.unique_id ? (
+                <BurgerConstructorElement
+                  ingredient={item}
+                  index={index}
+                  key={item.unique_id}
+                  unique_id={item.unique_id}
+                  deleteIngredient={handleDeleteIngredient}
+                />
+              ) : null
+            )}
         </div>
         <div className={styles.low_bun}>
+          {!buns.length && (
+            <div className={styles.bot_noitem}>Перетащите булку!</div>
+          )}
           {buns && buns[0] && (
             <ConstructorElement
               type="bottom"
@@ -121,7 +135,7 @@ const BurgerConstructor = () => {
         <Button
           htmlType="button"
           type="primary"
-          disabled={!buns || buns.length === 0} 
+          disabled={!buns || buns.length === 0}
           size="large"
           onClick={() => handleBtnClick(ids)}
         >
