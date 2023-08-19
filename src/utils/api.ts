@@ -1,4 +1,6 @@
-const handleSaveAccessToken = (dataToStore) => {
+import { IUser, IUserResponse, TAuthUserResponse, TIngredient, TOrderDetails } from "./types";
+
+const handleSaveAccessToken = (dataToStore: string) => {
   localStorage.setItem("accessToken", dataToStore);
   setTimeout(
     () => {
@@ -7,7 +9,7 @@ const handleSaveAccessToken = (dataToStore) => {
     20 * 60 * 1000,
   );
 };
-const handleSaveRefreshToken = (dataToStore) => {
+const handleSaveRefreshToken = (dataToStore: string) => {
   localStorage.setItem("refreshToken", dataToStore);
 };
 const storedAccessToken = localStorage.getItem("accessToken");
@@ -17,31 +19,45 @@ export const DOMAIN_NAME = "https://norma.nomoreparties.space/api";
 export const url = `${DOMAIN_NAME}/ingredients`;
 export const orderUrl = `${DOMAIN_NAME}/orders`;
 
-const checkResponse = async (res) => {
-  if (res.ok) {
-    return res.json();
+const checkResponse = <T>(res: Response): Promise<T> => {
+  return res.ok
+    ? res.json()
+    : res.json().then((err) => Promise.reject(err));
+};
+
+type TServerResponse<T> = {
+  success: boolean,
+} & T;
+
+
+type TRefreshResponse = TServerResponse<{ refreshToken: string, accessToken: string }>
+
+type TFetchDataResponse = TServerResponse<{data:TIngredient[]}>;
+
+type TOrderResponse = TServerResponse<{data:TOrderDetails, message: string}>;
+
+type TForgotPassResponse = TServerResponse<{message:string}>;
+
+type TResetPassResponse = TServerResponse<{message: string}>;
+
+type TUserRegisterResponse = TServerResponse<IUserResponse>;
+
+type TUserLoginResponse = TServerResponse<IUserResponse&TAuthUserResponse>;
+
+type TUserLogoutResponse = TServerResponse<IUserResponse>
+
+export const fetchData = async (): Promise<TFetchDataResponse> => {
+  const response = await fetch(`${DOMAIN_NAME}/ingredients`);
+  const data = await response.json();
+
+  if (data.success === true) {
+    return data;
   } else {
-    const err = await res.json();
-    return Promise.reject(err);
+    throw new Error("Can't get data from server");
   }
 };
 
-export const fetchData = () => {
-  return fetch(`${DOMAIN_NAME}/ingredients`)
-    .then(checkResponse)
-    .then((data) => {
-      if (data?.success) {
-        return data;
-      } else {
-        console.error("Ошибка получения данных");
-      }
-    })
-    .catch((err) => {
-      console.error("Error:", err);
-    });
-};
-
-export const fetchOrder = (ingredients) => {
+export const fetchOrder = (ingredients: TIngredient[]) => {
   return fetch(`${DOMAIN_NAME}/orders`, {
     headers: {
       "Content-Type": "application/json",
@@ -51,7 +67,7 @@ export const fetchOrder = (ingredients) => {
       ingredients,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TOrderResponse>(res))
     .then((data) => {
       if (data.success) {
         return data;
@@ -64,7 +80,7 @@ export const fetchOrder = (ingredients) => {
     });
 };
 
-export const fetchForgotPass = (email) => {
+export const fetchForgotPass = (email: string) => {
   return fetch(`${DOMAIN_NAME}/password-reset`, {
     headers: {
       "Content-Type": "application/json",
@@ -74,7 +90,7 @@ export const fetchForgotPass = (email) => {
       email,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TForgotPassResponse>(res))
     .then((data) => {
       if (data.success) {
         return data.message;
@@ -87,7 +103,7 @@ export const fetchForgotPass = (email) => {
     });
 };
 
-export const fetchResetPass = (password, token) => {
+export const fetchResetPass = (password: string, token: string) => {
   console.log(password, token,'in reset api')
   return fetch(`${DOMAIN_NAME}/password-reset/reset`, {
     headers: {
@@ -99,7 +115,7 @@ export const fetchResetPass = (password, token) => {
       token,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TResetPassResponse>(res))
     .then((data) => {
       if (data.success) {
         return data.message;
@@ -112,7 +128,7 @@ export const fetchResetPass = (password, token) => {
     });
 };
 
-export const fetchUserRegister = (email, password, name) => {
+export const fetchUserRegister = (email: string, password: string, name: string) => {
   return fetch(`${DOMAIN_NAME}/auth/register`, {
     headers: {
       "Content-Type": "application/json",
@@ -124,7 +140,7 @@ export const fetchUserRegister = (email, password, name) => {
       name,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TUserRegisterResponse>(res))
     .then((data) => {
       if (data.success) {
         return data;
@@ -137,7 +153,7 @@ export const fetchUserRegister = (email, password, name) => {
     });
 };
 
-export const fetchUserLogin = (email, password) => {
+export const fetchUserLogin = (email: string, password: string) => {
   return fetch(`${DOMAIN_NAME}/auth/login`, {
     headers: {
       "Content-Type": "application/json",
@@ -148,7 +164,7 @@ export const fetchUserLogin = (email, password) => {
       password,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TUserLoginResponse>(res))
     .then((data) => {
       if (data.success) {
         handleSaveAccessToken(data.accessToken);
@@ -173,7 +189,7 @@ export const fetchRefreshToken = () => {
       token: storedRefreshToken,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TRefreshResponse>(res))
     .then((data) => {
       if (data.success) {
         handleSaveAccessToken(data.accessToken);
@@ -188,27 +204,29 @@ export const fetchRefreshToken = () => {
     });
 };
 
-export const fetchGetUserInfo = async () => {
-  const options = {
+export const fetchGetUserInfo = async <IUser>() => {
+  const options: RequestInit = {
     headers: {
       "Content-Type": "application/json",
       authorization: storedAccessToken,
-    },
+    } as HeadersInit,
     method: "GET",
   };
 
   try {
     const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
-    return await checkResponse(res);
+    return await checkResponse<IUser>(res);
   } catch (err) {
-    if (err.message === "jwt expired") {
+    if ((err as {message:string}).message === "jwt expired") {
       const refreshData = await fetchRefreshToken();
+      if (refreshData){
       handleSaveAccessToken(refreshData.accessToken);
       handleSaveRefreshToken(refreshData.refreshToken);
-      options.headers.authorization = refreshData.accessToken;
+      (options.headers as {[key:string]: string}).authorization = refreshData.accessToken;
+      }
       const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
       console.log("Error:", err);
-      return await checkResponse(res);
+      return await checkResponse<IUser>(res);
     } else {
       console.log("Error:", err);
       return Promise.reject(err);
@@ -216,12 +234,12 @@ export const fetchGetUserInfo = async () => {
   }
 };
 
-export const fetchRefreshUserInfo = async (email, name, password) => {
-  const options = {
+export const fetchRefreshUserInfo = async (email: string, name: string, password: string) => {
+  const options: RequestInit = {
     headers: {
       "Content-Type": "application/json",
       authorization: storedAccessToken,
-    },
+    } as HeadersInit,
     body: JSON.stringify({
       email,
       name,
@@ -238,11 +256,13 @@ export const fetchRefreshUserInfo = async (email, name, password) => {
       return Promise.reject(err);
     }
   } catch (err) {
-    if (err.message === "jwt expired") {
+    if ((err as {message:string}).message === "jwt expired") {
       const refreshData = await fetchRefreshToken();
+      if(refreshData){
       handleSaveAccessToken(refreshData.accessToken);
       handleSaveRefreshToken(refreshData.refreshToken);
-      options.headers.authorization = refreshData.accessToken;
+      (options.headers as {[key:string]: string}).authorization = refreshData.accessToken;
+      }
       const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
       console.log("Error:", err);
       return await checkResponse(res);
@@ -263,7 +283,7 @@ export const fetchUserLogout = () => {
       token: storedRefreshToken,
     }),
   })
-    .then(checkResponse)
+    .then((res) => checkResponse<TUserLogoutResponse>(res))
     .then((data) => {
       if (data.success) {
         localStorage.removeItem("accessToken");

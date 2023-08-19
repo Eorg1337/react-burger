@@ -20,3 +20,22 @@ export type TIngredient = {
   __v?: number,
   unique_id?: string
 }
+
+export type TOrderDetails = {
+  id: number,
+  message: string
+}
+
+export interface IUser  {
+  email: string,
+  name: string
+}
+
+export interface IUserResponse {
+  user: IUser;
+}
+
+export type TAuthUserResponse =  IUserResponse & {
+  accessToken: string,
+  refreshToken: string
+};
