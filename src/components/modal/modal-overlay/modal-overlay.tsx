@@ -3,7 +3,7 @@ import styles from "./modal-overlay.module.css";
 
 type ModalOverlayProps = {
   onClose: () => void;
-  modalRef: React.RefObject<any>;
+  modalRef: React.RefObject<HTMLElement>;
 }
 
 const ModalOverlay: FC<ModalOverlayProps> = ({ onClose, modalRef }) => {
@@ -13,8 +13,8 @@ const ModalOverlay: FC<ModalOverlayProps> = ({ onClose, modalRef }) => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
         overlayRef.current &&
-        overlayRef.current.contains(event.target as Node) &&
-        !modalRef.current.contains(event.target as Node)
+        overlayRef.current.contains(event.target as Node) && 
+        !modalRef.current?.contains(event.target as Node)
       ) {
         onClose();
       }
