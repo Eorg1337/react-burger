@@ -22,7 +22,7 @@ export type TIngredient = {
 }
 
 export type TOrderDetails = {
-  id: number,
+  order: number,
   message: string
 }
 

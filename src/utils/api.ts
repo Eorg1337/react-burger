@@ -34,7 +34,7 @@ type TRefreshResponse = TServerResponse<{ refreshToken: string, accessToken: str
 
 type TFetchDataResponse = TServerResponse<{data:TIngredient[]}>;
 
-type TOrderResponse = TServerResponse<{data:TOrderDetails, message: string}>;
+type TOrderResponse = TServerResponse<TOrderDetails & {message: string}>;
 
 type TForgotPassResponse = TServerResponse<{message:string}>;
 
@@ -57,7 +57,7 @@ export const fetchData = async (): Promise<TFetchDataResponse> => {
   }
 };
 
-export const fetchOrder = (ingredients: TIngredient[]) => {
+export const fetchOrder = (ingredients: string[]|null) => {
   return fetch(`${DOMAIN_NAME}/orders`, {
     headers: {
       "Content-Type": "application/json",

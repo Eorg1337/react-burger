@@ -121,7 +121,7 @@ const userSlice = createSlice({
     builder.addCase(login.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(login.fulfilled, (state, action) => {
+    builder.addCase(login.fulfilled, (state, action: any) => {
       state.user = action.payload.user;
       state.success = true;
       state.isLoading = false;
@@ -139,7 +139,7 @@ const userSlice = createSlice({
     builder.addCase(userRegister.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(userRegister.fulfilled, (state, action) => {
+    builder.addCase(userRegister.fulfilled, (state, action: any) => {
       state.isLoading = false;
       state.user = action.payload.user;
       state.success = true;
@@ -150,7 +150,7 @@ const userSlice = createSlice({
     builder.addCase(forgotPass.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(forgotPass.fulfilled, (state, action) => {
+    builder.addCase(forgotPass.fulfilled, (state, action: any) => {
       state.message = action.payload.message;
       state.success = true;
       state.isLoading = false;
@@ -161,7 +161,7 @@ const userSlice = createSlice({
     builder.addCase(resetPass.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(resetPass.fulfilled, (state, action) => {
+    builder.addCase(resetPass.fulfilled, (state, action: any) => {
       state.message = action.payload.message;
       state.success = true;
       state.isLoading = false;
@@ -172,7 +172,7 @@ const userSlice = createSlice({
     builder.addCase(getUserInfo.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getUserInfo.fulfilled, (state, action) => {
+    builder.addCase(getUserInfo.fulfilled, (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.user = action.payload.user;

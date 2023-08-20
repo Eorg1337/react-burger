@@ -8,7 +8,7 @@ export const createOrder = (ids: string[]|null) => (dispatch: any) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
   return fetchOrder(ids)
     .then((res) => {
-      return dispatch({ type: CREATE_ORDER_SUCCESS, payload: res.order });
+      return dispatch({ type: CREATE_ORDER_SUCCESS, payload: res?.order });
     })
     .catch((error) => dispatch({ type: CREATE_ORDER_FALSE, payload: error }));
 };
