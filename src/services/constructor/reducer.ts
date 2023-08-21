@@ -1,24 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { TIngredient } from "../../utils/types";
 
-const initialState = {
+
+interface StateConstructor { 
+  error: string | null;
+  isLoading: boolean;
+  constructorIngredients: TIngredient[]
+  constructorBuns: TIngredient[];
+}
+
+const initialState: StateConstructor = {
   error: null,
   isLoading: false,
   constructorIngredients: [],
   constructorBuns: [],
 };
 
-export const constructorSlice = createSlice({
+export const constructorSlice: any = createSlice({
   name: "constructor",
   initialState,
   reducers: {
-    addIngredient(state, action) {
+    addIngredient(state, action: PayloadAction<TIngredient>): any {
       const newIngredient = {
         ...action.payload,
         unique_id: uuidv4(),
       };
-      let constructorIngredients = [];
-      let constructorBuns = [];
+      let constructorIngredients: TIngredient[] = [];
+      let constructorBuns: TIngredient[] = [];
       if (newIngredient.type === "bun") {
         constructorBuns.push(newIngredient);
         constructorIngredients = [...state.constructorIngredients];
@@ -30,7 +39,7 @@ export const constructorSlice = createSlice({
 
       return { constructorIngredients, constructorBuns };
     },
-    deleteIngredient(state, action) {
+    deleteIngredient(state, action: PayloadAction<string>): any {
       const uniqueId = action.payload;
       const constructorIngredients = state.constructorIngredients.filter(
         (ing) => ing.unique_id !== uniqueId,
@@ -43,7 +52,7 @@ export const constructorSlice = createSlice({
       return { constructorIngredients, constructorBuns };
     },
 
-    moveIngredient(state, action) {
+    moveIngredient(state, action: PayloadAction<{ dragIndex: number; hoverIndex: number }>) {
       const { dragIndex, hoverIndex } = action.payload;
       const dragCard = state.constructorIngredients[dragIndex];
       const newCards = [...state.constructorIngredients];

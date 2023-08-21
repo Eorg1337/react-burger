@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { FC } from "react";
 import { Route, Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { AuthContext } from "../app/App";
 
-const ProtectedRouteElement = ({ children, onlyUnAuth = false }) => {
-  const  user  = useSelector((state)=>state.rootReducer.user?.user.name)
+type ProtectedRouteElementProps = {
+  children: React.ReactNode| React.ReactElement;
+  onlyUnAuth?: boolean;
+}
+
+const ProtectedRouteElement: FC<ProtectedRouteElementProps> = ({ children, onlyUnAuth }) => {
+  const  user  = useSelector((state: any)=>state.rootReducer.user?.user.name)
   const [isLoading, setIsLoading] = React.useState(true);
   const isAuthChecked = true;
   const location = useLocation();
@@ -21,7 +25,7 @@ const ProtectedRouteElement = ({ children, onlyUnAuth = false }) => {
   }
 
 
-  return children;
+  return (<>{children}</>);
 };
 
 export default ProtectedRouteElement;

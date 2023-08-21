@@ -1,7 +1,14 @@
-import React, { useReducer, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useReducer, useEffect, FC } from "react";
+import { TIngredient } from "../../utils/types";
 
-function reducer(state, action) {
+type State = number;
+
+type TAction =
+  | { type: "ADD_PRICE"; payload: number }
+  | { type: "MINUS_PRICE"; payload: number }
+  | { type: "UPDATE" };
+
+function reducer(state: State, action: TAction) {
   switch (action.type) {
     case "ADD_PRICE":
       return state + action.payload;
@@ -14,7 +21,7 @@ function reducer(state, action) {
   }
 }
 
-export const TotalPrice = ({ buns, ingredients }) => {
+export const TotalPrice: FC<{buns: TIngredient[], ingredients: TIngredient[]}> = ({ buns, ingredients }) => {
   const AllIngr = buns && ingredients ? ingredients.concat(buns, buns) : [];
   const [total, dispatch] = useReducer(reducer, 0);
 
@@ -32,7 +39,3 @@ export const TotalPrice = ({ buns, ingredients }) => {
   return <>{total}</>;
 };
 
-TotalPrice.propTypes = {
-  buns: PropTypes.array.isRequired,
-  ingredients: PropTypes.array.isRequired,
-};

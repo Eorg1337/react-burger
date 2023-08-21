@@ -1,23 +1,23 @@
-import React from "react";
+import React,{FC, ChangeEvent, FormEvent} from "react";
 import styles from './register.module.css'
 import { Input,EmailInput,PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import {useDispatch} from 'react-redux'
 import { userRegister } from "../../services/user/reducer";
 
-const Register = () => {
-    const [value, setValue] = React.useState('')
-    const [emailValue, setEmailValue] = React.useState('')
-    const [passwordValue, setPasswordValue] = React.useState('')
-    const dispatch = useDispatch();
-  const onChangeEmail = e => {
+const Register: FC = () => {
+    const [value, setValue] = React.useState<string>('')
+    const [emailValue, setEmailValue] = React.useState<string>('')
+    const [passwordValue, setPasswordValue] = React.useState<string>('')
+    const dispatch = useDispatch<any>();
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value)
   }
-  const onChangePassword = e => {
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordValue(e.target.value)
   }
 
-  const sendUserInfo = (e) => {
+  const sendUserInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(userRegister({emailValue,passwordValue,value}))
   }

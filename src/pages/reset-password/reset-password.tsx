@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{FC, ChangeEvent, FormEvent} from "react";
 import styles from "./reset-password.module.css";
 import {
   PasswordInput,
@@ -9,14 +9,14 @@ import { useDispatch } from "react-redux";
 import { resetPass } from "../../services/user/reducer";
 import { Link, useLocation, useNavigate} from "react-router-dom";
 
-const ResetPassword = () => {
-  const [value, setValue] = React.useState("");
-  const [passwordValue, setPasswordValue] = React.useState("");
-  const dispatch = useDispatch();
-  const onChangePassword = (e) => {
+const ResetPassword: FC = () => {
+  const [value, setValue] = React.useState<string>("");
+  const [passwordValue, setPasswordValue] = React.useState<string>("");
+  const dispatch = useDispatch<any>();
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordValue(e.target.value);
   };
-  const onChangeToken = (e) => {
+  const onChangeToken = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   const location = useLocation();
@@ -24,7 +24,7 @@ const ResetPassword = () => {
   console.log(location, "reset-password");
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
-  const sendNewPass = (e) => {
+  const sendNewPass = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(resetPass({passwordValue, value}));
   };

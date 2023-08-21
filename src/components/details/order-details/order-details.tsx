@@ -1,12 +1,17 @@
-import React from "react";
+import React,{FC} from "react";
 import styles from "./order-details.module.css";
 import graphics from "../../../images/graphics.svg";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-const OrderDetails = (ids) => {
+
+type OrderDetailsProps = {
+  ids: string[];
+}
+
+const OrderDetails: FC<OrderDetailsProps> = (ids) => {
   const orderNumber = useSelector(
-    (state) => state.rootReducer.order.order?.number,
+    (state: any) => state.rootReducer.order.order?.number,
   );
 
   return (
@@ -32,8 +37,5 @@ const OrderDetails = (ids) => {
   );
 };
 
-OrderDetails.propTypes = {
-  ids: PropTypes.arrayOf(PropTypes.string.isRequired),
-};
 
 export default OrderDetails;
