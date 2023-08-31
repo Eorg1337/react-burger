@@ -29,7 +29,6 @@ type TServerResponse<T> = {
   success: boolean,
 } & T;
 
-
 type TRefreshResponse = TServerResponse<{ refreshToken: string, accessToken: string }>
 
 type TFetchDataResponse = TServerResponse<{data:TIngredient[]}>;
