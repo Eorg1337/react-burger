@@ -91,14 +91,14 @@ async ({passwordValue,value}: ResetPassPayload) => {
 });
 
 export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
-  const response = await fetchGetUserInfo();
+  const response: UserState = await fetchGetUserInfo();
   return response;
 });
 
 export const refreshUserInfo = createAsyncThunk(
   "user/refreshUserInfo",
   async ({ loginValue, nameValue, passwordValue }: RefreshUserInfoPayload) => {
-    const response = await fetchRefreshUserInfo(
+    const response: UserState = await fetchRefreshUserInfo(
       loginValue,
       nameValue,
       passwordValue,
@@ -122,7 +122,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(login.fulfilled, (state, action: any) => {
-      state.user = action.payload.user;
+      state.user = action.payload?.user;
       state.success = true;
       state.isLoading = false;
     });

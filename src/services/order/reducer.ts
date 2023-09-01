@@ -1,4 +1,5 @@
 import {PayloadAction} from "@reduxjs/toolkit";
+import { TCreateOrders } from "./actions";
 import {
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_FALSE,
@@ -17,7 +18,7 @@ import {
     isLoading: false,
   };
   
-  export const reducer = (state = initialState, action: PayloadAction<number|null>) => {
+  export const reducer = (state: State = initialState, action: TCreateOrders) => {
     switch (action.type) {
       case CREATE_ORDER_REQUEST:
         return {

@@ -2,22 +2,22 @@ import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 import { TIngredient } from "../../utils/types";
 
 interface ISelectedIngrState {
-  selectedIngr: TIngredient[];
+  selectedIngr: TIngredient|null;
 }
 
 const initialState: ISelectedIngrState = {
-  selectedIngr: [],
+  selectedIngr: null,
 };
 
-const selectedIngrSlice: Slice<ISelectedIngrState> = createSlice({
+const selectedIngrSlice = createSlice({
   name: "selectedIngr",
   initialState,
   reducers: {
-    addSelectedIngr(state, action: PayloadAction<TIngredient[]>) {
+    addSelectedIngr(state: ISelectedIngrState, action: PayloadAction<TIngredient>) {
       return { ...state, selectedIngr: action.payload };
     },
     deleteSelectedIngr(state) {
-      return { ...state, selectedIngr: [] };
+      return { ...state, selectedIngr: null };
     },
   },
 });

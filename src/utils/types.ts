@@ -1,3 +1,12 @@
+import { TIngredientsActions } from "../services/constructor/actions";
+import { TActiveIngredientsActions } from "../services/ingredients/actions";
+import { TSelectedIngrActions } from "../services/modal/actions";
+import { TCreateOrders } from "../services/order/actions";
+
+export type TMyActions = TIngredientsActions
+|TActiveIngredientsActions
+|TSelectedIngrActions
+|TCreateOrders;
 
 export enum IngredientType {
     bun = 'bun',

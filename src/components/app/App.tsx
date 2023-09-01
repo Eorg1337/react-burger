@@ -8,7 +8,6 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/ingredients/reducer";
 import Register from "../../pages/register/register";
 import Login from "../../pages/login/login";
@@ -21,13 +20,14 @@ import { getUserInfo } from "../../services/user/reducer";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import IngredientsPage from "../../pages/ingredients/ingredients";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 
 const App: FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
   let location = useLocation();
   const locationState = location.state as {background?: Location};
   let background = locationState && locationState.background;
-  const user = useSelector((state: any) => state.rootReducer.user?.user.name);
+  const user = useAppSelector((state) => state.rootReducer.user?.user.name);
   const accessToken = localStorage.getItem("accessToken")
   useEffect(() => {
     dispatch(getIngredients());

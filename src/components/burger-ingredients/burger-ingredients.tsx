@@ -48,11 +48,11 @@ const BurgerIngredients: FC = () => {
   );
 
   const addModal = (item: TIngredient) => {
-    dispatch(addSelectedIngr({ item }));
+    dispatch(addSelectedIngr(item));
   };
 
   const clearModal = () => {
-    dispatch(deleteSelectedIngr({}));
+    dispatch(deleteSelectedIngr());
   };
 
   const handleTabClick = (tab: string) => {
