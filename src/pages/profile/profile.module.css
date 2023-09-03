@@ -17,6 +17,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-end;
+  max-height: 200px;
 }
 
 .info{

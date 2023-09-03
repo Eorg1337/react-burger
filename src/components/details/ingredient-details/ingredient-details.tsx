@@ -2,7 +2,7 @@ import React,{FC} from "react";
 import styles from "./ingredient-details.module.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { TIngredient } from "../../../utils/types";
+import { TIngredient } from "../../../utils/types/types";
 
 
 const IngredientDetails: FC = () => {

@@ -1,0 +1,13 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    max-width: 732px; 
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+
+.link {
+    color: inherit;
+    text-decoration: none;
+  }

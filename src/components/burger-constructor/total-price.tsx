@@ -1,5 +1,5 @@
 import { useReducer, useEffect, FC } from "react";
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
 
 type State = number;
 

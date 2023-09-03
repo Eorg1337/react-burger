@@ -1,0 +1,88 @@
+.container{
+    min-width: 632px;
+}
+
+.item{
+    height: 190px;
+    border-radius: 40px;
+    border: 2px;
+    padding: 24px;
+    gap: 24px;
+    background-color: rgba(28, 28, 33, 1);
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderNumber {
+    display: inline-block;
+    width: auto;
+}
+
+.ingredientsImages {
+    margin-left: 0;
+    padding-left: 0;
+    display: inline-block;
+    width: 100%;
+    list-style: none;
+
+    :not(:first-child) {
+        margin-left: -10px;
+    }
+}
+
+.ingredient {
+    position: relative;
+    margin-left: 0;
+    padding-left: 0;
+    display: inline-block;
+    max-width: 64px;
+    max-height: 64px;
+    height: 100%;
+}
+
+.ingredient:before, .ingredient:after {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.ingredient:before {
+    width: 64px;
+    height: 64px;   
+    background: linear-gradient(#801AB2, #4C4CFF);
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.ingredient:after {
+    width: 60px;
+    height: 60px;
+    transform: translate(-50%, -50%);
+    background: #131316;
+}
+
+.ingredientImage {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 50px;
+    z-index: 1;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}

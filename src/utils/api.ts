@@ -1,4 +1,4 @@
-import { IUser, IUserResponse, TAuthUserResponse, TIngredient, TOrderDetails } from "./types";
+import { IUser, IUserResponse, TAuthUserResponse, TIngredient, TOrderDetails } from "./types/types";
 
 const handleSaveAccessToken = (dataToStore: string) => {
   localStorage.setItem("accessToken", dataToStore);

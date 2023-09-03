@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import type { TIngredient } from "../../utils/types";
+import type { TIngredient } from "../../utils/types/types";
 import type { TIngredientsActions } from "./actions";
 
 interface StateConstructor { 

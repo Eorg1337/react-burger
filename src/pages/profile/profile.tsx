@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { getUserInfo, logout } from "../../services/user/reducer";
 import { useSelector } from "react-redux";
 import { refreshUserInfo } from "../../services/user/reducer";
-import OrdersHistory from "./orders-history/orders-history";
+import OrdersHistory from "../../components/orders-history/orders-history";
 
 type ProfileProps = typeof EmailInput &{
   type: string;

@@ -11,7 +11,7 @@ import {
   deleteIngredient,
   moveIngredient,
 } from "../../services/constructor/reducer";
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
 
 type BurgerConstructorElementProps = {
   ingredient: TIngredient,

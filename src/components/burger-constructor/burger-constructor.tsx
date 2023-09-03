@@ -18,7 +18,7 @@ import {
 } from "../../services/constructor/reducer";
 import BurgerConstructorElement from "./burger-constructor-element";
 import { useNavigate } from "react-router-dom";
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
 
 const BurgerConstructor = () => {
   const [isActive, setIsActive] = React.useState<boolean>(false);

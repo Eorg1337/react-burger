@@ -1,4 +1,4 @@
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
 
 export const ADD_SELECTED_INGR = "ADD_SELECTED_INGR";
 export const DELETE_SELECTED_INGR = "DELETE_SELECTED_INGR";

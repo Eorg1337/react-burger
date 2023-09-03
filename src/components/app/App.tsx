@@ -20,14 +20,19 @@ import { getUserInfo } from "../../services/user/reducer";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import IngredientsPage from "../../pages/ingredients/ingredients";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
-import { useAppDispatch, useAppSelector } from "../../services/store";
+import { AppDispatch, useDispatch, useSelector } from "../../services/store";
+import Feed from "../feed/feed";
+import FeedItemDetails from "../feed/feed-item-details/feed-item-details";
+import OrdersHistoryDetails from "../orders-history/orders-history-details/orders-history-details";
+import FeedOrdersPage from "../../pages/orders/feed-orders";
+import ProfileOrdersPage from "../../pages/orders/profile-orders";
 
 const App: FC = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   let location = useLocation();
   const locationState = location.state as {background?: Location};
   let background = locationState && locationState.background;
-  const user = useAppSelector((state) => state.rootReducer.user?.user.name);
+  const user = useSelector((state) => state.user?.user.name);
   const accessToken = localStorage.getItem("accessToken")
   useEffect(() => {
     dispatch(getIngredients());
@@ -41,6 +46,8 @@ const App: FC = () => {
         <Routes location={background || location}>
           <Route path="/" element={<MainPage />} />
           <Route path="/ingredients/:id" element={<IngredientsPage />} />
+          <Route path ="/orders/:id" element={<FeedOrdersPage/>}/>
+          <Route path ="profile/orders/:id" element={<ProfileOrdersPage/>}/>
           <Route
             path="/login"
             element={
@@ -94,6 +101,25 @@ const App: FC = () => {
               </ProtectedRouteElement>
             }
           />
+          {background && (<Route
+            path="/profile/orders/:id"
+            element={
+              <ProtectedRouteElement>
+                <OrdersHistoryDetails />
+              </ProtectedRouteElement>
+            }
+          />)}
+          <Route 
+            path="/orders"
+            element={
+              <Feed/>
+            }/>
+            {background && (<Route 
+            path="/orders/:id"
+            element={
+              <FeedItemDetails/>
+            }/>
+            )}
           {background && (
             <Route path="/ingredients/:id" element={<IngredientDetails />} />
           )}

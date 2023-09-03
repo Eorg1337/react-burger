@@ -15,7 +15,7 @@ import {
   setActiveIngredient,
   deleteActiveIngredient,
 } from "../../services/ingredients/reducer";
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
 
 const BurgerIngredients: FC = () => {
   const [currentTab, setCurrentTab] = React.useState<string>("buns");
