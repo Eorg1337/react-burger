@@ -30,102 +30,95 @@ import ProfileOrdersPage from "../../pages/orders/profile-orders";
 const App: FC = () => {
   const dispatch = useDispatch();
   let location = useLocation();
-  const locationState = location.state as {background?: Location};
+  const locationState = location.state as { background?: Location };
   let background = locationState && locationState.background;
-  const user = useSelector((state) => state.user?.user.name);
-  const accessToken = localStorage.getItem("accessToken")
+  const user = useSelector((state) => state.user?.user?.name);
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
     dispatch(getIngredients());
-    if(accessToken){
+    if (accessToken) {
       dispatch(getUserInfo());
-      }
+    }
   }, []);
   return (
-      <div className={style.app}>
-        <AppHeader />
-        <Routes location={background || location}>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/ingredients/:id" element={<IngredientsPage />} />
-          <Route path ="/orders/:id" element={<FeedOrdersPage/>}/>
-          <Route path ="profile/orders/:id" element={<ProfileOrdersPage/>}/>
+    <div className={style.app}>
+      <AppHeader />
+      <Routes location={background || location}>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/ingredients/:id" element={<IngredientsPage />} />
+        <Route path="/feed/:id" element={<FeedOrdersPage />} />
+        <Route path="profile/orders/:id" element={<ProfileOrdersPage />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              <Login />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              <Register />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              <ForgotPassword />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              {location.state?.from === "/forgot-password" ? (
+                <ResetPassword />
+              ) : (
+                <Navigate to="/forgot-password" replace />
+              )}
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRouteElement>
+              <Profile />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path="/profile/orders"
+          element={
+            <ProtectedRouteElement>
+              <Profile />
+            </ProtectedRouteElement>
+          }
+        />
+        {background && (
           <Route
-            path="/login"
-            element={
-              <ProtectedRouteElement onlyUnAuth>
-                <Login />
-              </ProtectedRouteElement>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <ProtectedRouteElement onlyUnAuth>
-                <Register />
-              </ProtectedRouteElement>
-            }
-          />
-          <Route
-            path="/forgot-password"
-            element={
-              <ProtectedRouteElement onlyUnAuth>
-                <ForgotPassword />
-              </ProtectedRouteElement>
-            }
-          />
-          <Route path="*" element={<NotFoundPage/>}/>
-          <Route
-            path="/reset-password"
-            element={
-              <ProtectedRouteElement onlyUnAuth>
-                {location.state?.from === "/forgot-password" ? (
-                  <ResetPassword />
-                ) : (
-                  <Navigate to="/forgot-password" replace />
-                )}
-              </ProtectedRouteElement>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRouteElement>
-                <Profile />
-              </ProtectedRouteElement>
-            }
-          />
-          <Route
-            path="/profile/orders"
-            element={
-              <ProtectedRouteElement>
-                <Profile />
-              </ProtectedRouteElement>
-            }
-          />
-          {background && (<Route
             path="/profile/orders/:id"
             element={
               <ProtectedRouteElement>
                 <OrdersHistoryDetails />
               </ProtectedRouteElement>
             }
-          />)}
-          <Route 
-            path="/orders"
-            element={
-              <Feed/>
-            }/>
-            {background && (<Route 
-            path="/orders/:id"
-            element={
-              <FeedItemDetails/>
-            }/>
-            )}
-          {background && (
-            <Route path="/ingredients/:id" element={<IngredientDetails />} />
-          )}
-        </Routes>
-      </div>
+          />
+        )}
+        <Route path="/feed" element={<Feed />} />
+        {background && <Route path="/feed/:id" element={<FeedItemDetails />} />}
+        {background && (
+          <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        )}
+      </Routes>
+    </div>
   );
-}
+};
 
 export default App;

@@ -19,9 +19,9 @@ interface UserState {
   message: string | undefined;
   error: null | string;
   isLoading: boolean;
-};
+}
 
-interface LoginPayload {
+export interface LoginPayload {
   emailValue: string;
   passwordValue: string;
 }
@@ -63,7 +63,7 @@ export const login = createAsyncThunk(
   async ({ emailValue, passwordValue }: LoginPayload) => {
     const response = await fetchUserLogin(emailValue, passwordValue);
     return response;
-  },
+  }
 );
 
 export const logout = createAsyncThunk("user/logout", async () => {
@@ -71,24 +71,30 @@ export const logout = createAsyncThunk("user/logout", async () => {
   return response;
 });
 
-export const userRegister = createAsyncThunk("user/userRegister",
-async ({emailValue,passwordValue,value}: UserRegisterPayload) => {
-  const response = await fetchUserRegister(emailValue,passwordValue,value);
-  return response;
-});
+export const userRegister = createAsyncThunk(
+  "user/userRegister",
+  async ({ emailValue, passwordValue, value }: UserRegisterPayload) => {
+    const response = await fetchUserRegister(emailValue, passwordValue, value);
+    return response;
+  }
+);
 
-export const forgotPass = createAsyncThunk("user/forgotPass", 
-async ({emailValue}: ForgotPassPayload) => {
-  const response = await fetchForgotPass(emailValue);
-  return response;
-});
+export const forgotPass = createAsyncThunk(
+  "user/forgotPass",
+  async ({ emailValue }: ForgotPassPayload) => {
+    const response = await fetchForgotPass(emailValue);
+    return response;
+  }
+);
 
-export const resetPass = createAsyncThunk("user/resetPass", 
-async ({passwordValue,value}: ResetPassPayload) => {
-  const response = await fetchResetPass(passwordValue,value);
-  console.log(passwordValue,value)
-  return response;
-});
+export const resetPass = createAsyncThunk(
+  "user/resetPass",
+  async ({ passwordValue, value }: ResetPassPayload) => {
+    const response = await fetchResetPass(passwordValue, value);
+    console.log(passwordValue, value);
+    return response;
+  }
+);
 
 export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
   const response: UserState = await fetchGetUserInfo();
@@ -101,11 +107,11 @@ export const refreshUserInfo = createAsyncThunk(
     const response: UserState = await fetchRefreshUserInfo(
       loginValue,
       nameValue,
-      passwordValue,
+      passwordValue
     );
     console.log({ loginValue, nameValue, passwordValue });
     return response;
-  },
+  }
 );
 
 export const refreshToken = createAsyncThunk("user/refreshToken", async () => {

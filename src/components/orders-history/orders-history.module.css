@@ -6,6 +6,12 @@
     overflow-y: auto;
 }
 
+.feed{
+    list-style: none;
+    display: grid;
+    gap: 24px;
+}
+
 
 .link {
     color: inherit;

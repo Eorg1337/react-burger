@@ -3,11 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 import type { TIngredient } from "../../utils/types/types";
 import type { TIngredientsActions } from "./actions";
 
-interface StateConstructor { 
+interface StateConstructor {
   error?: string | null;
   isLoading?: boolean;
-  constructorIngredients: ReadonlyArray<TIngredient>;
-  constructorBuns: ReadonlyArray<TIngredient>;
+  constructorIngredients: Array<TIngredient>;
+  constructorBuns: Array<TIngredient>;
 }
 
 const initialState: StateConstructor = {
@@ -42,17 +42,20 @@ export const constructorSlice = createSlice({
     deleteIngredient(state, action: PayloadAction<string>): StateConstructor {
       const uniqueId = action.payload;
       const constructorIngredients = state.constructorIngredients.filter(
-        (ing) => ing.unique_id !== uniqueId,
+        (ing) => ing.unique_id !== uniqueId
       );
 
       const constructorBuns = state.constructorBuns.filter(
-        (bun) => bun.unique_id !== uniqueId,
+        (bun) => bun.unique_id !== uniqueId
       );
 
       return { constructorIngredients, constructorBuns };
     },
 
-    moveIngredient(state, action: PayloadAction<{ dragIndex: number; hoverIndex: number }>) {
+    moveIngredient(
+      state,
+      action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
+    ) {
       const { dragIndex, hoverIndex } = action.payload;
       const dragCard = state.constructorIngredients[dragIndex];
       const newCards = [...state.constructorIngredients];

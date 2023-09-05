@@ -1,32 +1,27 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { rootReducer } from "./reducer";
-import { ActionCreator,Action } from "@reduxjs/toolkit";
+import { ActionCreator, Action } from "@reduxjs/toolkit";
 import { TMyActions } from "../utils/types/types";
-import thunk from "redux-thunk";
-import { ThunkAction } from 'redux-thunk';
+import { orderUrl } from "../utils/api";
+import { ThunkAction } from "redux-thunk";
 import {
-        useSelector as selectorHook, 
-        useDispatch as dispatchHook,
-        TypedUseSelectorHook,
-} from 'react-redux';
-import { socketMiddleware } from "../middleware/socket-middleware";
+  useSelector as selectorHook,
+  useDispatch as dispatchHook,
+  TypedUseSelectorHook,
+} from "react-redux";
+import { socketMiddleware } from "../middleware/websocket-middleware";
 import { FeedActions } from "./feed/actions";
 import { OrdersHistoryActions } from "./orders-history/actions";
 
 export const store = configureStore({
-        reducer: rootReducer,
-        middleware: (getDefaultMiddleware) => { 
-                 const token = localStorage.getItem("accessToken"); ;
-                return getDefaultMiddleware().concat(
-                        socketMiddleware('wss://norma.nomoreparties.space/orders/all', FeedActions),
-                        socketMiddleware(
-                                `wss://norma.nomoreparties.space/orders/?token=${token}`,
-                                OrdersHistoryActions
-                              )
-                )
-                        }
-})
-
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(
+      socketMiddleware(`${orderUrl}/all`, FeedActions),
+      socketMiddleware(`${orderUrl}`, OrdersHistoryActions)
+    );
+  },
+});
 
 type TApplicationActions = TMyActions;
 

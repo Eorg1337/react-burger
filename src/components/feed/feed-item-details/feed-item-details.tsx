@@ -1,86 +1,167 @@
-import React,{FC} from 'react';
-import { useParams } from 'react-router-dom';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import image from '../../../images/bun-01.svg'
-import styles from './feed-item-details.module.css'
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./feed-item-details.module.css";
+import React,{ FC, useEffect } from "react";
+import {
+  Order,
+  OrdersResponse,
+  State,
+  TIngredient,
+} from "../../../utils/types/types";
+import { useDispatch, useSelector } from "../../../services/store";
+import {
+  checkPathId,
+  checkCategory,
+  checkTimeStamp,
+} from "../../../utils/help-funcs";
+import { useLocation, useParams } from "react-router-dom";
+import { FEED_CONNECT_WS } from "../../../services/feed/actions";
+import { orderUrl } from "../../../utils/api";
 
-const FeedItemDetails: FC = () => {
-    const { id } = useParams();
-return(
-    <div className={styles.mainContainer}>
-        <div className={styles.contentContainer}>
-        <header className={styles.header}>
-            <p className={`${styles.orderNumber} text text_type_digits-default`}>#034535</p>
-            <h2>Black hole Singularity острый бургер</h2>
-            <p className={styles.ready}>Выполнен</p>
-            <h2 className={styles.info}>Состав:</h2>
-        </header>
-        <div className={styles.content}>
-            <div>
-                <ul className={styles.list}>
-                    <li className={styles.listItem}>
-                        <div className={styles.leftContainer}>
-                            <div className={styles.ingredient}>
-                                <img src={image} alt="" className={styles.ingredientImage}/>
-                            </div>
-                            <h3 className="text text_type_main-default">Флюорисцентная булка R2-D3</h3>
-                        </div>
-                        <div className={styles.rightContainer}>
-                            <p className={`text text_type_digits-default mr-2`}>2x20</p>
-                            <CurrencyIcon type="primary"/>
-                        </div>
-                    </li>
-                        <li className={styles.listItem}>
-                        <div className={styles.leftContainer}>
-                            <div className={styles.ingredient}>
-                                <img src={image} alt="" className={styles.ingredientImage}/>
-                            </div>
-                            <h3 className="text text_type_main-default">Флюорисцентная булка R2-D3</h3>
-                        </div>
-                        <div className={styles.rightContainer}>
-                            <p className={`text text_type_digits-default mr-2`}>2x20</p>
-                            <CurrencyIcon type="primary"/>
-                        </div>
-                    </li>
-                    <li className={styles.listItem}>
-                    <div className={styles.leftContainer}>
-                            <div className={styles.ingredient}>
-                                <img src={image} alt="" className={styles.ingredientImage}/>
-                            </div>
-                            <h3 className="text text_type_main-default">Флюорисцентная булка R2-D3</h3>
-                        </div>
-                        <div className={styles.rightContainer}>
-                            <p className={`text text_type_digits-default mr-2`}>2x20</p>
-                            <CurrencyIcon type="primary"/>
-                        </div>
-                    </li>
-                    <li className={styles.listItem}>
-                    <div className={styles.leftContainer}>
-                            <div className={styles.ingredient}>
-                                <img src={image} alt="" className={styles.ingredientImage}/>
-                            </div>
-                            <h3 className="text text_type_main-default">Флюорисцентная булка R2-D3</h3>
-                        </div>
-                    <div className={styles.rightContainer}>
-                        <p className={`text text_type_digits-default mr-2`}>2x20</p>
-                        <CurrencyIcon type="primary"/>
+type Props = {
+  isModal?: boolean;
+};
+
+const FeedItemDetails: FC<Props> = ({ isModal }) => {
+  const dispatch = useDispatch();
+  const { ingredients: ingredient, buns: buns } = useSelector(
+    (state) => state.ingredients
+  );
+
+  const checkAllIngredients = (
+    sortedIngredients: TIngredient[]
+  ): TIngredient[] => {
+    return Object.values(sortedIngredients)
+      .flatMap((category) =>
+        category?.count ? Array(category.count).fill(category) : category
+      )
+      .flat();
+  };
+
+  const checkTotalPrice = (
+    ingredients: TIngredient[],
+    ingredientIds: string[]
+  ): number => {
+    return ingredients
+      .filter((ingredient) => ingredientIds?.includes(ingredient._id))
+      .reduce((totalPrice, ingredient) => totalPrice + ingredient.price, 0);
+  };
+  const allIngr = { ...ingredient, ...buns };
+  const { id } = useParams();
+  /*const { orders } : OrdersResponse = useSelector((state) => state?.feed);*/
+  const { pathname } = useLocation();
+  const pathId = checkPathId(pathname);
+  const order = useSelector((state) => state.orderDetailsModal);
+
+  useEffect(() => {
+    dispatch({
+      type: FEED_CONNECT_WS,
+      payload: `${orderUrl}/${pathId}`,
+    });
+  }, [dispatch]);
+
+  if (!order) {
+    return null;
+  }
+
+  const { ingredients, status, name, number, updatedAt } = order;
+  const time = checkTimeStamp(updatedAt);
+  const allIngredients = checkAllIngredients(allIngr);
+  const totalPrice = checkTotalPrice(allIngredients, ingredients);
+  const categoryIngredients = checkCategory(ingredients);
+  const currentStatus =
+    status === "done"
+      ? "Выполнен"
+      : status === "pending"
+      ? "Готовится"
+      : "Отменен";
+
+  return (
+    <React.Fragment>
+        <section className={`${styles.main}`}>
+        <p
+            className={`${styles.number} ${
+            !isModal 
+            } text text_type_digits-default mb-10`}
+        >
+            #${number}
+        </p>
+        <h3 className={`text text_type_main-medium mb-3`}>{name}</h3>
+        <p className={`${styles.status} text text_type_main-default mb-15`}>
+            {currentStatus}
+        </p>
+        <h3 className={`text text_type_main-medium mb-6`}>Состав:</h3>
+        <ul className={`${styles.ingredients} mb-10 mr-6`}>
+            {categoryIngredients?.uniqueIds &&
+            categoryIngredients?.uniqueIds.map((id) => {
+                const { image, name, price } = allIngredients?.find(
+                (item) => item._id === id
+                ) as TIngredient;
+                return (
+                <li className={`${styles.ingredient}`}>
+                    <div className={`${styles.ingredient_image}`}>
+                    <img
+                        className={`${styles.ingredient_image_img}`}
+                        src={image}
+                        alt="ingredient"
+                    />
+                    </div>
+                    <span
+                    className={`${styles.ingredient_text} text text_type_main-default`}
+                    >
+                    {name}
+                    </span>
+                    <div className={styles.price}>
+                    <span className={`text text_type_digits-default mr-2`}>
+                        1 x {price}
+                    </span>
+                    <CurrencyIcon type="primary" />
                     </div>
                 </li>
-                </ul>
+                );
+            })}
+            {categoryIngredients?.repeatsIds &&
+            categoryIngredients?.repeatsIds.map(({ id, count }) => {
+                const { image, name, price } = allIngredients?.find(
+                (item) => item._id === id
+                ) as TIngredient;
+                return (
+                <li className={`${styles.ingredient}`}>
+                    <div className={`${styles.ingredient_image}`}>
+                    <img
+                        className={`${styles.ingredient_image_img}`}
+                        src={image}
+                        alt="ingredient"
+                    />
+                    </div>
+                    <span
+                    className={`${styles.ingredient_text} text text_type_main-default`}
+                    >
+                    {name}
+                    </span>
+                    <div className={styles.price}>
+                    <span className={`text text_type_digits-default mr-2`}>
+                        {count} x {price}
+                    </span>
+                    <CurrencyIcon type="primary" />
+                    </div>
+                </li>
+                );
+            })}
+        </ul>
+        <p className={styles.footer}>
+            <span className={`text text_type_main-default text_color_inactive`}>
+            {time}
+            </span>
+            <div className={styles.price}>
+            <span className={`text text_type_digits-default mr-2`}>
+                {totalPrice}
+            </span>
+            <CurrencyIcon type="primary" />
             </div>
-        </div>
-        <footer className={styles.footer}>
-                <span className={`text text_type_main-default text_color_inactive`}>
-                    Вчера, 13:50
-                </span>
-                <div className={styles.rightContainer}>
-                    <p className={`text text_type_digits-default mr-2`}>510</p>
-                    <CurrencyIcon type="primary"/>
-                </div>
-        </footer>
-        </div>
-    </div>
-)
-}
+        </p>
+        </section>
+    </React.Fragment>
+  );
+};
 
 export default FeedItemDetails;

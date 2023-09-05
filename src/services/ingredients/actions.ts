@@ -1,18 +1,18 @@
 export const SET_ACTIVE_INGREDIENT = "ADD_INGREDIENT";
 export const DELETE_ACTIVE_INGREDIENT = "DELETE_INGREDIENT";
 
-
 export interface ISetActiveIngredientAction {
   readonly type: typeof SET_ACTIVE_INGREDIENT;
-  readonly payload: {id: string}
+  readonly payload: { id: string };
 }
 
 export interface IDeleteActiveIngredientAction {
   readonly type: typeof DELETE_ACTIVE_INGREDIENT;
 }
 
-export type TActiveIngredientsActions = ISetActiveIngredientAction
-| IDeleteActiveIngredientAction;
+export type TActiveIngredientsActions =
+  | ISetActiveIngredientAction
+  | IDeleteActiveIngredientAction;
 
 export const setActiveIngredient = (id: string): ISetActiveIngredientAction => {
   return {
@@ -22,5 +22,5 @@ export const setActiveIngredient = (id: string): ISetActiveIngredientAction => {
 };
 
 export const deleteActiveIngredient = (): IDeleteActiveIngredientAction => ({
-  type: DELETE_ACTIVE_INGREDIENT
+  type: DELETE_ACTIVE_INGREDIENT,
 });

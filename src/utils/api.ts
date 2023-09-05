@@ -1,13 +1,16 @@
-import { IUser, IUserResponse, TAuthUserResponse, TIngredient, TOrderDetails } from "./types/types";
+import {
+  IUser,
+  IUserResponse,
+  TAuthUserResponse,
+  TIngredient,
+  TOrderDetails,
+} from "./types/types";
 
 const handleSaveAccessToken = (dataToStore: string) => {
   localStorage.setItem("accessToken", dataToStore);
-  setTimeout(
-    () => {
-      localStorage.removeItem("accessToken");
-    },
-    20 * 60 * 1000,
-  );
+  setTimeout(() => {
+    localStorage.removeItem("accessToken");
+  }, 20 * 60 * 1000);
 };
 const handleSaveRefreshToken = (dataToStore: string) => {
   localStorage.setItem("refreshToken", dataToStore);
@@ -20,30 +23,31 @@ export const url = `${DOMAIN_NAME}/ingredients`;
 export const orderUrl = `${DOMAIN_NAME}/orders`;
 
 const checkResponse = <T>(res: Response): Promise<T> => {
-  return res.ok
-    ? res.json()
-    : res.json().then((err) => Promise.reject(err));
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
 type TServerResponse<T> = {
-  success: boolean,
+  success: boolean;
 } & T;
 
-type TRefreshResponse = TServerResponse<{ refreshToken: string, accessToken: string }>
+type TRefreshResponse = TServerResponse<{
+  refreshToken: string;
+  accessToken: string;
+}>;
 
-type TFetchDataResponse = TServerResponse<{data:TIngredient[]}>;
+type TFetchDataResponse = TServerResponse<{ data: TIngredient[] }>;
 
-type TOrderResponse = TServerResponse<TOrderDetails & {message: string}>;
+type TOrderResponse = TServerResponse<TOrderDetails & { message: string }>;
 
-type TForgotPassResponse = TServerResponse<{message:string}>;
+type TForgotPassResponse = TServerResponse<{ message: string }>;
 
-type TResetPassResponse = TServerResponse<{message: string}>;
+type TResetPassResponse = TServerResponse<{ message: string }>;
 
 type TUserRegisterResponse = TServerResponse<IUserResponse>;
 
-type TUserLoginResponse = TServerResponse<IUserResponse&TAuthUserResponse>;
+type TUserLoginResponse = TServerResponse<IUserResponse & TAuthUserResponse>;
 
-type TUserLogoutResponse = TServerResponse<IUserResponse>
+type TUserLogoutResponse = TServerResponse<IUserResponse>;
 
 export const fetchData = async (): Promise<TFetchDataResponse> => {
   const response = await fetch(`${DOMAIN_NAME}/ingredients`);
@@ -56,10 +60,11 @@ export const fetchData = async (): Promise<TFetchDataResponse> => {
   }
 };
 
-export const fetchOrder = (ingredients: string[]|null) => {
+export const fetchOrder = (ingredients: string[] | null) => {
   return fetch(`${DOMAIN_NAME}/orders`, {
     headers: {
       "Content-Type": "application/json",
+      Authorization: storedAccessToken ?? "",
     },
     method: "POST",
     body: JSON.stringify({
@@ -103,7 +108,7 @@ export const fetchForgotPass = (email: string) => {
 };
 
 export const fetchResetPass = (password: string, token: string) => {
-  console.log(password, token,'in reset api')
+  console.log(password, token, "in reset api");
   return fetch(`${DOMAIN_NAME}/password-reset/reset`, {
     headers: {
       "Content-Type": "application/json",
@@ -127,7 +132,11 @@ export const fetchResetPass = (password: string, token: string) => {
     });
 };
 
-export const fetchUserRegister = (email: string, password: string, name: string) => {
+export const fetchUserRegister = (
+  email: string,
+  password: string,
+  name: string
+) => {
   return fetch(`${DOMAIN_NAME}/auth/register`, {
     headers: {
       "Content-Type": "application/json",
@@ -216,12 +225,13 @@ export const fetchGetUserInfo = async <IUser>() => {
     const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
     return await checkResponse<IUser>(res);
   } catch (err) {
-    if ((err as {message:string}).message === "jwt expired") {
+    if ((err as { message: string }).message === "jwt expired") {
       const refreshData = await fetchRefreshToken();
-      if (refreshData){
-      handleSaveAccessToken(refreshData.accessToken);
-      handleSaveRefreshToken(refreshData.refreshToken);
-      (options.headers as {[key:string]: string}).authorization = refreshData.accessToken;
+      if (refreshData) {
+        handleSaveAccessToken(refreshData.accessToken);
+        handleSaveRefreshToken(refreshData.refreshToken);
+        (options.headers as { [key: string]: string }).authorization =
+          refreshData.accessToken;
       }
       const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
       console.log("Error:", err);
@@ -233,7 +243,11 @@ export const fetchGetUserInfo = async <IUser>() => {
   }
 };
 
-export const fetchRefreshUserInfo = async (email: string, name: string, password: string) => {
+export const fetchRefreshUserInfo = async (
+  email: string,
+  name: string,
+  password: string
+) => {
   const options: RequestInit = {
     headers: {
       "Content-Type": "application/json",
@@ -255,12 +269,13 @@ export const fetchRefreshUserInfo = async (email: string, name: string, password
       return Promise.reject(err);
     }
   } catch (err) {
-    if ((err as {message:string}).message === "jwt expired") {
+    if ((err as { message: string }).message === "jwt expired") {
       const refreshData = await fetchRefreshToken();
-      if(refreshData){
-      handleSaveAccessToken(refreshData.accessToken);
-      handleSaveRefreshToken(refreshData.refreshToken);
-      (options.headers as {[key:string]: string}).authorization = refreshData.accessToken;
+      if (refreshData) {
+        handleSaveAccessToken(refreshData.accessToken);
+        handleSaveRefreshToken(refreshData.refreshToken);
+        (options.headers as { [key: string]: string }).authorization =
+          refreshData.accessToken;
       }
       const res = await fetch(`${DOMAIN_NAME}/auth/user`, options);
       console.log("Error:", err);

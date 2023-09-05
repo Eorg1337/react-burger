@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 import { TIngredient } from "../../utils/types/types";
 
 interface ISelectedIngrState {
-  selectedIngr: TIngredient|null;
+  selectedIngr: TIngredient | null;
 }
 
 const initialState: ISelectedIngrState = {
@@ -13,7 +13,10 @@ const selectedIngrSlice = createSlice({
   name: "selectedIngr",
   initialState,
   reducers: {
-    addSelectedIngr(state: ISelectedIngrState, action: PayloadAction<TIngredient>) {
+    addSelectedIngr(
+      state: ISelectedIngrState,
+      action: PayloadAction<TIngredient>
+    ) {
       return { ...state, selectedIngr: action.payload };
     },
     deleteSelectedIngr(state) {
@@ -22,5 +25,6 @@ const selectedIngrSlice = createSlice({
   },
 });
 
-export const { addSelectedIngr, deleteSelectedIngr } = selectedIngrSlice.actions;
+export const { addSelectedIngr, deleteSelectedIngr } =
+  selectedIngrSlice.actions;
 export default selectedIngrSlice.reducer;

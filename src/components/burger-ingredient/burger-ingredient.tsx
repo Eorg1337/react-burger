@@ -1,4 +1,4 @@
-import {FC} from "react";
+import { FC } from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -7,13 +7,11 @@ import styles from "./burger-ingredient.module.css";
 import { useDrag } from "react-dnd/dist/hooks";
 import { IngredientType, TIngredient } from "../../utils/types/types";
 
-
-
-type BurgerIngredientProps = TIngredient &  {
+type BurgerIngredientProps = TIngredient & {
   count: number;
-  onClick: () => TIngredient; 
+  onClick: () => TIngredient;
   onDropHandler: () => void;
-}
+};
 
 const BurgerIngredient: FC<BurgerIngredientProps> = (props) => {
   const [, dragRef] = useDrag(() => ({
@@ -22,11 +20,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = (props) => {
   }));
 
   return (
-    <div
-      className={styles.ingredient}
-      onClick={props.onClick}
-      ref={dragRef}
-    >
+    <div className={styles.ingredient} onClick={props.onClick} ref={dragRef}>
       {props.count > 0 && (
         <Counter count={props.count} size="default" extraClass="m-1" />
       )}

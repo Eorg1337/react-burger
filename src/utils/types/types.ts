@@ -3,54 +3,61 @@ import { TActiveIngredientsActions } from "../../services/ingredients/actions";
 import { TSelectedIngrActions } from "../../services/modal/actions";
 import { TCreateOrders } from "../../services/order/actions";
 
-export type TMyActions = TIngredientsActions
-|TActiveIngredientsActions
-|TSelectedIngrActions
-|TCreateOrders;
+export type TMyActions =
+  | TIngredientsActions
+  | TActiveIngredientsActions
+  | TSelectedIngrActions
+  | TCreateOrders;
 
 export enum IngredientType {
-    bun = 'bun',
-    sauce = 'sauce',
-    main = 'main',
-  }
+  bun = "bun",
+  sauce = "sauce",
+  main = "main",
+}
 
 export type TIngredient = {
-  _id: string,
-  name: string,
-  type: IngredientType,
-  proteins?: number,
-  fat?: number,
-  carbohydrates?: number,
-  calories?: number,
-  price: number,
-  image: string,
-  image_mobile?: string,
-  image_large?: string,
-  __v?: number,
-  unique_id?: string
-}
+  _id: string;
+  name: string;
+  type: IngredientType;
+  proteins?: number;
+  fat?: number;
+  carbohydrates?: number;
+  calories?: number;
+  price: number;
+  image: string;
+  image_mobile?: string;
+  image_large?: string;
+  count?: number;
+  __v?: number;
+  unique_id?: string;
+};
 
 export type TOrderDetails = {
-  order: number,
-  message: string
-}
+  order: number;
+  message: string;
+};
 
-export interface IUser  {
-  email: string,
-  name: string
+export type State = {
+  feed: OrdersResponse;
+  orderHistory: OrdersResponse;
+};
+
+export interface IUser {
+  email: string;
+  name: string;
 }
 
 export interface IUserResponse {
   user: IUser;
 }
 
-export type TAuthUserResponse =  IUserResponse & {
-  accessToken: string,
-  refreshToken: string
+export type TAuthUserResponse = IUserResponse & {
+  accessToken: string;
+  refreshToken: string;
 };
 
-export enum WebSocketStatus  {
-  CONNECTING = 'CONNECTING...',
+export enum WebSocketStatus {
+  CONNECTING = "CONNECTING...",
   OPEN = "OPEN",
   CLOSE = "CLOSE",
 }
@@ -71,3 +78,13 @@ export interface OrdersResponse {
   total: number;
   totalToday: number;
 }
+
+export interface OrdersModal {
+  feed: Order;
+}
+
+export type SortedIngredients = {
+  buns: TIngredient[] & { count?: number };
+  sauces: TIngredient[] & { count?: number };
+  inners: TIngredient[] & { count?: number };
+};
