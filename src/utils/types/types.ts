@@ -86,5 +86,5 @@ export interface OrdersModal {
 export type SortedIngredients = {
   buns: TIngredient[] & { count?: number };
   sauces: TIngredient[] & { count?: number };
-  inners: TIngredient[] & { count?: number };
+  mains: TIngredient[] & { count?: number };
 };

@@ -24,10 +24,9 @@ export type AppActions = TFeedActions | TOrdersHistoryActions;
 export type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
 
 export const socketMiddleware = (
-  url: string,
   wsActions: TWebSocketActions
-): Middleware<{}, RootState> => {
-  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+): Middleware<{}, RootState> => 
+   (store) => {
     let socket: WebSocket | null = null;
 
     return (next) => (action: AppActions) => {
@@ -39,11 +38,11 @@ export const socketMiddleware = (
       }
       if (socket) {
         socket.onopen = () => {
-          dispatch<any>(wsOpen());
+          dispatch(wsOpen());
         };
 
         socket.onerror = (event) => {
-          dispatch<any>({ type: wsError, payload: event });
+          dispatch({ type: wsError, payload: event });
         };
 
         socket.onmessage = (event) => {
@@ -53,11 +52,10 @@ export const socketMiddleware = (
         };
 
         socket.onclose = () => {
-          dispatch<any>(wsClose());
+          dispatch(wsClose());
         };
       }
 
       next(action);
     };
   };
-};

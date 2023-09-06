@@ -93,9 +93,9 @@ const FeedItem: FC<Props> = (props) => {
         <div className={`${styles.footer}  mt-6`}>
           <ul className={styles.ingredients_icon}>
             {uniqueIds?.map((id) => {
-              const imgUrl = allIngredients.find((i) => i._id === id)?.image;
+              const imgUrl = allIngredients.find((item) => item._id === id)?.image;
               return (
-                <li className={`${styles.ingredient_item}`} key={id + uuid()}>
+                <li className={`${styles.ingredient_item}`} key={id}>
                   <img
                     className={styles.ingredient_icon}
                     src={imgUrl}
@@ -109,7 +109,7 @@ const FeedItem: FC<Props> = (props) => {
                 ({ _id }) => _id === item.id
               )?.image;
               return (
-                <li className={`${styles.ingredient_item}`} key={_id + uuid()}>
+                <li className={`${styles.ingredient_item}`} key={item.id}>
                   <img
                     className={`${styles.ingredient_icon} ${styles.contrast}`}
                     src={imgUrl}

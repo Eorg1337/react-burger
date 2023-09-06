@@ -6,19 +6,19 @@ import {
   CREATE_ORDER_SUCCESS,
 } from "./actions";
 
-interface State {
+interface StateOrder {
   order: number | null;
   error: string | null;
   isLoading: boolean;
 }
 
-const initialState: State = {
+const initialState: StateOrder = {
   order: null,
   error: null,
   isLoading: false,
 };
 
-export const reducer = (state: State = initialState, action: TCreateOrders) => {
+export const reducer = (state: StateOrder = initialState, action: TCreateOrders) => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST:
       return {

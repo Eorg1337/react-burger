@@ -9,6 +9,10 @@
     grid-template-columns: 1fr 1fr;
 }
 
+.pageHeading {
+    grid-column-start: span 3;
+}
+
 .orders {
     list-style: none;
     display: grid;

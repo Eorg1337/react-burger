@@ -17,7 +17,7 @@ import {
   State,
   WebSocketStatus,
 } from "../../utils/types/types";
-import { orderUrl } from "../../utils/api";
+import { orderUrl, orderUrlWs } from "../../utils/api";
 const OrdersHistory = () => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const OrdersHistory = () => {
   useEffect(() => {
     dispatch({
       type: ORDER_HISTORY_CONNECT_WS,
-      payload: `${orderUrl}?token=${token?.replace(
+      payload: `${orderUrlWs}?token=${token?.replace(
         "Bearer ",
         ""
       )}`,

@@ -4,6 +4,7 @@ import React,{ FC, useEffect } from "react";
 import {
   Order,
   OrdersResponse,
+  SortedIngredients,
   State,
   TIngredient,
 } from "../../../utils/types/types";
@@ -15,7 +16,7 @@ import {
 } from "../../../utils/help-funcs";
 import { useLocation, useParams } from "react-router-dom";
 import { FEED_CONNECT_WS } from "../../../services/feed/actions";
-import { orderUrl } from "../../../utils/api";
+import { orderUrl, orderUrlWs } from "../../../utils/api";
 
 type Props = {
   isModal?: boolean;
@@ -55,7 +56,7 @@ const FeedItemDetails: FC<Props> = ({ isModal }) => {
   useEffect(() => {
     dispatch({
       type: FEED_CONNECT_WS,
-      payload: `${orderUrl}/${pathId}`,
+      payload: `${orderUrlWs}/${pathId}`,
     });
   }, [dispatch]);
 
@@ -83,7 +84,7 @@ const FeedItemDetails: FC<Props> = ({ isModal }) => {
             !isModal 
             } text text_type_digits-default mb-10`}
         >
-            #${number}
+            #{number}
         </p>
         <h3 className={`text text_type_main-medium mb-3`}>{name}</h3>
         <p className={`${styles.status} text text_type_main-default mb-15`}>
@@ -148,7 +149,7 @@ const FeedItemDetails: FC<Props> = ({ isModal }) => {
                 );
             })}
         </ul>
-        <p className={styles.footer}>
+        <div className={styles.footer}>
             <span className={`text text_type_main-default text_color_inactive`}>
             {time}
             </span>
@@ -158,7 +159,7 @@ const FeedItemDetails: FC<Props> = ({ isModal }) => {
             </span>
             <CurrencyIcon type="primary" />
             </div>
-        </p>
+        </div>
         </section>
     </React.Fragment>
   );

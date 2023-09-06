@@ -9,7 +9,8 @@ type OrderDetailsProps = {
 };
 
 const OrderDetails: FC<OrderDetailsProps> = (ids) => {
-  const orderNumber = useSelector((state: any) => state.order.order?.number);
+  const orderNumber = useSelector((state) => state.order);
+  console.log(orderNumber)
 
   return (
     <div className={styles.container}>

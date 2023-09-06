@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { useDispatch, useSelector } from "../../services/store";
 import { FEED_CLOSE_WS, FEED_CONNECT_WS } from "../../services/feed/actions";
-import { orderUrl } from "../../utils/api";
+import {  orderUrlWs } from "../../utils/api";
 import { State } from "../../utils/types/types";
 import { CREATE_ORDER_DETAILS_MODAL } from "../../services/order-details/actions";
 const Feed: FC = () => {
@@ -21,7 +21,7 @@ const Feed: FC = () => {
   useEffect(() => {
     dispatch({
       type: FEED_CONNECT_WS,
-      payload: `${orderUrl}/all`,
+      payload: `${orderUrlWs}/all`,
     });
     return () => {
       dispatch({ type: FEED_CLOSE_WS });
@@ -45,7 +45,7 @@ const Feed: FC = () => {
         </h2>
         <ul className={styles.orders} onClick={handleItemClick}>
           {orders?.map(({ ...order }) => {
-            return <FeedItem {...order} key={`${order._id}${uuid()}`} />;
+            return <FeedItem {...order} key={order._id} />;
           })}
         </ul>
         <InfoMenu />

@@ -19,7 +19,9 @@ const storedAccessToken = localStorage.getItem("accessToken");
 const storedRefreshToken = localStorage.getItem("refreshToken");
 
 export const DOMAIN_NAME = "https://norma.nomoreparties.space/api";
+export const DOMAIN_NAME_WS = "wss://norma.nomoreparties.space";
 export const url = `${DOMAIN_NAME}/ingredients`;
+export const orderUrlWs = `${DOMAIN_NAME_WS}/orders`
 export const orderUrl = `${DOMAIN_NAME}/orders`;
 
 const checkResponse = <T>(res: Response): Promise<T> => {
