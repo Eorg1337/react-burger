@@ -231,11 +231,6 @@ const BurgerIngredients: FC = () => {
               />
             </Link>
           ))}
-          {isVisible && (
-            <Modal onClose={handleCloseModal}>
-              <IngredientDetails />
-            </Modal>
-          )}
         </div>
       </div>
     </div>

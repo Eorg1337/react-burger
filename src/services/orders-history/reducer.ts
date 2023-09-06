@@ -31,7 +31,7 @@ const initialState: IInitialOrdersHistoryState = {
   status: WebSocketStatus.CLOSE,
 };
 
-export const ordersHistoryReducer = (
+const ordersHistoryReducer = (
   state = initialState as IInitialOrdersHistoryState,
   action: TOrdersHistoryActions
 ) => {
@@ -69,3 +69,5 @@ export const ordersHistoryReducer = (
       return state;
   }
 };
+
+export default ordersHistoryReducer;

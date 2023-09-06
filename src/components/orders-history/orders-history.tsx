@@ -17,7 +17,7 @@ import {
   State,
   WebSocketStatus,
 } from "../../utils/types/types";
-import { orderUrl, orderUrlWs } from "../../utils/api";
+import { orderUrlWs } from "../../utils/api";
 const OrdersHistory = () => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const navigate = useNavigate();
@@ -54,17 +54,19 @@ const OrdersHistory = () => {
     <div className={styles.mainContainer} onClick={handleItemClick}>
       <ul className={`${styles.feed}`}>
         {orders
-          ? orders.map((order) => (
-              <FeedItem withStatus {...order} key={order._id} />
-            ))
+          ? orders.map((order) =>{
+            return (
+              <Link
+                key={order._id}
+                to={`/profile/orders/${order._id}`}
+                state={{ background: location }}
+                className={styles.link}
+              >
+                <FeedItem withStatus {...order} key={order._id} />
+              </Link>
+          )} )
           : null}
       </ul>
-
-      {isVisible && (
-        <Modal onClose={handleCloseModal}>
-          <OrdersHistoryDetails />
-        </Modal>
-      )}
     </div>
   );
 };

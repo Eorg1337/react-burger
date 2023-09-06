@@ -3,7 +3,9 @@ import FeedItemDetails from '../../components/feed/feed-item-details/feed-item-d
 
 const FeedOrdersPage = () => {
     return(
+        <div>
             <FeedItemDetails/>
+        </div>
     )
 }
 

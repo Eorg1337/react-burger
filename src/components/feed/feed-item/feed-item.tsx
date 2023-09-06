@@ -1,9 +1,9 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React,{useMemo} from "react";
 import styles from "./feed-item.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FC, useState } from "react";
-import { Order as OrderResponse, TIngredient } from "../../../utils/types/types";
+import { Order, Order as OrderResponse, TIngredient } from "../../../utils/types/types";
 import { useDispatch, useSelector } from "../../../services/store";
 import { v4 as uuid } from "uuid";
 import {
@@ -37,6 +37,7 @@ const FeedItem: FC<Props> = (props) => {
       )
       .flat();
   };
+  
 
   const checkTotalPrice = (
     ingredients: TIngredient[],
@@ -46,9 +47,9 @@ const FeedItem: FC<Props> = (props) => {
       .filter((ingredient) => ingredientIds?.includes(ingredient._id))
       .reduce((totalPrice, ingredient) => totalPrice + ingredient.price, 0);
   };
-
   const { number, name, status, ingredients, updatedAt, _id, withStatus } =
     props;
+
   const allIngr = { ...ingredient, ...buns };
   const allIngredients = checkAllIngredients(allIngr);
   const categoryIngredients = checkCategory(ingredients);
@@ -62,16 +63,10 @@ const FeedItem: FC<Props> = (props) => {
       : status === "pending"
       ? "Готовится"
       : "Отменен";
-
+  console.log('feed-item')
   return (
   <React.Fragment>
     <li className={styles.item}>
-      <Link
-        className={styles.link}
-        to={_id}
-        state={{ background: location }}
-        onClick={createOrderHandler}
-      >
         <div className={styles.header}>
           <span
             className={`${styles.number} text text_type_digits-default mr-4`}
@@ -102,12 +97,12 @@ const FeedItem: FC<Props> = (props) => {
                     alt="item"
                   />
                 </li>
-              );
+              )
             })}
             {repeatsIds?.map((item) => {
               const imgUrl = allIngredients.find(
                 ({ _id }) => _id === item.id
-              )?.image;
+              )?.image
               return (
                 <li className={`${styles.ingredient_item}`} key={item.id}>
                   <img
@@ -119,7 +114,7 @@ const FeedItem: FC<Props> = (props) => {
                     className={`${styles.ingredient_count} text text_type_digits-default`}
                   >{`${item.count}`}</span>
                 </li>
-              );
+              )
             })}
           </ul>
 
@@ -130,10 +125,9 @@ const FeedItem: FC<Props> = (props) => {
             <CurrencyIcon type="primary" />
           </div>
         </div>
-      </Link>
     </li>
   </React.Fragment>
-  );
-};
+  )
+}
 
 export default FeedItem;

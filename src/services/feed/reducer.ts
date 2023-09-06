@@ -25,7 +25,7 @@ const initialState: IInitialFeedState = {
   status: WebSocketStatus.CLOSE,
 };
 
-export const feedReducer = (
+const feedReducer = (
   state = initialState as IInitialFeedState,
   action: TFeedActions
 ) => {
@@ -63,3 +63,6 @@ export const feedReducer = (
       return state;
   }
 };
+
+
+export default feedReducer;

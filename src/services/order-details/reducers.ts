@@ -1,6 +1,6 @@
 import { TIngredient } from "../../utils/types/types";
 import { TSelectedIngrActions } from "../modal/actions";
-import { CREATE_ORDER_DETAILS_MODAL, TModalActions } from "./actions";
+import { CREATE_ORDER_DETAILS_MODAL, GET_ORDER_DETAILS_MODAL, TModalActions } from "./actions";
 
 type TOrderModalState = {
   ingredients: string[];
@@ -31,6 +31,12 @@ export const orderDetailsModalReducer = (
       return {
         ...state,
         ...action.payload,
+      };
+    }
+    case GET_ORDER_DETAILS_MODAL: {
+      return {
+        ...state,
+        number: action.payload,
       };
     }
     default: {

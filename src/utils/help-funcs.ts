@@ -2,10 +2,11 @@ import { TIngredient } from "./types/types";
 
 export const checkCategory = (ids: string[]) : { uniqueIds?: string[]; repeatsIds?: { id: string; count: number }[] } => {
     const idCountMap: { [id: string]: number } = {};
-    const uniqueIds = Object.keys(idCountMap).filter((id) => idCountMap[id] === 1);
+    
     ids?.forEach((id) => {
       idCountMap[id] = (idCountMap[id] || 0) + 1;
     });  
+    const uniqueIds = Object.keys(idCountMap).filter((id) => idCountMap[id] === 1);
     const repeatsIds = Object.keys(idCountMap)
       .filter((id) => idCountMap[id] > 1)
       .map((id) => ({ id, count: idCountMap[id] }));
@@ -42,6 +43,8 @@ export const checkCategory = (ids: string[]) : { uniqueIds?: string[]; repeatsId
       } назад, ${timeString}`;
     }
   };
+  
+
   
   
   

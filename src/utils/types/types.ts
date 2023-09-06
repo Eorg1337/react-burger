@@ -66,6 +66,7 @@ export interface Order {
   ingredients: string[];
   _id: string;
   status: string;
+  price: number;
   name: string;
   number: number;
   createdAt: string;

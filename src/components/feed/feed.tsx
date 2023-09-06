@@ -16,7 +16,7 @@ const Feed: FC = () => {
   const dispatch = useDispatch();
   const { orders } = useSelector((state: State) => state.feed);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const location = useLocation();
+  let location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     dispatch({
@@ -45,16 +45,19 @@ const Feed: FC = () => {
         </h2>
         <ul className={styles.orders} onClick={handleItemClick}>
           {orders?.map(({ ...order }) => {
-            return <FeedItem {...order} key={order._id} />;
-          })}
+            return (
+              <Link
+                key={order._id}
+                to={`/feed/${order._id}`}
+                state={{ background: location }}
+                className={styles.link}
+              >
+                <FeedItem {...order} key={order._id} />
+              </Link>
+          )})}
         </ul>
         <InfoMenu />
       </section>
-      {isVisible && (
-        <Modal onClose={handleCloseModal}>
-          <FeedItemDetails />
-        </Modal>
-      )}
     </React.Fragment>
   );
 };

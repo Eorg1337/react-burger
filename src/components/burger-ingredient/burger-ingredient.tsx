@@ -16,7 +16,7 @@ type BurgerIngredientProps = TIngredient & {
 const BurgerIngredient: FC<BurgerIngredientProps> = (props) => {
   const [, dragRef] = useDrag(() => ({
     type: "ingredient",
-    item: props,
+    item: { ...props, onClick: undefined, onDropHandler: undefined },
   }));
 
   return (

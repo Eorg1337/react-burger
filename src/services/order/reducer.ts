@@ -5,20 +5,21 @@ import {
   CREATE_ORDER_FALSE,
   CREATE_ORDER_SUCCESS,
 } from "./actions";
+import { Order } from "../../utils/types/types";
 
-interface StateOrder {
-  order: number | null;
+export interface StateOrder {
+  order: Order[]
   error: string | null;
   isLoading: boolean;
 }
 
 const initialState: StateOrder = {
-  order: null,
+  order: [],
   error: null,
   isLoading: false,
 };
 
-export const reducer = (state: StateOrder = initialState, action: TCreateOrders) => {
+const reducer = (state: StateOrder = initialState, action: TCreateOrders) => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST:
       return {
@@ -41,3 +42,5 @@ export const reducer = (state: StateOrder = initialState, action: TCreateOrders)
       return state;
   }
 };
+
+export default reducer;
