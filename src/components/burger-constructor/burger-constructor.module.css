@@ -25,16 +25,19 @@
     display:flex;
     justify-content: center;
     align-items: center;    
+    min-width: 500px;
     margin: 5px 0px;
 }
 
 .choice{
-    display: grid;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 80px;
+    min-height: 79px;
     max-height: 450px;
-    max-width: 537px;
+    min-width: 520px;
+    max-width: 538px;
     overflow-y: auto;
     margin-left: 20px;
 }

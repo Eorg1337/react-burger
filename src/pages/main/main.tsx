@@ -15,8 +15,12 @@ const MainPage: FC = () => {
       ) : (
         <main className={style.main}>
           <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            <div className={style.left_block}>
+              <BurgerIngredients />
+            </div>
+            <div className={style.right_block}>
+              <BurgerConstructor />
+            </div>
           </DndProvider>
         </main>
       )}

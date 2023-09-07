@@ -55,6 +55,10 @@ export interface IUserResponse {
   user: IUser;
 }
 
+export interface IUserResetPass {
+  message: string;
+}
+
 export type TAuthUserResponse = IUserResponse & {
   accessToken: string;
   refreshToken: string;

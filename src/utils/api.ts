@@ -43,7 +43,7 @@ type TOrderResponse = TServerResponse<TOrderDetails & { message: string }>;
 
 type TForgotPassResponse = TServerResponse<{ message: string }>;
 
-type TResetPassResponse = TServerResponse<{ message: string }>;
+type TResetPassResponse = TServerResponse<{ message: string|undefined }>;
 
 type TUserRegisterResponse = TServerResponse<IUserResponse>;
 
@@ -96,7 +96,7 @@ export const fetchForgotPass = (email: string) => {
     .then((res) => checkResponse<TForgotPassResponse>(res))
     .then((data) => {
       if (data.success) {
-        return data.message;
+        return data;
       } else {
         console.error("error");
       }
@@ -118,7 +118,7 @@ export const fetchResetPass = (password: string, token: string) => {
     .then((res) => checkResponse<TResetPassResponse>(res))
     .then((data) => {
       if (data.success) {
-        return data.message;
+        return data;
       } else {
         console.error("error");
       }

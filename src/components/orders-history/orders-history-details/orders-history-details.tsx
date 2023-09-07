@@ -80,7 +80,6 @@ const OrdersHistoryDetails: FC<Props> = ({ }) => {
 
   const { orders } = useSelector((state) => state?.orderHistory);
   const order = orders?.find((item)=>item._id === pathId);
-  console.log('OrdersHistoryModal', orders, order)
 
   if (!order) {
     return null;

@@ -1,8 +1,22 @@
-/*.main{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
+.main{
+  position: relative;
   }
-    
+
+  .left-block {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* центрирование блока */
+  }
+  
+  .right-block {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%; /* ширина блока */
+  }
+    /*
 .loader{
     display: flex;
     justify-content: center;

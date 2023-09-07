@@ -19,7 +19,6 @@ export const checkCategory = (ids: string[]) : { uniqueIds?: string[]; repeatsId
   export const checkPathId = (path: string) => {
     const pieces: string[] = path.split("/");
     const lastPiece: string = pieces[pieces.length - 1];
-    console.log(lastPiece, "lastPart");
     return lastPiece;
   };
   

@@ -9,6 +9,7 @@ import {
   fetchResetPass,
   fetchUserRegister,
 } from "../../utils/api";
+import { IUserResetPass } from "../../utils/types/types";
 
 interface UserState {
   user: {
@@ -91,7 +92,6 @@ export const resetPass = createAsyncThunk(
   "user/resetPass",
   async ({ passwordValue, value }: ResetPassPayload) => {
     const response = await fetchResetPass(passwordValue, value);
-    console.log(passwordValue, value);
     return response;
   }
 );
@@ -109,7 +109,6 @@ export const refreshUserInfo = createAsyncThunk(
       nameValue,
       passwordValue
     );
-    console.log({ loginValue, nameValue, passwordValue });
     return response;
   }
 );
@@ -127,10 +126,12 @@ const userSlice = createSlice({
     builder.addCase(login.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(login.fulfilled, (state, action: any) => {
-      state.user = action.payload?.user;
-      state.success = true;
-      state.isLoading = false;
+    builder.addCase(login.fulfilled, (state, action) => {
+      if (action.payload?.user) {
+        state.user = action.payload.user;
+        state.success = true;
+        state.isLoading = false;
+      }
     });
     builder.addCase(login.rejected, (state, action) => {
       state.success = false;
@@ -145,10 +146,12 @@ const userSlice = createSlice({
     builder.addCase(userRegister.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(userRegister.fulfilled, (state, action: any) => {
+    builder.addCase(userRegister.fulfilled, (state, action) => {
+      if (action.payload?.user) {
       state.isLoading = false;
-      state.user = action.payload.user;
+      state.user = action.payload?.user;
       state.success = true;
+      }
     });
     builder.addCase(userRegister.rejected, (state, action) => {
       state.message = action.error.message;
@@ -156,8 +159,8 @@ const userSlice = createSlice({
     builder.addCase(forgotPass.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(forgotPass.fulfilled, (state, action: any) => {
-      state.message = action.payload.message;
+    builder.addCase(forgotPass.fulfilled, (state, action) => {
+      state.message = action.payload?.message;
       state.success = true;
       state.isLoading = false;
     });
@@ -167,8 +170,8 @@ const userSlice = createSlice({
     builder.addCase(resetPass.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(resetPass.fulfilled, (state, action: any) => {
-      state.message = action.payload.message;
+    builder.addCase(resetPass.fulfilled, (state, action) => {
+      state.message = action.payload?.message;
       state.success = true;
       state.isLoading = false;
     });
@@ -178,7 +181,7 @@ const userSlice = createSlice({
     builder.addCase(getUserInfo.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getUserInfo.fulfilled, (state, action: any) => {
+    builder.addCase(getUserInfo.fulfilled, (state, action) => {
       state.success = true;
       state.isLoading = false;
       state.user = action.payload.user;

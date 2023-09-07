@@ -70,7 +70,6 @@ const FeedItem: FC<Props> = (props) => {
       : status === "pending"
       ? "Готовится"
       : "Отменен";
-  console.log('feed-item')
   return (
   <React.Fragment>
     <li className={styles.item}>
@@ -113,7 +112,6 @@ const FeedItem: FC<Props> = (props) => {
               )?.image) ?? (allBuns.find(
                 ({ _id }) => _id === item.id
               )?.image)
-              console.log(imgUrl)
               return (
                 <li className={`${styles.ingredient_item}`} key={item.id}>
                   <img

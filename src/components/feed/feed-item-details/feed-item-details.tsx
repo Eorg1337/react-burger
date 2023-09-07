@@ -96,7 +96,6 @@ const FeedItemDetails: FC<Props> = ({ }) => {
       : status === "pending"
       ? "Готовится"
       : "Отменен";
-      console.log('feed-item-details')
   return (
     <React.Fragment>
         <section className={`${styles.main}`}>
