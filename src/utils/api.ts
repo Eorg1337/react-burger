@@ -45,7 +45,8 @@ type TForgotPassResponse = TServerResponse<{ message: string }>;
 
 type TResetPassResponse = TServerResponse<{ message: string|undefined }>;
 
-type TUserRegisterResponse = TServerResponse<IUserResponse>;
+type TUserRegisterResponse = TServerResponse<IUserResponse&{accessToken: string;
+  refreshToken: string;}>;
 
 type TUserLoginResponse = TServerResponse<IUserResponse & TAuthUserResponse>;
 
@@ -66,7 +67,7 @@ export const fetchOrder = (ingredients: string[] | null) => {
   return fetch(`${DOMAIN_NAME}/orders`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: storedAccessToken ?? "",
+      Authorization: localStorage.getItem("accessToken") ?? "",
     },
     method: "POST",
     body: JSON.stringify({
@@ -144,6 +145,8 @@ export const fetchUserRegister = (
     .then((res) => checkResponse<TUserRegisterResponse>(res))
     .then((data) => {
       if (data.success) {
+        handleSaveAccessToken(data.accessToken);
+        handleSaveRefreshToken(data.refreshToken);
         return data;
       } else {
         console.error("error");
