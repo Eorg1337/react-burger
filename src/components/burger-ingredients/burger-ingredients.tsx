@@ -23,6 +23,9 @@ const BurgerIngredients: FC = () => {
   const [ingredientCounts, setIngredientCounts] = React.useState<
     Record<string, number>
   >({});
+  const [bunsCounts, setBunsCounts] = React.useState<
+  Record<string, number>
+>({});
   const [elements, setElements] = React.useState<TIngredient[]>([]);
   const [draggedElements, setDraggedElements] = React.useState<TIngredient[]>(
     []
@@ -36,6 +39,7 @@ const BurgerIngredients: FC = () => {
   const pickedIngredients = useSelector(
     (state) => state.constr?.constructorIngredients
   );
+  const pickedBuns = useSelector((state)=> state.constr?.constructorBuns)
 
   useEffect(() => {
     const counts = pickedIngredients.reduce(
@@ -45,8 +49,16 @@ const BurgerIngredients: FC = () => {
       },
       {}
     );
+    const countsBuns = pickedBuns.reduce(
+      (counts: Record<string, number>, ingredient: TIngredient) => {
+        counts[ingredient._id] = (counts[ingredient._id] || 0) + 1;
+        return counts;
+      },
+      {}
+    );
     setIngredientCounts(counts);
-  }, [pickedIngredients]);
+    setBunsCounts(countsBuns);
+  }, [pickedIngredients,pickedBuns]);
 
   const addModal = (item: TIngredient) => {
     dispatch(addSelectedIngr(item));
@@ -177,7 +189,7 @@ const BurgerIngredients: FC = () => {
                 type={item.type}
                 price={item.price}
                 image={item.image}
-                count={ingredientCounts[item._id]}
+                count={bunsCounts[item._id]}
                 onClick={() => handleItemClick(item)}
                 onDropHandler={() => handleDrop(item)}
               />

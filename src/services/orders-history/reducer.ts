@@ -12,7 +12,7 @@ import {
   ORDER_HISTORY_OPEN_WS,
   ORDER_HISTORY_ORDER_WS,
 } from "./actions";
-import { Order } from "../../utils/types/types";
+import { Order, OrdersResponse } from "../../utils/types/types";
 import { WebSocketStatus } from "../../utils/types/types";
 
 interface IInitialOrdersHistoryState {
@@ -20,7 +20,7 @@ interface IInitialOrdersHistoryState {
   totalToday: number;
   status: WebSocketStatus;
   orders: Order[];
-  error: string;
+  error: string | OrdersResponse;
 }
 
 const initialState: IInitialOrdersHistoryState = {
@@ -34,7 +34,7 @@ const initialState: IInitialOrdersHistoryState = {
 const ordersHistoryReducer = (
   state = initialState as IInitialOrdersHistoryState,
   action: TOrdersHistoryActions
-) => {
+): IInitialOrdersHistoryState => {
   switch (action.type) {
     case ORDER_HISTORY_CONNECT_WS:
       return {

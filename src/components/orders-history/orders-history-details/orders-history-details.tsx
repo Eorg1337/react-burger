@@ -78,7 +78,7 @@ const OrdersHistoryDetails: FC<Props> = ({ }) => {
   const { pathname } = useLocation();
   const pathId = checkPathId(pathname);
 
-  const { orders } : OrdersResponse = useSelector((state) => state?.orderHistory);
+  const { orders } = useSelector((state) => state?.orderHistory);
   const order = orders?.find((item)=>item._id === pathId);
   console.log('OrdersHistoryModal', orders, order)
 

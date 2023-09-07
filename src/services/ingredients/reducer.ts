@@ -5,7 +5,7 @@ import { TIngredient } from "../../utils/types/types";
 interface InitialState {
   ingredients: TIngredient[];
   activeIngredient: TIngredient | null;
-  buns: TIngredient[] | null;
+  buns: TIngredient[];
   error: string | null;
   isLoading: boolean;
 }
@@ -23,7 +23,7 @@ export const ingredientsSlice = createSlice({
   initialState: {
     ingredients: [],
     activeIngredient: null,
-    buns: null,
+    buns: [],
     error: null,
     isLoading: false,
   } as InitialState,

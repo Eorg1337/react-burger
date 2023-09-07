@@ -8,18 +8,18 @@ import {
 import { Order } from "../../utils/types/types";
 
 export interface StateOrder {
-  order: Order[]
+  order: Order|undefined;
   error: string | null;
   isLoading: boolean;
 }
 
 const initialState: StateOrder = {
-  order: [],
+  order: undefined,
   error: null,
   isLoading: false,
 };
 
-const reducer = (state: StateOrder = initialState, action: TCreateOrders) => {
+const reducer = (state: StateOrder = initialState, action: TCreateOrders):StateOrder => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST:
       return {
@@ -34,7 +34,7 @@ const reducer = (state: StateOrder = initialState, action: TCreateOrders) => {
       };
     case CREATE_ORDER_FALSE:
       return {
-        state: initialState,
+        ...state,
         isLoading: false,
         error: action.payload,
       };

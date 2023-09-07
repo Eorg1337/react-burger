@@ -32,8 +32,12 @@ export type TIngredient = {
   unique_id?: string;
 };
 
+export type TIngrForFeedDetails = TIngredient & {
+image_large: string;
+}
+
 export type TOrderDetails = {
-  order: number;
+  order: Order;
   message: string;
 };
 

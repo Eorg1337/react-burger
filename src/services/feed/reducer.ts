@@ -6,15 +6,15 @@ import {
   FEED_OPEN_WS,
   FEED_ORDER_WS,
 } from "./actions";
-import { Order } from "../../utils/types/types";
+import { Order, OrdersResponse } from "../../utils/types/types";
 import { WebSocketStatus } from "../../utils/types/types";
 
 interface IInitialFeedState {
   total: number;
   totalToday: number;
-  status: WebSocketStatus;
+  status: string| OrdersResponse;
   orders: Order[];
-  error: string;
+  error: string| OrdersResponse;
 }
 
 const initialState: IInitialFeedState = {
@@ -28,7 +28,7 @@ const initialState: IInitialFeedState = {
 const feedReducer = (
   state = initialState as IInitialFeedState,
   action: TFeedActions
-) => {
+): IInitialFeedState => {
   switch (action.type) {
     case FEED_CONNECT_WS:
       return {

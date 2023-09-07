@@ -27,6 +27,7 @@ const IngredientDetails: FC = () => {
           </header>
           <img
             src={activeIngredient.image_large}
+            alt='Детали ингредиента'
             className={styles.image}
           ></img>
           <h2 className={`text text_type_main-medium ${styles.name}`}>

@@ -21,7 +21,7 @@ import { orderUrlWs } from "../../utils/api";
 const OrdersHistory = () => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const navigate = useNavigate();
-  const { orders } = useSelector((state: State) => state.orderHistory);
+  const { orders } = useSelector((state) => state.orderHistory);
   let location = useLocation();
   const dispatch = useDispatch();
   const token = localStorage.getItem("accessToken");

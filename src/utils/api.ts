@@ -81,9 +81,6 @@ export const fetchOrder = (ingredients: string[] | null) => {
         console.error(data.message);
       }
     })
-    .catch((err) => {
-      console.error("Error", err);
-    });
 };
 
 export const fetchForgotPass = (email: string) => {
@@ -104,9 +101,6 @@ export const fetchForgotPass = (email: string) => {
         console.error("error");
       }
     })
-    .catch((err) => {
-      console.error("Error", err);
-    });
 };
 
 export const fetchResetPass = (password: string, token: string) => {
@@ -129,9 +123,6 @@ export const fetchResetPass = (password: string, token: string) => {
         console.error("error");
       }
     })
-    .catch((err) => {
-      console.error("Error", err);
-    });
 };
 
 export const fetchUserRegister = (
@@ -158,9 +149,6 @@ export const fetchUserRegister = (
         console.error("error");
       }
     })
-    .catch((err) => {
-      console.error("Error", err);
-    });
 };
 
 export const fetchUserLogin = (email: string, password: string) => {
@@ -184,9 +172,6 @@ export const fetchUserLogin = (email: string, password: string) => {
         console.error("error");
       }
     })
-    .catch((err) => {
-      console.error("Error", err);
-    });
 };
 
 export const fetchRefreshToken = () => {
@@ -209,9 +194,6 @@ export const fetchRefreshToken = () => {
         console.error("error");
       }
     })
-    .catch((err) => {
-      console.error("Error", err);
-    });
 };
 
 export const fetchGetUserInfo = async <IUser>() => {
@@ -309,7 +291,4 @@ export const fetchUserLogout = () => {
         console.error("error");
       }
     })
-    .catch((err) => {
-      console.log("Error", err);
-    });
 };

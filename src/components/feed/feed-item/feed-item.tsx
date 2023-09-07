@@ -21,8 +21,13 @@ const FeedItem: FC<Props> = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { ingredients: ingredient, buns: buns } = useSelector(
-    (state) => state.ingredients
+
+  const allIngr = useSelector(
+    (state) => state.ingredients.ingredients
+  );
+
+  const allBns = useSelector(
+    (state) => state.ingredients.buns
   );
   const createOrderHandler = () => {
     dispatch({ type: CREATE_ORDER_DETAILS_MODAL, payload: { ...props } });
@@ -50,10 +55,12 @@ const FeedItem: FC<Props> = (props) => {
   const { number, name, status, ingredients, updatedAt, _id, withStatus } =
     props;
 
-  const allIngr = { ...ingredient, ...buns };
   const allIngredients = checkAllIngredients(allIngr);
+  const allBuns = checkAllIngredients(allBns);
   const categoryIngredients = checkCategory(ingredients);
-  const totalPrice = checkTotalPrice(allIngredients, ingredients);
+  const totalIngrPrice = checkTotalPrice(allIngredients, ingredients);
+  const totalBunsPrice = checkTotalPrice(allBuns,ingredients)
+  const totalPrice = totalBunsPrice + totalIngrPrice;
   const time = checkTimeStamp(updatedAt);
   const { repeatsIds, uniqueIds } = categoryIngredients;
 
@@ -88,7 +95,8 @@ const FeedItem: FC<Props> = (props) => {
         <div className={`${styles.footer}  mt-6`}>
           <ul className={styles.ingredients_icon}>
             {uniqueIds?.map((id) => {
-              const imgUrl = allIngredients.find((item) => item._id === id)?.image;
+                const imgUrl = (allIngredients.find((item) => item._id === id)?.image) ?? 
+                (allBuns.find((item) => item._id === id)?.image);
               return (
                 <li className={`${styles.ingredient_item}`} key={id}>
                   <img
@@ -100,9 +108,12 @@ const FeedItem: FC<Props> = (props) => {
               )
             })}
             {repeatsIds?.map((item) => {
-              const imgUrl = allIngredients.find(
+              const imgUrl = (allIngredients.find(
                 ({ _id }) => _id === item.id
-              )?.image
+              )?.image) ?? (allBuns.find(
+                ({ _id }) => _id === item.id
+              )?.image)
+              console.log(imgUrl)
               return (
                 <li className={`${styles.ingredient_item}`} key={item.id}>
                   <img

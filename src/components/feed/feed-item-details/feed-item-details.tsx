@@ -22,10 +22,15 @@ type Props = {
   isModal?: boolean;
 };
 
+
 const FeedItemDetails: FC<Props> = ({ }) => {
   const dispatch = useDispatch();
-  const { ingredients: ingredient, buns: buns } = useSelector(
-    (state) => state.ingredients
+  const allIngr = useSelector(
+    (state) => state.ingredients.ingredients
+  );
+
+  const allBns = useSelector(
+    (state) => state.ingredients.buns
   );
 
 
@@ -57,8 +62,7 @@ const FeedItemDetails: FC<Props> = ({ }) => {
       .filter((ingredient) => ingredientIds?.includes(ingredient._id))
       .reduce((totalPrice, ingredient) => totalPrice + ingredient.price, 0);
   };
-  const allIngr = { ...ingredient, ...buns };
-  const { id } = useParams();
+ 
   const { pathname } = useLocation();
   const pathId = checkPathId(pathname);
 
@@ -72,7 +76,7 @@ const FeedItemDetails: FC<Props> = ({ }) => {
 
 
 
-  const { orders } : OrdersResponse = useSelector((state) => state?.feed);
+  const { orders }  = useSelector((state) => state?.feed);
   const order = orders?.find((item)=>item._id === pathId);
 
   if (!order) {
@@ -81,7 +85,10 @@ const FeedItemDetails: FC<Props> = ({ }) => {
   const { ingredients, status, name, number, updatedAt } = order;
   const time = checkTimeStamp(updatedAt);
   const allIngredients = checkAllIngredients(allIngr);
-  const totalPrice = checkTotalPrice(allIngredients, ingredients);
+  const allBuns = checkAllIngredients(allBns)
+  const totalIngrPrice = checkTotalPrice(allIngredients, ingredients);
+  const totalBunsPrice = checkTotalPrice(allBuns,ingredients)
+  const totalPrice = totalBunsPrice + totalIngrPrice;
   const categoryIngredients = checkCategory(ingredients);
   const currentStatus =
     status === "done"
@@ -106,9 +113,10 @@ const FeedItemDetails: FC<Props> = ({ }) => {
         <ul className={`${styles.ingredients} mb-10 mr-6`}>
             {categoryIngredients?.uniqueIds &&
             categoryIngredients?.uniqueIds.map((id) => {
-                const { image, name, price } = allIngredients?.find(
-                (item) => item._id === id
-                ) as TIngredient;
+                const { image, name, price } = (allIngredients?.find(
+                (item) => item._id === id) ?? (allBuns?.find(
+                  (item) => item._id === id) 
+                )) as TIngredient;
                 return (
                 <li className={`${styles.ingredient}`} key={id}>
                     <div className={`${styles.ingredient_image}`}>
@@ -134,9 +142,10 @@ const FeedItemDetails: FC<Props> = ({ }) => {
             })}
             {categoryIngredients?.repeatsIds &&
             categoryIngredients?.repeatsIds.map(({ id, count }) => {
-                const { image, name, price } = allIngredients?.find(
-                (item) => item._id === id
-                ) as TIngredient;
+                const { image, name, price } = (allIngredients?.find(
+                  (item) => item._id === id) ?? (allBuns?.find(
+                    (item) => item._id === id) 
+                  )) as TIngredient;
                 return (
                 <li className={`${styles.ingredient}`} key={id}>
                     <div className={`${styles.ingredient_image}`}>

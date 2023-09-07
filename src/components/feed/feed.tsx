@@ -14,7 +14,7 @@ import { State } from "../../utils/types/types";
 import { CREATE_ORDER_DETAILS_MODAL } from "../../services/order-details/actions";
 const Feed: FC = () => {
   const dispatch = useDispatch();
-  const { orders } = useSelector((state: State) => state.feed);
+  const { orders } = useSelector((state) => state.feed);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   let location = useLocation();
   const navigate = useNavigate();

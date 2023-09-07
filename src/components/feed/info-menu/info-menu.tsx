@@ -3,7 +3,7 @@ import { useSelector } from "../../../services/store";
 import { OrdersResponse } from "../../../utils/types/types";
 
 export const InfoMenu = () => {
-  const { orders, total, totalToday }: OrdersResponse = useSelector(
+  const { orders, total, totalToday } = useSelector(
     (state) => state.feed
   );
   return (

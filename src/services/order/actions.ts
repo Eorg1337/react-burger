@@ -1,4 +1,6 @@
 import { fetchOrder } from "../../utils/api";
+import { Order } from "../../utils/types/types";
+import { useDispatch } from "../store";
 
 export const CREATE_ORDER_REQUEST = "CREATE_ORDER_REQUEST";
 export const CREATE_ORDER_SUCCESS = "CREATE_ORDER_SUCCESS";
@@ -10,7 +12,7 @@ export interface ICreateOrderRequestAction {
 
 export interface ICreateOrderSuccessAction {
   readonly type: typeof CREATE_ORDER_SUCCESS;
-  readonly payload: number | undefined;
+  readonly payload: Order|undefined;
 }
 
 export interface ICreateOrderFalseAction {

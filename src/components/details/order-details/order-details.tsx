@@ -14,13 +14,14 @@ type OrderDetailsProps = {
 };
 
 const OrderDetails: FC<OrderDetailsProps> = () => {
-const {number} = useSelector((state) => state.order);
+const number = useSelector((state) => state.order?.order);
+
 
 
   return (
     <div className={styles.container}>
       <header className={`text text_type_digits-large ${styles.header}`}>
-      {number ? number : "Loading..."}
+      {number?.number ? number.number : "Loading..."}
       </header>
       <p className={`text text_type_main-medium ${styles.id}`}>
         идентификатор заказа
