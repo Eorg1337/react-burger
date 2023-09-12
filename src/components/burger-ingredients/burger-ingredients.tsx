@@ -5,7 +5,7 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import IngredientDetails from "../details/ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "../../services/store";
 import {
   addSelectedIngr,
   deleteSelectedIngr,
@@ -15,44 +15,57 @@ import {
   setActiveIngredient,
   deleteActiveIngredient,
 } from "../../services/ingredients/reducer";
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
 
 const BurgerIngredients: FC = () => {
   const [currentTab, setCurrentTab] = React.useState<string>("buns");
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
-  const [ingredientCounts, setIngredientCounts] = React.useState<Record<string, number>>({});
+  const [ingredientCounts, setIngredientCounts] = React.useState<
+    Record<string, number>
+  >({});
+  const [bunsCounts, setBunsCounts] = React.useState<
+  Record<string, number>
+>({});
   const [elements, setElements] = React.useState<TIngredient[]>([]);
-  const [draggedElements, setDraggedElements] = React.useState<TIngredient[]>([]);
+  const [draggedElements, setDraggedElements] = React.useState<TIngredient[]>(
+    []
+  );
   const containerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   let location = useLocation();
-  const ingredients = useSelector(
-    (state: any) => state.rootReducer.ingredients?.ingredients,
-  );
-  const buns = useSelector((state: any) => state.rootReducer.ingredients?.buns);
+  const ingredients = useSelector((state) => state.ingredients?.ingredients);
+  const buns = useSelector((state) => state.ingredients?.buns);
   const pickedIngredients = useSelector(
-    (state: any) => state.rootReducer.constr?.constructorIngredients,
+    (state) => state.constr?.constructorIngredients
   );
+  const pickedBuns = useSelector((state)=> state.constr?.constructorBuns)
 
   useEffect(() => {
-    const counts = pickedIngredients.reduce((counts: Record<string, number>, ingredient: TIngredient) => {
-      counts[ingredient._id] = (counts[ingredient._id] || 0) + 1;
-      return counts;
-    }, {});
+    const counts = pickedIngredients.reduce(
+      (counts: Record<string, number>, ingredient: TIngredient) => {
+        counts[ingredient._id] = (counts[ingredient._id] || 0) + 1;
+        return counts;
+      },
+      {}
+    );
+    const countsBuns = pickedBuns.reduce(
+      (counts: Record<string, number>, ingredient: TIngredient) => {
+        counts[ingredient._id] = (counts[ingredient._id] || 0) + 1;
+        return counts;
+      },
+      {}
+    );
     setIngredientCounts(counts);
-  }, [pickedIngredients]);
-
-  const modalView = useSelector(
-    (state: any) => state.rootReducer.modal.selectedIngr,
-  );
+    setBunsCounts(countsBuns);
+  }, [pickedIngredients,pickedBuns]);
 
   const addModal = (item: TIngredient) => {
-    dispatch(addSelectedIngr({ item }));
+    dispatch(addSelectedIngr(item));
   };
 
   const clearModal = () => {
-    dispatch(deleteSelectedIngr({}));
+    dispatch(deleteSelectedIngr());
   };
 
   const handleTabClick = (tab: string) => {
@@ -74,7 +87,7 @@ const BurgerIngredients: FC = () => {
     let closestDistance = Infinity;
     tabs.forEach((tab) => {
       const element = document.getElementById(tab);
-      if (element&&containerElement) {
+      if (element && containerElement) {
         const rect = element.getBoundingClientRect();
         const distance = Math.abs(rect.top - containerElement.scrollTop);
         if (distance < closestDistance) {
@@ -90,7 +103,9 @@ const BurgerIngredients: FC = () => {
 
   const handleDrop = (itemId: TIngredient) => {
     setElements([
-      ...ingredients.filter((ingredient: TIngredient) => ingredient._id !== itemId._id),
+      ...ingredients.filter(
+        (ingredient: TIngredient) => ingredient._id !== itemId._id
+      ),
     ]);
     setDraggedElements([
       ...draggedElements,
@@ -122,8 +137,12 @@ const BurgerIngredients: FC = () => {
   };
 
   const filteredBuns = buns?.filter((item: TIngredient) => item.type === "bun");
-  const filteredSauces = ingredients?.filter((item: TIngredient) => item.type === "sauce");
-  const filteredMain = ingredients?.filter((item: TIngredient) => item.type === "main");
+  const filteredSauces = ingredients?.filter(
+    (item: TIngredient) => item.type === "sauce"
+  );
+  const filteredMain = ingredients?.filter(
+    (item: TIngredient) => item.type === "main"
+  );
 
   return (
     <div className={`${styles.container}`}>
@@ -170,9 +189,9 @@ const BurgerIngredients: FC = () => {
                 type={item.type}
                 price={item.price}
                 image={item.image}
-                count={ingredientCounts[item._id]}
+                count={bunsCounts[item._id]}
                 onClick={() => handleItemClick(item)}
-                onDropHandler={()=>handleDrop(item)}
+                onDropHandler={() => handleDrop(item)}
               />
             </Link>
           ))}
@@ -196,7 +215,7 @@ const BurgerIngredients: FC = () => {
                   image={item.image}
                   count={ingredientCounts[item._id]}
                   onClick={() => handleItemClick(item)}
-                  onDropHandler={()=>handleDrop(item)}
+                  onDropHandler={() => handleDrop(item)}
                 />
               </React.Fragment>
             </Link>
@@ -220,15 +239,10 @@ const BurgerIngredients: FC = () => {
                 image={item.image}
                 count={ingredientCounts[item._id]}
                 onClick={() => handleItemClick(item)}
-                onDropHandler={()=>handleDrop(item)}
+                onDropHandler={() => handleDrop(item)}
               />
             </Link>
           ))}
-          {isVisible && (
-            <Modal onClose={handleCloseModal}>
-              <IngredientDetails />
-            </Modal>
-          )}
         </div>
       </div>
     </div>

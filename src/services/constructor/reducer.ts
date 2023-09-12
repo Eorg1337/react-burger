@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { TIngredient } from "../../utils/types";
+import type { TIngredient } from "../../utils/types/types";
+import type { TIngredientsActions } from "./actions";
 
-
-interface StateConstructor { 
-  error: string | null;
-  isLoading: boolean;
-  constructorIngredients: TIngredient[]
-  constructorBuns: TIngredient[];
+interface StateConstructor {
+  error?: string | null;
+  isLoading?: boolean;
+  constructorIngredients: Array<TIngredient>;
+  constructorBuns: Array<TIngredient>;
 }
 
 const initialState: StateConstructor = {
@@ -17,11 +17,11 @@ const initialState: StateConstructor = {
   constructorBuns: [],
 };
 
-export const constructorSlice: any = createSlice({
+export const constructorSlice = createSlice({
   name: "constructor",
   initialState,
   reducers: {
-    addIngredient(state, action: PayloadAction<TIngredient>): any {
+    addIngredient(state, action: PayloadAction<TIngredient>): StateConstructor {
       const newIngredient = {
         ...action.payload,
         unique_id: uuidv4(),
@@ -39,20 +39,23 @@ export const constructorSlice: any = createSlice({
 
       return { constructorIngredients, constructorBuns };
     },
-    deleteIngredient(state, action: PayloadAction<string>): any {
+    deleteIngredient(state, action: PayloadAction<string>): StateConstructor {
       const uniqueId = action.payload;
       const constructorIngredients = state.constructorIngredients.filter(
-        (ing) => ing.unique_id !== uniqueId,
+        (ing) => ing.unique_id !== uniqueId
       );
 
       const constructorBuns = state.constructorBuns.filter(
-        (bun) => bun.unique_id !== uniqueId,
+        (bun) => bun.unique_id !== uniqueId
       );
 
       return { constructorIngredients, constructorBuns };
     },
 
-    moveIngredient(state, action: PayloadAction<{ dragIndex: number; hoverIndex: number }>) {
+    moveIngredient(
+      state,
+      action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
+    ) {
       const { dragIndex, hoverIndex } = action.payload;
       const dragCard = state.constructorIngredients[dragIndex];
       const newCards = [...state.constructorIngredients];

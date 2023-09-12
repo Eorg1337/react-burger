@@ -1,12 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { fetchData } from "../../utils/api";
-import { TIngredient } from "../../utils/types";
-
+import { TIngredient } from "../../utils/types/types";
 
 interface InitialState {
   ingredients: TIngredient[];
   activeIngredient: TIngredient | null;
-  buns: TIngredient[] | null;
+  buns: TIngredient[];
   error: string | null;
   isLoading: boolean;
 }
@@ -16,7 +15,7 @@ export const getIngredients = createAsyncThunk(
   async () => {
     const response = await fetchData();
     return response.data;
-  },
+  }
 );
 
 export const ingredientsSlice = createSlice({
@@ -24,25 +23,27 @@ export const ingredientsSlice = createSlice({
   initialState: {
     ingredients: [],
     activeIngredient: null,
-    buns: null,
+    buns: [],
     error: null,
     isLoading: false,
   } as InitialState,
   reducers: {
-    setActiveIngredient(state, action) {
+    setActiveIngredient(
+      state: InitialState,
+      action: PayloadAction<string>
+    ): InitialState {
       let activeIngredient: TIngredient | null = null;
-      console.log(action.payload);
       const newActiveIngredient =
         state.ingredients?.find(
-          (ingredient) => ingredient._id === action.payload,
+          (ingredient) => ingredient._id === action.payload
         ) ||
         state.buns?.find((ingredient) => ingredient._id === action.payload);
-        if(newActiveIngredient){
-      activeIngredient  = newActiveIngredient;
-        }
+      if (newActiveIngredient) {
+        activeIngredient = newActiveIngredient;
+      }
       return { ...state, activeIngredient };
     },
-    deleteActiveIngredient(state) {
+    deleteActiveIngredient(state): InitialState {
       let activeIngredient: TIngredient | null = null;
       return { ...state, activeIngredient };
     },

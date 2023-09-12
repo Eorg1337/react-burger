@@ -1,0 +1,19 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    max-width: 732px; 
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+.feed{
+    list-style: none;
+    display: grid;
+    gap: 24px;
+}
+
+
+.link {
+    color: inherit;
+    text-decoration: none;
+  }

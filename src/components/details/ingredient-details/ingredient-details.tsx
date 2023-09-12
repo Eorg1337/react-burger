@@ -1,21 +1,21 @@
-import React,{FC} from "react";
+import React, { FC } from "react";
 import styles from "./ingredient-details.module.css";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { TIngredient } from "../../../utils/types";
-
+import { useSelector } from "../../../services/store";
+import { TIngredient } from "../../../utils/types/types";
 
 const IngredientDetails: FC = () => {
   const dig_font = "text text_type_digits-default text_color_inactive";
   const text_font = "text text_type_main-default text_color_inactive";
   const { id } = useParams();
 
-  const activeIngredient = useSelector((state: any) => {
+  const activeIngredient = useSelector((state) => {
     return id
-      ? state.rootReducer.ingredients.ingredients?.find(
-          (item: TIngredient) => item._id === id,
-        ) || state.rootReducer.ingredients.buns?.find((item: TIngredient) => item._id === id)
-      : state.rootReducer.ingredients.activeIngredient;
+      ? state.ingredients.ingredients?.find(
+          (item: TIngredient) => item._id === id
+        ) ||
+          state.ingredients.buns?.find((item: TIngredient) => item._id === id)
+      : state.ingredients.activeIngredient;
   });
 
   return (
@@ -27,6 +27,7 @@ const IngredientDetails: FC = () => {
           </header>
           <img
             src={activeIngredient.image_large}
+            alt='Детали ингредиента'
             className={styles.image}
           ></img>
           <h2 className={`text text_type_main-medium ${styles.name}`}>

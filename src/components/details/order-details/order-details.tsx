@@ -1,23 +1,27 @@
-import React,{FC} from "react";
+import React, { FC, useEffect } from "react";
 import styles from "./order-details.module.css";
 import graphics from "../../../images/graphics.svg";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-
+import { useSelector } from "../../../services/store";
+import { Order } from "../../../utils/types/types";
+import { StateOrder } from "../../../services/order/reducer";
+import { GET_ORDER_DETAILS_MODAL } from "../../../services/order-details/actions";
+import { useDispatch } from "../../../services/store";
+import { orderUrlWs } from "../../../utils/api";
 
 type OrderDetailsProps = {
   ids: string[];
-}
+};
 
-const OrderDetails: FC<OrderDetailsProps> = (ids) => {
-  const orderNumber = useSelector(
-    (state: any) => state.rootReducer.order.order?.number,
-  );
+const OrderDetails: FC<OrderDetailsProps> = () => {
+const number = useSelector((state) => state.order?.order);
+
+
 
   return (
     <div className={styles.container}>
       <header className={`text text_type_digits-large ${styles.header}`}>
-        {orderNumber}
+      {number?.number ? number.number : "Loading..."}
       </header>
       <p className={`text text_type_main-medium ${styles.id}`}>
         идентификатор заказа
@@ -36,6 +40,5 @@ const OrderDetails: FC<OrderDetailsProps> = (ids) => {
     </div>
   );
 };
-
 
 export default OrderDetails;

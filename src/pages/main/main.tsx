@@ -1,13 +1,13 @@
-import React,{FC} from "react";
+import React, { FC } from "react";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import { BurgerIngredients } from "../../components/burger-ingredients/burger-ingredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import style from "../../components/app/app.module.css";
 
 const MainPage: FC = () => {
-  const isLoading = useSelector((state: any) => state.ingredients?.isLoading);
+  const isLoading = useSelector((state) => state.ingredients?.isLoading);
   return (
     <React.Fragment>
       {isLoading ? (
@@ -15,8 +15,12 @@ const MainPage: FC = () => {
       ) : (
         <main className={style.main}>
           <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            <div className={style.left_block}>
+              <BurgerIngredients />
+            </div>
+            <div className={style.right_block}>
+              <BurgerConstructor />
+            </div>
           </DndProvider>
         </main>
       )}

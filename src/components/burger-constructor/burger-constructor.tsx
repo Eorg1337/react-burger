@@ -9,7 +9,7 @@ import {
 import MyModal from "../modal/modal";
 import OrderDetails from "../details/order-details/order-details";
 import { TotalPrice } from "./total-price";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "../../services/store";
 import { createOrder } from "../../services/order/actions";
 import { useDrop } from "react-dnd";
 import {
@@ -18,23 +18,19 @@ import {
 } from "../../services/constructor/reducer";
 import BurgerConstructorElement from "./burger-constructor-element";
 import { useNavigate } from "react-router-dom";
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
+/*import { submitOrder } from "../../utils/api";*/
 
 const BurgerConstructor = () => {
   const [isActive, setIsActive] = React.useState<boolean>(false);
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const ingredients = useSelector(
-    (state: any) => state.rootReducer.constr?.constructorIngredients
+    (state) => state.constr?.constructorIngredients
   );
-  const buns = useSelector(
-    (state: any) => state.rootReducer.constr?.constructorBuns
-  );
-  const userAuth = useSelector(
-    (state: any) => state.rootReducer.user?.user.name
-  );
+  const buns = useSelector((state) => state.constr?.constructorBuns);
+  const userAuth = useSelector((state) => state.user?.user.name);
 
-  const id = useSelector((state: any) => state.rootReducer.constr?.id);
   const [, dropRef] = useDrop(() => ({
     accept: "ingredient",
     drop: (item: TIngredient) => dispatch(addIngredient(item)),

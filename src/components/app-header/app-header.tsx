@@ -1,4 +1,4 @@
-import React,{FC} from "react";
+import React, { FC } from "react";
 import {
   BurgerIcon,
   ListIcon,
@@ -7,11 +7,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import { NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 
 const AppHeader: FC = () => {
   const location = useLocation();
-  const userAuth = useSelector((state: any) => state.rootReducer?.user?.user.name);
+  const userAuth = useSelector((state) => state.user?.user.name);
   return (
     <header className={styles.header}>
       <ul className={styles.nav}>
@@ -30,11 +30,9 @@ const AppHeader: FC = () => {
           <div className={`${styles.div} ml-10`}>
             <ListIcon type="secondary" />
             <NavLink
-              to="/orders"
+              to="/feed"
               className={`${
-                location.pathname === "/orders"
-                  ? styles.activeLink
-                  : styles.link
+                location.pathname === "/feed" ? styles.activeLink : styles.link
               } text text_type_main-default text_color_inactive ml-2 mr-5 mt-4 mb-4`}
             >
               Лента заказов
@@ -42,9 +40,9 @@ const AppHeader: FC = () => {
           </div>
         </li>
         <li className={styles.logo}>
-        <NavLink to="/">
-          <Logo />
-        </NavLink>
+          <NavLink to="/">
+            <Logo />
+          </NavLink>
         </li>
         <li className={`${styles.nav__item} mt-4 mb-4 pl-5 pr-5 ml-5`}>
           <div className={styles.div}>
@@ -63,9 +61,7 @@ const AppHeader: FC = () => {
             ) : (
               <NavLink
                 to="/login"
-                className={`${
-                  styles.link
-                } text text_color_inactive text_type_main-default ml-2 mt-4 mb-4`}
+                className={`${styles.link} text text_color_inactive text_type_main-default ml-2 mt-4 mb-4`}
               >
                 Личный кабинет
               </NavLink>

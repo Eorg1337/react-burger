@@ -1,5 +1,5 @@
 import { useReducer, useEffect, FC } from "react";
-import { TIngredient } from "../../utils/types";
+import { TIngredient } from "../../utils/types/types";
 
 type State = number;
 
@@ -21,7 +21,10 @@ function reducer(state: State, action: TAction) {
   }
 }
 
-export const TotalPrice: FC<{buns: TIngredient[], ingredients: TIngredient[]}> = ({ buns, ingredients }) => {
+export const TotalPrice: FC<{
+  buns: TIngredient[];
+  ingredients: TIngredient[];
+}> = ({ buns, ingredients }) => {
   const AllIngr = buns && ingredients ? ingredients.concat(buns, buns) : [];
   const [total, dispatch] = useReducer(reducer, 0);
 
@@ -38,4 +41,3 @@ export const TotalPrice: FC<{buns: TIngredient[], ingredients: TIngredient[]}> =
 
   return <>{total}</>;
 };
-

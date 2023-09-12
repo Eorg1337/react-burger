@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Route, Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 
 type ProtectedRouteElementProps = {
   children: React.ReactNode| React.ReactElement;
@@ -8,7 +8,7 @@ type ProtectedRouteElementProps = {
 }
 
 const ProtectedRouteElement: FC<ProtectedRouteElementProps> = ({ children, onlyUnAuth }) => {
-  const  user  = useSelector((state: any)=>state.rootReducer.user?.user.name)
+  const  user  = useSelector((state)=>state.user?.user.name)
   const [isLoading, setIsLoading] = React.useState(true);
   const isAuthChecked = true;
   const location = useLocation();
