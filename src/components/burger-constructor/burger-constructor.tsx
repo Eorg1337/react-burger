@@ -19,7 +19,6 @@ import {
 import BurgerConstructorElement from "./burger-constructor-element";
 import { useNavigate } from "react-router-dom";
 import { TIngredient } from "../../utils/types/types";
-/*import { submitOrder } from "../../utils/api";*/
 
 const BurgerConstructor = () => {
   const [isActive, setIsActive] = React.useState<boolean>(false);
@@ -67,7 +66,7 @@ const BurgerConstructor = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.constructor__cont} ref={dropRef}>
+      <div className={styles.constructor__cont} ref={dropRef} data-test="constructor">
         <div className={styles.top_bun}>
           {!buns.length && (
             <div className={styles.top_noitem}>Перетащите булку!</div>
@@ -134,6 +133,7 @@ const BurgerConstructor = () => {
           disabled={!buns || buns.length === 0}
           size="large"
           onClick={() => handleBtnClick(ids)}
+          data-test="submit-order"
         >
           Оформить заказ
         </Button>

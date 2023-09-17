@@ -20,7 +20,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = (props) => {
   }));
 
   return (
-    <div className={styles.ingredient} onClick={props.onClick} ref={dragRef}>
+    <div className={styles.ingredient} onClick={props.onClick} ref={dragRef} data-test="ingredients">
       {props.count > 0 && (
         <Counter count={props.count} size="default" extraClass="m-1" />
       )}
