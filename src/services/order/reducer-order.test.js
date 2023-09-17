@@ -1,4 +1,5 @@
-import reducer, { StateOrder } from './reducer';
+import { initialState, StateOrder } from './reducer';
+import reducer from './reducer'
 import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
@@ -9,11 +10,6 @@ import { testOrder } from '../feed/reducer-feed.test';
 describe('order reducer', () => {
 
   beforeEach(() => {
-    initialState = {
-      order: undefined,
-      error: null,
-      isLoading: false,
-    };
   });
 
   it('should return the initial state', () => {

@@ -10,7 +10,7 @@ interface StateConstructor {
   constructorBuns: Array<TIngredient>;
 }
 
-const initialState: StateConstructor = {
+export const initialState: StateConstructor = {
   error: null,
   isLoading: false,
   constructorIngredients: [],

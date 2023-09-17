@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import selectedIngrReducer, { addSelectedIngr, deleteSelectedIngr } from "./selectedIngrSlice";
+import {addSelectedIngr, deleteSelectedIngr , initialState} from "./reducer";
+import selectedIngrReducer from "./reducer"
 import { testIngr1 } from "../constructor/reducer-constructor.test";
 
 describe("selectedIngrSlice", () => {
   test("addSelectedIngr action", () => {
-    const initialState = { selectedIngr: null };
     const ingredient = testIngr1;
 
     const newState = selectedIngrReducer(

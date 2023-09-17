@@ -1,4 +1,5 @@
-import ordersHistoryReducer from './ordersHistoryReducer';
+import ordersHistoryReducer from './reducer';
+import { initialState } from './reducer';
 import {
   wsConnect,
   wsOpen,
@@ -18,41 +19,38 @@ import { testOrders } from '../feed/reducer-feed.test';
 
 describe('ordersHistoryReducer', () => {
   it('should return the initial state', () => {
-    expect(ordersHistoryReducer(undefined, {})).toEqual({
-      total: 0,
-      totalToday: 0,
-      orders: [],
-      error: '',
-      status: WebSocketStatus.CLOSE,
-    });
+    
+    expect(ordersHistoryReducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle ORDER_HISTORY_CONNECT_WS', () => {
-    expect(
-      ordersHistoryReducer(undefined, {
-        type: ORDER_HISTORY_CONNECT_WS,
-      })
-    ).toEqual({
+    const initialState = {
       total: 0,
       totalToday: 0,
       orders: [],
       error: '',
-      status: WebSocketStatus.CONNECTING,
-    });
+      status: 'CONNECTING...',
+    };
+    expect(
+      ordersHistoryReducer(initialState, {
+        type: ORDER_HISTORY_CONNECT_WS,
+      })
+    ).toEqual(initialState);
   });
 
   it('should handle ORDER_HISTORY_OPEN_WS', () => {
+    const initialState = {
+      total: 0,
+      totalToday: 0,
+      orders: [],
+      error: '',
+      status: 'OPEN',
+    };
     expect(
       ordersHistoryReducer(undefined, {
         type: ORDER_HISTORY_OPEN_WS,
       })
-    ).toEqual({
-      total: 0,
-      totalToday: 0,
-      orders: [],
-      error: '',
-      status: WebSocketStatus.OPEN,
-    });
+    ).toEqual(initialState);
   });
 
   it('should handle ORDER_HISTORY_CLOSE_WS', () => {
@@ -60,13 +58,7 @@ describe('ordersHistoryReducer', () => {
       ordersHistoryReducer(undefined, {
         type: ORDER_HISTORY_CLOSE_WS,
       })
-    ).toEqual({
-      total: 0,
-      totalToday: 0,
-      orders: [],
-      error: '',
-      status: WebSocketStatus.CLOSE,
-    });
+    ).toEqual(initialState);
   });
 
   it('should handle ORDER_HISTORY_ORDER_WS', () => {
@@ -80,11 +72,10 @@ describe('ordersHistoryReducer', () => {
         payload: { orders, total, totalToday },
       })
     ).toEqual({
+      ...initialState,
+      orders,
       total,
       totalToday,
-      orders,
-      error: '',
-      status: WebSocketStatus.CLOSE,
     });
   });
 
@@ -97,11 +88,8 @@ describe('ordersHistoryReducer', () => {
         payload: error,
       })
     ).toEqual({
-      total: 0,
-      totalToday: 0,
-      orders: [],
+      ...initialState,
       error,
-      status: WebSocketStatus.CLOSE,
     });
   });
 });

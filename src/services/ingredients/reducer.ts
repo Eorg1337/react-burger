@@ -18,15 +18,17 @@ export const getIngredients = createAsyncThunk(
   }
 );
 
-export const ingredientsSlice = createSlice({
-  name: "ingredients",
-  initialState: {
-    ingredients: [],
+export const initialState: InitialState = {
+  ingredients: [],
     activeIngredient: null,
     buns: [],
     error: null,
     isLoading: false,
-  } as InitialState,
+}
+
+export const ingredientsSlice = createSlice({
+  name: "ingredients",
+  initialState,
   reducers: {
     setActiveIngredient(
       state: InitialState,

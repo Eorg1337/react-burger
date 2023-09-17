@@ -5,7 +5,7 @@ interface ISelectedIngrState {
   selectedIngr: TIngredient | null;
 }
 
-const initialState: ISelectedIngrState = {
+export const initialState: ISelectedIngrState = {
   selectedIngr: null,
 };
 

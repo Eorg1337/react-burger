@@ -48,7 +48,7 @@ interface RefreshUserInfoPayload {
   passwordValue: string;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   user: {
     email: "",
     name: "",

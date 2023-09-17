@@ -105,7 +105,6 @@ export const fetchForgotPass = (email: string) => {
 };
 
 export const fetchResetPass = (password: string, token: string) => {
-  console.log(password, token, "in reset api");
   return fetch(`${DOMAIN_NAME}/password-reset/reset`, {
     headers: {
       "Content-Type": "application/json",

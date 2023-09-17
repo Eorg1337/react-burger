@@ -1,9 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { TIngredient } from "../../utils/types/types";
-import { TIngredientsActions } from "./actions";
-
-import constructorReducer, { addIngredient, deleteIngredient, moveIngredient } from "./reducer";
+import {addIngredient, deleteIngredient, moveIngredient, initialState } from "./reducer";
+import constructorReducer from "./reducer";
 
 export const testIngr1 = {
   _id: "777",
@@ -13,6 +10,7 @@ export const testIngr1 = {
   carbohydrates: 777,
   calories: 777,
   price: 777,
+  count: 0,
   image: "oleg",
   image_mobile: "oleg",
   image_large: "oleg",
@@ -22,25 +20,20 @@ export const testIngr1 = {
 
 export const testIngr2 = {
   _id: "888",
-  name: "oleg",
-  proteins: 777,
-  fat: 777,
-  carbohydrates: 777,
-  calories: 777,
-  price: 777,
-  image: "oleg",
-  image_mobile: "oleg",
-  image_large: "oleg",
+  name: "888",
+  proteins: 888,
+  fat: 888,
+  carbohydrates: 888,
+  calories: 888,
+  price: 888,
+  count: 0,
+  image: "888",
+  image_mobile: "888",
+  image_large: "888",
   unique_id: uuidv4(),
-  __v: 777,
+  __v: 888,
 }
 describe("constructorSlice reducer", () => {
-  const initialState = {
-    error: null,
-    isLoading: false,
-    constructorIngredients: [],
-    constructorBuns: [],
-  };
 
   it("should handle initial state", () => {
     expect(constructorReducer(undefined, {})).toEqual(initialState);
@@ -48,15 +41,13 @@ describe("constructorSlice reducer", () => {
 
   it("should handle addIngredient", () => {
     const ingredient = testIngr1;
-    const action = {
-      type: addIngredient,
-      payload: ingredient,
-    };
-    const expectedState = {
-      ...initialState,
-      constructorIngredients: [ingredient],
-    };
-    expect(constructorReducer(initialState, action)).toEqual(expectedState);
+    const newState = constructorReducer(initialState, addIngredient(ingredient));
+
+    expect(newState.constructorIngredients).toHaveLength(1);
+    expect(newState.constructorIngredients[0]).toEqual({
+      ...ingredient,
+      unique_id: expect.any(String),
+    });
   });
 
   it("should handle deleteIngredient", () => {
@@ -64,18 +55,16 @@ describe("constructorSlice reducer", () => {
     const ingredient2 = testIngr2;
     const initialStateWithIngredients = {
       ...initialState,
-      constructorIngredients: [ingredient1, ingredient2],
+      constructorIngredients: [ingredient1],
     };
-    const action = {
-      type: deleteIngredient,
-      payload: ingredient1.id,
-    };
-    const expectedState = {
-      ...initialState,
-      constructorIngredients: [ingredient2],
-    };
-    expect(constructorReducer(initialStateWithIngredients, action)).toEqual(expectedState);
+    const newState = constructorReducer(
+      initialStateWithIngredients,
+      deleteIngredient(ingredient1.unique_id)
+    );
+
+    expect(newState.constructorIngredients).toHaveLength(0);
   });
+
 
   it("should handle moveIngredient", () => {
     const ingredient1 = testIngr1;

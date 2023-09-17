@@ -3,24 +3,14 @@ import {
     GET_ORDER_DETAILS_MODAL,
     TModalActions,
   } from "./actions";
-import {
-    orderDetailsModalReducer,
-    TOrderModalState,
-  } from "./orderDetailsModalReducer";
+import { orderDetailsModalReducer } from "./reducers";
+
+import { initialState } from "./reducers";
   
   describe("orderDetailsModalReducer", () => {
-    const initialState = {
-      ingredients: [],
-      _id: "",
-      number: 0,
-      status: "",
-      name: "",
-      createdAt: "",
-      updatedAt: "",
-    };
   
     it("should return the initial state", () => {
-      expect(orderDetailsModalReducer(undefined, {})).toEqual(
+      expect(orderDetailsModalReducer(undefined, { type: '' })).toEqual(
         initialState
       );
     });

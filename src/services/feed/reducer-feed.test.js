@@ -1,4 +1,5 @@
-import feedReducer from './feedReducer';
+import { initialState } from './reducer';
+import feedReducer from './reducer';
 import {
   FEED_CLOSE_WS,
   FEED_CONNECT_WS,
@@ -6,16 +7,9 @@ import {
   FEED_OPEN_WS,
   FEED_ORDER_WS,
 } from './actions';
-import { Order, OrdersResponse } from '../../utils/types/types';
 import { WebSocketStatus } from '../../utils/types/types';
 
-const initialState = {
-  total: 0,
-  totalToday: 0,
-  status: WebSocketStatus.CLOSE,
-  orders: [],
-  error: '',
-};
+
 
 export const testOrder = {
   ingredients: [],
@@ -61,7 +55,7 @@ const closeAction = {
 
 const orderAction = {
   type: FEED_ORDER_WS,
-  payload: { orders, total, totalToday },
+  payload: { orders:testOrders, total, totalToday },
 };
 
 const errorAction = {
@@ -98,7 +92,7 @@ describe('feedReducer', () => {
   it('should handle FEED_ORDER_WS action', () => {
     expect(feedReducer(initialState, orderAction)).toEqual({
       ...initialState,
-      testOrders,
+      orders: testOrders,
       total,
       totalToday,
     });
