@@ -31,11 +31,11 @@ const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay onClose={onClose} modalRef={modalRef} />
+      <ModalOverlay onClose={onClose} modalRef={modalRef}/>
       <div className={styles.modal} ref={modalRef} tabIndex={0}>
         <div className={styles.children}>{children}</div>
-        <div className={styles.icon}>
-          <CloseIcon type="primary" onClick={onClose} />
+        <div className={styles.icon} data-test="close-modal">
+          <CloseIcon type="primary" onClick={onClose}/>
         </div>
       </div>
     </>,

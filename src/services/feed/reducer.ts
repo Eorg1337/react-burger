@@ -17,7 +17,7 @@ interface IInitialFeedState {
   error: string| OrdersResponse;
 }
 
-const initialState: IInitialFeedState = {
+export const initialState: IInitialFeedState = {
   total: 0,
   totalToday: 0,
   orders: [],

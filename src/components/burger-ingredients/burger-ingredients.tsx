@@ -174,7 +174,7 @@ const BurgerIngredients: FC = () => {
       </div>
       <div className={styles.ingredients} ref={containerRef} id="ingredients">
         <h2 className="text text_type_main-medium mb-6"> Булки</h2>
-        <div className={styles.puns} id="buns">
+        <div className={styles.puns} id="buns" data-test="buns">
           {filteredBuns?.map((item: TIngredient) => (
             <Link
               key={item._id}
@@ -197,7 +197,7 @@ const BurgerIngredients: FC = () => {
           ))}
         </div>
         <h2 className="text text_type_main-medium mt-20 mb-6">Соусы</h2>
-        <div className={styles.sauses} id="sauces">
+        <div className={styles.sauses} id="sauces" data-test="sauces">
           {filteredSauces?.map((item: TIngredient) => (
             <Link
               key={item._id}
@@ -222,7 +222,7 @@ const BurgerIngredients: FC = () => {
           ))}
         </div>
         <h2 className="text text_type_main-medium mt-20 mb-6">Начинки</h2>
-        <div className={styles.filings} id="mains">
+        <div className={styles.filings} id="mains" data-test="mains">
           {filteredMain?.map((item: TIngredient) => (
             <Link
               key={item._id}

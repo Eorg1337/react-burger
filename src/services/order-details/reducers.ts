@@ -12,7 +12,7 @@ type TOrderModalState = {
   updatedAt: string;
 };
 
-const initialState: TOrderModalState = {
+export const initialState: TOrderModalState = {
   ingredients: [],
   _id: "",
   number: 0,

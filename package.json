@@ -30,6 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "cypress:open": "./node_modules/.bin/cypress open",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -53,6 +54,12 @@
   },
   "devDependencies": {
     "@types/react-redux": "^7.1.25",
-    "@types/uuid": "^9.0.2"
+    "@types/uuid": "^9.0.2",
+    "cypress": "^13.2.0",
+    "fetch-mock": "^9.11.0",
+    "gh-pages": "^6.0.0",
+    "jest": "^27.5.1",
+    "react-test-renderer": "^18.2.0",
+    "redux-mock-store": "^1.5.4"
   }
 }

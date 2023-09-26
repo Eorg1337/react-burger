@@ -23,7 +23,7 @@ interface IInitialOrdersHistoryState {
   error: string | OrdersResponse;
 }
 
-const initialState: IInitialOrdersHistoryState = {
+export const initialState: IInitialOrdersHistoryState = {
   total: 0,
   totalToday: 0,
   orders: [],

@@ -13,7 +13,7 @@ export interface StateOrder {
   isLoading: boolean;
 }
 
-const initialState: StateOrder = {
+export const initialState: StateOrder = {
   order: undefined,
   error: null,
   isLoading: false,
